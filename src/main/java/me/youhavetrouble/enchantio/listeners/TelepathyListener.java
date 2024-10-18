@@ -21,9 +21,10 @@ public class TelepathyListener implements Listener {
     public void onTelepathyTool(BlockDropItemEvent event) {
         Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
         Enchantment telepathy = registry.get(TelepathyEnchant.KEY);
+        if (telepathy == null) return;
 
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
-        if (!tool.getEnchantments().containsKey(telepathy)) return;
+        if (!tool.containsEnchantment(telepathy)) return;
 
         for (Item item : event.getItems()) {
             item.teleport(event.getPlayer(), PlayerTeleportEvent.TeleportCause.PLUGIN);

@@ -2,7 +2,6 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
@@ -17,15 +16,13 @@ public class SoulboundListener implements Listener {
     public void onSoulboundEnchantDeath(PlayerDeathEvent event) {
         Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
         Enchantment soulbound = registry.get(SoulboundEnchant.KEY);
-        Enchantio.getPlugin(Enchantio.class).getLogger().info("Soulbound enchantment: " + soulbound);
-
+        if (soulbound == null) return;
         event.getPlayer().getInventory().forEach(itemStack -> {
-            if (itemStack != null && itemStack.getEnchantments().containsKey(soulbound)) {
+            if (itemStack != null && itemStack.containsEnchantment(soulbound)) {
                 event.getItemsToKeep().add(itemStack);
                 event.getDrops().remove(itemStack);
             }
         });
-
     }
 
 }

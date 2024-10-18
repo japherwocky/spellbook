@@ -38,7 +38,6 @@ public abstract class EnchantioEnchant {
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
             TagKey<ItemType> primaryItems,
             TagKey<ItemType> supportedItems,
-
             Set<EquipmentSlotGroup> activeSlots
     ) {
         this.key = key;
