@@ -3,7 +3,7 @@ package me.youhavetrouble.enchantio.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.Enchantio;
-import net.kyori.adventure.key.Key;
+import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.event.EventHandler;
@@ -16,7 +16,7 @@ public class SoulboundListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onSoulboundEnchantDeath(PlayerDeathEvent event) {
         Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
-        Enchantment soulbound = registry.get(Key.key("enchantio:soulbound"));
+        Enchantment soulbound = registry.get(SoulboundEnchant.KEY);
         Enchantio.getPlugin(Enchantio.class).getLogger().info("Soulbound enchantment: " + soulbound);
 
         event.getPlayer().getInventory().forEach(itemStack -> {

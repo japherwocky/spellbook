@@ -24,7 +24,8 @@ public abstract class EnchantioEnchant {
     private final Component description;
     private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
     private final EnchantmentRegistryEntry.EnchantmentCost maximumCost;
-    private final Set<TagKey<ItemType>> supportedItems;
+    private final TagKey<ItemType> supportedItems;
+    private final TagKey<ItemType> primaryItems;
     private final Set<EquipmentSlotGroup> activeSlots;
 
     public EnchantioEnchant(
@@ -35,7 +36,9 @@ public abstract class EnchantioEnchant {
             int weight,
             EnchantmentRegistryEntry.EnchantmentCost minimumCost,
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
-            Set<TagKey<ItemType>> supportedItems,
+            TagKey<ItemType> primaryItems,
+            TagKey<ItemType> supportedItems,
+
             Set<EquipmentSlotGroup> activeSlots
     ) {
         this.key = key;
@@ -45,6 +48,7 @@ public abstract class EnchantioEnchant {
         this.weight = weight;
         this.minimumCost = minimumCost;
         this.maximumCost = maximumCost;
+        this.primaryItems = primaryItems;
         this.supportedItems = supportedItems;
         this.activeSlots = activeSlots;
     }
@@ -77,8 +81,12 @@ public abstract class EnchantioEnchant {
         return maximumCost;
     }
 
-    public Set<TagKey<ItemType>> getSupportedItems() {
+    public TagKey<ItemType> getSupportedItems() {
         return supportedItems;
+    }
+
+    public TagKey<ItemType> getPrimaryItems() {
+        return primaryItems;
     }
 
     public Iterable<EquipmentSlotGroup> getActiveSlots() {

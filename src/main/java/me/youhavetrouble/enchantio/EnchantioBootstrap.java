@@ -6,9 +6,9 @@ import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.event.RegistryEvents;
-import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
+import me.youhavetrouble.enchantio.enchants.TelepathyEnchant;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +18,7 @@ public class EnchantioBootstrap implements PluginBootstrap {
     public void bootstrap(@NotNull BootstrapContext context) {
 
         EnchantioEnchant soulbound = new SoulboundEnchant();
+        EnchantioEnchant telepathy = new TelepathyEnchant();
 
         context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.freeze().newHandler(event -> {
             for (EnchantioEnchant enchant : EnchantioEnchant.getEnchants().values()) {
@@ -29,7 +30,8 @@ public class EnchantioBootstrap implements PluginBootstrap {
                     enchantment.minimumCost(enchant.getMinimumCost());
                     enchantment.maximumCost(enchant.getMaximumCost());
                     enchantment.activeSlots(enchant.getActiveSlots());
-                    enchantment.supportedItems(event.getOrCreateTag(ItemTypeTagKeys.ENCHANTABLE_ARMOR));
+                    enchantment.supportedItems(event.getOrCreateTag(enchant.getSupportedItems()));
+                    enchantment.primaryItems(event.getOrCreateTag(enchant.getPrimaryItems()));
                 });
             }
         }));
