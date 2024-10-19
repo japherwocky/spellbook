@@ -11,37 +11,35 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 
-import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
-@SuppressWarnings("all")
+@SuppressWarnings("UnstableApiUsage")
 public interface EnchantioEnchant {
 
-    public Key getKey();
+    Key getKey();
 
-    public Component getDescription();
+    Component getDescription();
 
-    public int getAnvilCost();
+    int getAnvilCost();
 
-    public int getMaxLevel();
+    int getMaxLevel();
 
-    public int getWeight();
+    int getWeight();
 
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost();
+    EnchantmentRegistryEntry.EnchantmentCost getMinimumCost();
 
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost();
+    EnchantmentRegistryEntry.EnchantmentCost getMaximumCost();
 
-    public Iterable<EquipmentSlotGroup> getActiveSlots();
+    Iterable<EquipmentSlotGroup> getActiveSlots();
 
-    public boolean canGetFromEnchantingTable();
+    boolean canGetFromEnchantingTable();
 
-    public default TagEntry<Enchantment> getTagEntry() {
+    TagKey<ItemType> getTagForSupportedItems();
+
+    Set<TagEntry<ItemType>> getSupportedItems();
+
+    default TagEntry<Enchantment> getTagEntry() {
         return TagEntry.valueEntry(TypedKey.create(RegistryKey.ENCHANTMENT, getKey()));
     }
-
-    public TagKey<ItemType> getTagForSupportedItems();
-
-    public Set<TagEntry<ItemType>> getSupportedItems();
 
 }

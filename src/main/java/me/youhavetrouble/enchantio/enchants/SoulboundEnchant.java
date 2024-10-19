@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemType;
 
 import java.util.Set;
 
+@SuppressWarnings("UnstableApiUsage")
 public class SoulboundEnchant implements EnchantioEnchant {
 
     public static final Key KEY = Key.key("enchantio:soulbound");
@@ -23,7 +24,7 @@ public class SoulboundEnchant implements EnchantioEnchant {
 
     @Override
     public Component getDescription() {
-        return Component.translatable("enchantio.enchant.soulbound","Soulbound");
+        return Component.translatable("enchantio.enchant.soulbound", "Soulbound");
     }
 
     @Override

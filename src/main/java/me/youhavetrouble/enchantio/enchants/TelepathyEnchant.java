@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemType;
 
 import java.util.Set;
 
+@SuppressWarnings("UnstableApiUsage")
 public class TelepathyEnchant implements EnchantioEnchant {
 
     public static final Key KEY = Key.key("enchantio:telepathy");

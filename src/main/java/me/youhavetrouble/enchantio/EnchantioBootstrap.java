@@ -2,7 +2,6 @@ package me.youhavetrouble.enchantio;
 
 import io.papermc.paper.plugin.bootstrap.BootstrapContext;
 import io.papermc.paper.plugin.bootstrap.PluginBootstrap;
-import io.papermc.paper.plugin.bootstrap.PluginProviderContext;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
@@ -14,13 +13,12 @@ import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
 import me.youhavetrouble.enchantio.enchants.TelepathyEnchant;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("all")
+@SuppressWarnings("UnstableApiUsage")
 public class EnchantioBootstrap implements PluginBootstrap {
     @Override
     public void bootstrap(@NotNull BootstrapContext context) {
@@ -65,8 +63,4 @@ public class EnchantioBootstrap implements PluginBootstrap {
 
     }
 
-    @Override
-    public @NotNull JavaPlugin createPlugin(@NotNull PluginProviderContext context) {
-        return PluginBootstrap.super.createPlugin(context);
-    }
 }
