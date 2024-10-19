@@ -49,7 +49,7 @@ public class TelepathyEnchant implements EnchantioEnchant {
 
     @Override
     public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(30, 1);
+        return EnchantmentRegistryEntry.EnchantmentCost.of(65, 1);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class TelepathyEnchant implements EnchantioEnchant {
 
     @Override
     public TagKey<ItemType> getTagForSupportedItems() {
-        return TagKey.create(RegistryKey.ITEM, Key.key("enchantio:soulbound_enchantable"));
+        return TagKey.create(RegistryKey.ITEM, Key.key("enchantio:telepathy_enchantable"));
     }
 
     @Override
@@ -73,4 +73,5 @@ public class TelepathyEnchant implements EnchantioEnchant {
                 TagEntry.tagEntry(ItemTypeTagKeys.ENCHANTABLE_MINING)
         );
     }
+
 }

@@ -49,7 +49,22 @@ public class SoulboundEnchant implements EnchantioEnchant {
 
     @Override
     public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(30, 1);
+        return EnchantmentRegistryEntry.EnchantmentCost.of(65, 1);
+    }
+
+    @Override
+    public Iterable<EquipmentSlotGroup> getActiveSlots() {
+        return Set.of(EquipmentSlotGroup.ANY);
+    }
+
+    @Override
+    public boolean canGetFromEnchantingTable() {
+        return true;
+    }
+
+    @Override
+    public TagKey<ItemType> getTagForSupportedItems() {
+        return TagKey.create(RegistryKey.ITEM, Key.key("enchantio:soulbound_enchantable"));
     }
 
     @Override
@@ -61,19 +76,4 @@ public class SoulboundEnchant implements EnchantioEnchant {
         );
     }
 
-
-    @Override
-    public Iterable<EquipmentSlotGroup> getActiveSlots() {
-        return Set.of(EquipmentSlotGroup.ANY);
-    }
-
-    @Override
-    public boolean canGetFromEnchantingTable() {
-        return false;
-    }
-
-    @Override
-    public TagKey<ItemType> getTagForSupportedItems() {
-        return TagKey.create(RegistryKey.ITEM, Key.key("enchantio:telepathy_enchantable"));
-    }
 }
