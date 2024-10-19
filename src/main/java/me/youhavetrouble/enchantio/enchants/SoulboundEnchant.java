@@ -18,11 +18,12 @@ public class SoulboundEnchant extends EnchantioEnchant {
                 1,
                 1,
                 10,
-                EnchantmentRegistryEntry.EnchantmentCost.of(1, 1),
-                EnchantmentRegistryEntry.EnchantmentCost.of(3, 1),
+                EnchantmentRegistryEntry.EnchantmentCost.of(10, 1),
+                EnchantmentRegistryEntry.EnchantmentCost.of(30, 1),
                 ItemTypeTagKeys.ENCHANTABLE_ARMOR,
                 ItemTypeTagKeys.ENCHANTABLE_ARMOR,
-                Set.of(EquipmentSlotGroup.ANY)
+                Set.of(EquipmentSlotGroup.ANY),
+                true
         );
         registerEnchant(this);
     }

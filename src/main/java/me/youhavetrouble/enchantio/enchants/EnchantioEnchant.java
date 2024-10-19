@@ -1,9 +1,13 @@
 package me.youhavetrouble.enchantio.enchants;
 
+import io.papermc.paper.registry.RegistryKey;
+import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.tag.TagKey;
+import io.papermc.paper.tag.TagEntry;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 
@@ -27,6 +31,7 @@ public abstract class EnchantioEnchant {
     private final TagKey<ItemType> supportedItems;
     private final TagKey<ItemType> primaryItems;
     private final Set<EquipmentSlotGroup> activeSlots;
+    private final boolean canGetFromEnchantingTable;
 
     public EnchantioEnchant(
             Key key,
@@ -38,7 +43,8 @@ public abstract class EnchantioEnchant {
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
             TagKey<ItemType> primaryItems,
             TagKey<ItemType> supportedItems,
-            Set<EquipmentSlotGroup> activeSlots
+            Set<EquipmentSlotGroup> activeSlots,
+            boolean canGetFromEnchantingTable
     ) {
         this.key = key;
         this.description = description;
@@ -50,6 +56,7 @@ public abstract class EnchantioEnchant {
         this.primaryItems = primaryItems;
         this.supportedItems = supportedItems;
         this.activeSlots = activeSlots;
+        this.canGetFromEnchantingTable = canGetFromEnchantingTable;
     }
 
     public Key getKey() {
@@ -90,6 +97,14 @@ public abstract class EnchantioEnchant {
 
     public Iterable<EquipmentSlotGroup> getActiveSlots() {
         return activeSlots;
+    }
+
+    public boolean canGetFromEnchantingTable() {
+        return canGetFromEnchantingTable;
+    }
+
+    public TagEntry<Enchantment> getTagEntry() {
+        return TagEntry.valueEntry(TypedKey.create(RegistryKey.ENCHANTMENT, getKey()));
     }
 
     protected static void registerEnchant(EnchantioEnchant enchant) {

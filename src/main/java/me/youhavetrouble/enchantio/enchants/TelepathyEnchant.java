@@ -19,11 +19,12 @@ public class TelepathyEnchant extends EnchantioEnchant {
                 1,
                 1,
                 4,
-                EnchantmentRegistryEntry.EnchantmentCost.of(1, 1),
-                EnchantmentRegistryEntry.EnchantmentCost.of(3, 1),
+                EnchantmentRegistryEntry.EnchantmentCost.of(15, 1),
+                EnchantmentRegistryEntry.EnchantmentCost.of(30, 1),
                 ItemTypeTagKeys.ENCHANTABLE_MINING,
                 ItemTypeTagKeys.ENCHANTABLE_MINING,
-                Set.of(EquipmentSlotGroup.ANY)
+                Set.of(EquipmentSlotGroup.ANY),
+                true
         );
         registerEnchant(this);
     }

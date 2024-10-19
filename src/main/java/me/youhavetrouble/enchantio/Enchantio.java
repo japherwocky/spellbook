@@ -8,6 +8,7 @@ public final class Enchantio extends JavaPlugin {
 
     @Override
     public void onEnable() {
+
         getServer().getPluginManager().registerEvents(new SoulboundListener(), this);
         getServer().getPluginManager().registerEvents(new TelepathyListener(), this);
     }
