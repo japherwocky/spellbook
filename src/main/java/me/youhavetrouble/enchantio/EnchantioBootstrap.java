@@ -8,6 +8,7 @@ import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.event.RegistryEvents;
 import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
+import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.tag.TagEntry;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
@@ -24,11 +25,22 @@ public class EnchantioBootstrap implements PluginBootstrap {
     @Override
     public void bootstrap(@NotNull BootstrapContext context) {
 
-        EnchantioEnchant soulbound = new SoulboundEnchant();
-        EnchantioEnchant telepathy = new TelepathyEnchant();
+        Set<EnchantioEnchant> enchantioEnchants = Set.of(
+                new SoulboundEnchant(),
+                new TelepathyEnchant()
+        );
+
+        context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ITEM).newHandler((event) -> {
+            for (EnchantioEnchant enchant : enchantioEnchants) {
+                event.registrar().addToTag(
+                        ItemTypeTagKeys.create(enchant.getTagForSupportedItems().key()),
+                        enchant.getSupportedItems()
+                );
+            }
+        }));
 
         context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.freeze().newHandler(event -> {
-            for (EnchantioEnchant enchant : EnchantioEnchant.getEnchants().values()) {
+            for (EnchantioEnchant enchant : enchantioEnchants) {
                 event.registry().register(TypedKey.create(RegistryKey.ENCHANTMENT, enchant.getKey()), enchantment -> {
                     enchantment.description(enchant.getDescription());
                     enchantment.anvilCost(enchant.getAnvilCost());
@@ -37,15 +49,14 @@ public class EnchantioBootstrap implements PluginBootstrap {
                     enchantment.minimumCost(enchant.getMinimumCost());
                     enchantment.maximumCost(enchant.getMaximumCost());
                     enchantment.activeSlots(enchant.getActiveSlots());
-                    enchantment.supportedItems(event.getOrCreateTag(enchant.getSupportedItems()));
-                    enchantment.primaryItems(event.getOrCreateTag(enchant.getPrimaryItems()));
+                    enchantment.supportedItems(event.getOrCreateTag(enchant.getTagForSupportedItems()));
                 });
             }
         }));
 
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ENCHANTMENT).newHandler((event) -> {
-            Set<TagEntry<Enchantment>> enchantTags = new HashSet<>(EnchantioEnchant.getEnchants().size());
-            for (EnchantioEnchant enchant : EnchantioEnchant.getEnchants().values()) {
+            Set<TagEntry<Enchantment>> enchantTags = new HashSet<>(enchantioEnchants.size());
+            for (EnchantioEnchant enchant : enchantioEnchants) {
                 if (!enchant.canGetFromEnchantingTable()) continue;
                 enchantTags.add(enchant.getTagEntry());
             }

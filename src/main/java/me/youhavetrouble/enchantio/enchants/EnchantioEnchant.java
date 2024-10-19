@@ -12,107 +12,36 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("all")
-public abstract class EnchantioEnchant {
+public interface EnchantioEnchant {
 
-    private static final Map<String, EnchantioEnchant> enchantioEnchants = new HashMap();
+    public Key getKey();
 
-    private final Key key;
-    private final int anvilCost;
-    private final int maxLevel;
-    private final int weight;
-    private final Component description;
-    private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
-    private final EnchantmentRegistryEntry.EnchantmentCost maximumCost;
-    private final TagKey<ItemType> supportedItems;
-    private final TagKey<ItemType> primaryItems;
-    private final Set<EquipmentSlotGroup> activeSlots;
-    private final boolean canGetFromEnchantingTable;
+    public Component getDescription();
 
-    public EnchantioEnchant(
-            Key key,
-            Component description,
-            int anvilCost,
-            int maxLevel,
-            int weight,
-            EnchantmentRegistryEntry.EnchantmentCost minimumCost,
-            EnchantmentRegistryEntry.EnchantmentCost maximumCost,
-            TagKey<ItemType> primaryItems,
-            TagKey<ItemType> supportedItems,
-            Set<EquipmentSlotGroup> activeSlots,
-            boolean canGetFromEnchantingTable
-    ) {
-        this.key = key;
-        this.description = description;
-        this.anvilCost = anvilCost;
-        this.maxLevel = maxLevel;
-        this.weight = weight;
-        this.minimumCost = minimumCost;
-        this.maximumCost = maximumCost;
-        this.primaryItems = primaryItems;
-        this.supportedItems = supportedItems;
-        this.activeSlots = activeSlots;
-        this.canGetFromEnchantingTable = canGetFromEnchantingTable;
-    }
+    public int getAnvilCost();
 
-    public Key getKey() {
-        return key;
-    }
+    public int getMaxLevel();
 
-    public Component getDescription() {
-        return description;
-    }
+    public int getWeight();
 
-    public int getAnvilCost() {
-        return anvilCost;
-    }
+    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost();
 
-    public int getMaxLevel() {
-        return maxLevel;
-    }
+    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost();
 
-    public int getWeight() {
-        return weight;
-    }
+    public Iterable<EquipmentSlotGroup> getActiveSlots();
 
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return minimumCost;
-    }
+    public boolean canGetFromEnchantingTable();
 
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return maximumCost;
-    }
-
-    public TagKey<ItemType> getSupportedItems() {
-        return supportedItems;
-    }
-
-    public TagKey<ItemType> getPrimaryItems() {
-        return primaryItems;
-    }
-
-    public Iterable<EquipmentSlotGroup> getActiveSlots() {
-        return activeSlots;
-    }
-
-    public boolean canGetFromEnchantingTable() {
-        return canGetFromEnchantingTable;
-    }
-
-    public TagEntry<Enchantment> getTagEntry() {
+    public default TagEntry<Enchantment> getTagEntry() {
         return TagEntry.valueEntry(TypedKey.create(RegistryKey.ENCHANTMENT, getKey()));
     }
 
-    protected static void registerEnchant(EnchantioEnchant enchant) {
-        enchantioEnchants.put(enchant.getKey().asString(), enchant);
-    }
+    public TagKey<ItemType> getTagForSupportedItems();
 
-    public static Map<String, EnchantioEnchant> getEnchants() {
-        return Collections.unmodifiableMap(enchantioEnchants);
-    }
+    public Set<TagEntry<ItemType>> getSupportedItems();
 
 }
