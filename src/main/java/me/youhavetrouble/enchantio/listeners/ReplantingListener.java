@@ -38,31 +38,34 @@ public class ReplantingListener implements Listener {
         Player player = event.getPlayer();
         PlayerInventory inventory = player.getInventory();
 
-        boolean removed = false;
+        // If the player is in creative mode, skip the inventory check
+        boolean shouldReplant = player.getGameMode().equals(GameMode.CREATIVE);
 
-        // try to remove seed from the player's inventory
-        for (ItemStack item : inventory.getContents()) {
-            if (item == null) continue;
-            if (item.getType() == placementMaterial) {
-                item.setAmount(item.getAmount() - 1);
-                removed = true;
-                break;
-            }
-        }
-
-        if (!removed) {
-            // Try to remove the seed from the items dropped by the block
-            for (Item item : event.getItems()) {
-                ItemStack itemStack = item.getItemStack();
-                if (itemStack.getType().equals(placementMaterial)) {
-                    itemStack.setAmount(itemStack.getAmount() - 1);
-                    removed = true;
+        if (!shouldReplant) {
+            // try to remove seed from the player's inventory
+            for (ItemStack item : inventory.getContents()) {
+                if (item == null) continue;
+                if (item.getType() == placementMaterial) {
+                    item.setAmount(item.getAmount() - 1);
+                    shouldReplant = true;
                     break;
                 }
             }
         }
 
-        if (!removed) return;
+        if (!shouldReplant) {
+            // Try to remove the seed from the items dropped by the block
+            for (Item item : event.getItems()) {
+                ItemStack itemStack = item.getItemStack();
+                if (itemStack.getType().equals(placementMaterial)) {
+                    itemStack.setAmount(itemStack.getAmount() - 1);
+                    shouldReplant = true;
+                    break;
+                }
+            }
+        }
+
+        if (!shouldReplant) return;
 
         // Replant the crop
         event.getBlock().setType(block.getType());
