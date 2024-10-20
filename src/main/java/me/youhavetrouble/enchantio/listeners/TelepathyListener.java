@@ -17,10 +17,11 @@ import org.bukkit.inventory.ItemStack;
 
 public class TelepathyListener implements Listener {
 
+    private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+    private final Enchantment telepathy = registry.get(TelepathyEnchant.KEY);
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onTelepathyTool(BlockDropItemEvent event) {
-        Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
-        Enchantment telepathy = registry.get(TelepathyEnchant.KEY);
         if (telepathy == null) return;
 
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();

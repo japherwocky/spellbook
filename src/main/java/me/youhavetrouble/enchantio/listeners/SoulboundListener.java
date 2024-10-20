@@ -12,10 +12,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class SoulboundListener implements Listener {
 
+    private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+    private final Enchantment soulbound = registry.get(SoulboundEnchant.KEY);
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onSoulboundEnchantDeath(PlayerDeathEvent event) {
-        Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
-        Enchantment soulbound = registry.get(SoulboundEnchant.KEY);
         if (soulbound == null) return;
         event.getPlayer().getInventory().forEach(itemStack -> {
             if (itemStack != null && itemStack.containsEnchantment(soulbound)) {
