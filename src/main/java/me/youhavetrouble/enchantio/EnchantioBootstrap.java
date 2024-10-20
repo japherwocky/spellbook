@@ -10,6 +10,7 @@ import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.tag.TagEntry;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
+import me.youhavetrouble.enchantio.enchants.ReplantingEnchant;
 import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
 import me.youhavetrouble.enchantio.enchants.TelepathyEnchant;
 import org.bukkit.enchantments.Enchantment;
@@ -25,7 +26,8 @@ public class EnchantioBootstrap implements PluginBootstrap {
 
         Set<EnchantioEnchant> enchantioEnchants = Set.of(
                 new SoulboundEnchant(),
-                new TelepathyEnchant()
+                new TelepathyEnchant(),
+                new ReplantingEnchant()
         );
 
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ITEM).newHandler((event) -> {
