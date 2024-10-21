@@ -10,12 +10,10 @@ import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.tag.TagEntry;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
-import me.youhavetrouble.enchantio.enchants.ReplantingEnchant;
-import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
-import me.youhavetrouble.enchantio.enchants.TelepathyEnchant;
 import org.bukkit.enchantments.Enchantment;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,11 +22,14 @@ public class EnchantioBootstrap implements PluginBootstrap {
     @Override
     public void bootstrap(@NotNull BootstrapContext context) {
 
-        Set<EnchantioEnchant> enchantioEnchants = Set.of(
-                new SoulboundEnchant(),
-                new TelepathyEnchant(),
-                new ReplantingEnchant()
-        );
+        EnchantioConfig config;
+        try {
+            config = new EnchantioConfig(context.getDataDirectory());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        Set<EnchantioEnchant> enchantioEnchants = config.enchants;
 
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ITEM).newHandler((event) -> {
             for (EnchantioEnchant enchant : enchantioEnchants) {

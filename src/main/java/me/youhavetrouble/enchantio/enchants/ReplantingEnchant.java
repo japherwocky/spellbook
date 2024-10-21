@@ -2,7 +2,6 @@ package me.youhavetrouble.enchantio.enchants;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
 import net.kyori.adventure.key.Key;
@@ -17,6 +16,28 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     public static final Key KEY = Key.key("enchantio:replanting");
 
+    private final int anvilCost, weight;
+    private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
+    private final EnchantmentRegistryEntry.EnchantmentCost maximumCost;
+    private final boolean canGetFromEnchantingTable;
+    private final Set<TagEntry<ItemType>> supportedItemTags;
+
+    public ReplantingEnchant(
+            int anvilCost,
+            int weight,
+            EnchantmentRegistryEntry.EnchantmentCost minimumCost,
+            EnchantmentRegistryEntry.EnchantmentCost maximumCost,
+            boolean canGetFromEnchantingTable,
+            Set<TagEntry<ItemType>> supportedItemTags
+    ) {
+        this.anvilCost = anvilCost;
+        this.weight = weight;
+        this.minimumCost = minimumCost;
+        this.maximumCost = maximumCost;
+        this.canGetFromEnchantingTable = canGetFromEnchantingTable;
+        this.supportedItemTags = supportedItemTags;
+    }
+
     @Override
     public Key getKey() {
         return KEY;
@@ -29,7 +50,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public int getAnvilCost() {
-        return 1;
+        return anvilCost;
     }
 
     @Override
@@ -39,17 +60,17 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public int getWeight() {
-        return 10;
+        return weight;
     }
 
     @Override
     public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(1, 1);
+        return minimumCost;
     }
 
     @Override
     public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
-        return EnchantmentRegistryEntry.EnchantmentCost.of(65, 1);
+        return maximumCost;
     }
 
     @Override
@@ -59,7 +80,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public boolean canGetFromEnchantingTable() {
-        return true;
+        return canGetFromEnchantingTable;
     }
 
     @Override
@@ -69,9 +90,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public Set<TagEntry<ItemType>> getSupportedItems() {
-        return Set.of(
-                TagEntry.tagEntry(ItemTypeTagKeys.HOES)
-        );
+        return supportedItemTags;
     }
 
 }

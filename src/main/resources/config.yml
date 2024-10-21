@@ -1,0 +1,42 @@
+enchants:
+  soulbound:
+    enabled: true
+    canGetFromEnchantingTable: true
+    anvilCost: 1
+    weight: 10
+    minimumCost:
+      base: 10
+      additionalPerLevel: 1
+    maximumCost:
+      base: 65
+      additionalPerLevel: 1
+    supportedItemTags:
+      - "#minecraft:enchantable/armor"
+      - "#minecraft:enchantable/weapon"
+      - "#minecraft:enchantable/mining"
+  telepathy:
+    enabled: true
+    canGetFromEnchantingTable: true
+    anvilCost: 1
+    weight: 5
+    minimumCost:
+      base: 15
+      additionalPerLevel: 1
+    maximumCost:
+      base: 65
+      additionalPerLevel: 1
+    supportedItemTags:
+      - "#minecraft:enchantable/mining"
+  replanting:
+    enabled: true
+    canGetFromEnchantingTable: true
+    anvilCost: 1
+    weight: 10
+    minimumCost:
+      base: 1
+      additionalPerLevel: 1
+    maximumCost:
+      base: 65
+      additionalPerLevel: 1
+    supportedItemTags:
+      - "#minecraft:hoes"
