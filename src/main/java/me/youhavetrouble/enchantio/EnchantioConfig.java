@@ -1,7 +1,5 @@
 package me.youhavetrouble.enchantio;
 
-import io.papermc.paper.registry.RegistryKey;
-import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
@@ -11,8 +9,6 @@ import me.youhavetrouble.enchantio.enchants.ReplantingEnchant;
 import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
 import me.youhavetrouble.enchantio.enchants.TelepathyEnchant;
 import net.kyori.adventure.key.Key;
-import org.bukkit.Bukkit;
-import org.bukkit.Tag;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -45,7 +41,6 @@ public class EnchantioConfig {
                 if (in == null) {
                     throw new IOException("Failed to load config.yml from resources");
                 }
-
                 try (FileOutputStream out = new FileOutputStream(configFile)) {
                     byte[] buffer = new byte[1024];
                     int bytesRead;
@@ -53,7 +48,6 @@ public class EnchantioConfig {
                         out.write(buffer, 0, bytesRead);
                     }
                 }
-
             } catch (IOException e) {
                 throw new IOException("Failed saving default config", e);
             }
@@ -122,7 +116,6 @@ public class EnchantioConfig {
         if (replantingSection == null) {
             replantingSection = enchantsSection.createSection("replanting");
         }
-
         enchants.add(new ReplantingEnchant(
                 replantingSection.getInt("anvilCost", 1),
                 replantingSection.getInt("weight", 10),
