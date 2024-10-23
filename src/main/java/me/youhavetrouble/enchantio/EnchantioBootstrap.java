@@ -16,23 +16,28 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Logger;
 
 @SuppressWarnings("UnstableApiUsage")
 public class EnchantioBootstrap implements PluginBootstrap {
+
+    private final Logger logger = Logger.getLogger("enchantio");
+
     @Override
     public void bootstrap(@NotNull BootstrapContext context) {
-
         EnchantioConfig config;
         try {
-            config = new EnchantioConfig(context.getDataDirectory());
+            config = new EnchantioConfig(context.getDataDirectory(), logger);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         Set<EnchantioEnchant> enchantioEnchants = config.enchants;
 
+        logger.info("Registering supported item tags");
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ITEM).newHandler((event) -> {
             for (EnchantioEnchant enchant : enchantioEnchants) {
+                logger.info("Registering item tag " + enchant.getTagForSupportedItems().key());
                 event.registrar().addToTag(
                         ItemTypeTagKeys.create(enchant.getTagForSupportedItems().key()),
                         enchant.getSupportedItems()
@@ -42,6 +47,7 @@ public class EnchantioBootstrap implements PluginBootstrap {
 
         context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.freeze().newHandler(event -> {
             for (EnchantioEnchant enchant : enchantioEnchants) {
+                logger.info("Registering enchantment " + enchant.getKey());
                 event.registry().register(TypedKey.create(RegistryKey.ENCHANTMENT, enchant.getKey()), enchantment -> {
                     enchantment.description(enchant.getDescription());
                     enchantment.anvilCost(enchant.getAnvilCost());
@@ -59,6 +65,7 @@ public class EnchantioBootstrap implements PluginBootstrap {
             Set<TagEntry<Enchantment>> enchantTags = new HashSet<>(enchantioEnchants.size());
             for (EnchantioEnchant enchant : enchantioEnchants) {
                 if (!enchant.canGetFromEnchantingTable()) continue;
+                logger.info("Registering enchantment " + enchant.getKey() + " to enchanting table possibilities");
                 enchantTags.add(enchant.getTagEntry());
             }
             event.registrar().addToTag(EnchantmentTagKeys.IN_ENCHANTING_TABLE, enchantTags);

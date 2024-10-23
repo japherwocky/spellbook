@@ -22,13 +22,16 @@ import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 @SuppressWarnings("UnstableApiUsage")
 public class EnchantioConfig {
 
     public final Set<EnchantioEnchant> enchants = new HashSet<>();
+    private final Logger logger;
 
-    protected EnchantioConfig(Path filePath) throws IOException {
+    protected EnchantioConfig(Path filePath, Logger logger) throws IOException {
+        this.logger = logger;
 
         File file = filePath.toFile();
         if (!file.exists()) {
@@ -152,7 +155,7 @@ public class EnchantioConfig {
             if (itemTag.startsWith("#")) {
                 itemTag = itemTag.substring(1);
             } else {
-                System.out.println("Only item tags are supported for now, item tags need to begin with #");
+                logger.warning("Only item tags are supported for now, item tags need to begin with #");
                 continue;
             }
             try {
@@ -161,7 +164,7 @@ public class EnchantioConfig {
                 TagEntry<ItemType> tagEntry = TagEntry.tagEntry(tagKey);
                 supportedItemTags.add(tagEntry);
             } catch (IllegalArgumentException e) {
-                System.out.println("Failed to create tag entry for " + itemTag);
+                logger.warning("Failed to create tag entry for " + itemTag);
             }
         }
         return supportedItemTags;
