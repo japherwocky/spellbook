@@ -12,9 +12,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemType;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.logging.Logger;
@@ -34,46 +32,32 @@ public class EnchantioConfig {
         }
 
         File configFile = new File(filePath.toFile(), "config.yml");
-        if (!configFile.exists()) {
-            try (InputStream in = getClass().getResourceAsStream("/config.yml")) {
-                if (in == null) {
-                    throw new IOException("Failed to load config.yml from resources");
-                }
-                try (FileOutputStream out = new FileOutputStream(configFile)) {
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = in.read(buffer)) != -1) {
-                        out.write(buffer, 0, bytesRead);
-                    }
-                }
-            } catch (IOException e) {
-                throw new IOException("Failed saving default config", e);
-            }
-        }
+        configFile.createNewFile();
 
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
 
         ConfigurationSection enchantsSection = configuration.getConfigurationSection("enchants");
         if (enchantsSection == null) {
-            throw new IOException("Failed to load enchants section from config");
+            enchantsSection = configuration.createSection("enchants");
         }
 
         ConfigurationSection soulboundSection = enchantsSection.getConfigurationSection("soulbound");
         if (soulboundSection == null) {
             soulboundSection = enchantsSection.createSection("soulbound");
         }
-        ENCHANTS.put(SoulboundEnchant.KEY, new SoulboundEnchant(
-                soulboundSection.getInt("anvilCost", 1),
-                soulboundSection.getInt("weight", 10),
+
+        SoulboundEnchant soulboundEnchant = new SoulboundEnchant(
+                getInt(soulboundSection, "anvilCost", 1),
+                getInt(soulboundSection, "weight", 10),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        soulboundSection.getInt("minimumCost.base", 10),
-                        soulboundSection.getInt("minimumCost.additionalPerLevel", 1)
+                        getInt(soulboundSection, "minimumCost.base", 10),
+                        getInt(soulboundSection, "minimumCost.additionalPerLevel", 1)
                 ),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        soulboundSection.getInt("maximumCost.base", 65),
-                        soulboundSection.getInt("maximumCost.additionalPerLevel", 1)
+                        getInt(soulboundSection, "maximumCost.base", 65),
+                        getInt(soulboundSection, "maximumCost.additionalPerLevel", 1)
                 ),
-                soulboundSection.getBoolean("canGetFromEnchantingTable", true),
+                getBoolean(soulboundSection, "canGetFromEnchantingTable", true),
                 getTagsFromList(getStringList(
                         soulboundSection,
                         "supportedItemTags",
@@ -83,24 +67,29 @@ public class EnchantioConfig {
                                 "#minecraft:enchantable/mining"
                         )
                 ))
-        ));
+        );
+
+        if (getBoolean(soulboundSection, "enabled", true)) {
+            ENCHANTS.put(SoulboundEnchant.KEY, soulboundEnchant);
+        }
 
         ConfigurationSection telepathySection = enchantsSection.getConfigurationSection("telepathy");
         if (telepathySection == null) {
             telepathySection = enchantsSection.createSection("telepathy");
         }
-        ENCHANTS.put(TelepathyEnchant.KEY, new TelepathyEnchant(
-                telepathySection.getInt("anvilCost", 1),
-                telepathySection.getInt("weight", 5),
+
+        TelepathyEnchant telepathyEnchant = new TelepathyEnchant(
+                getInt(telepathySection,"anvilCost", 1),
+                getInt(telepathySection,"weight", 5),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        telepathySection.getInt("minimumCost.base", 15),
-                        telepathySection.getInt("minimumCost.additionalPerLevel", 1)
+                        getInt(telepathySection,"minimumCost.base", 15),
+                        getInt(telepathySection,"minimumCost.additionalPerLevel", 1)
                 ),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        telepathySection.getInt("maximumCost.base", 65),
-                        telepathySection.getInt("maximumCost.additionalPerLevel", 1)
+                        getInt(telepathySection,"maximumCost.base", 65),
+                        getInt(telepathySection,"maximumCost.additionalPerLevel", 1)
                 ),
-                telepathySection.getBoolean("canGetFromEnchantingTable", true),
+                getBoolean(telepathySection, "canGetFromEnchantingTable", true),
                 getTagsFromList(getStringList(
                         telepathySection,
                         "supportedItemTags",
@@ -108,24 +97,29 @@ public class EnchantioConfig {
                                 "#minecraft:enchantable/mining"
                         )
                 ))
-        ));
+        );
+
+        if (getBoolean(telepathySection, "enabled", true)) {
+            ENCHANTS.put(TelepathyEnchant.KEY, telepathyEnchant);
+        }
 
         ConfigurationSection replantingSection = enchantsSection.getConfigurationSection("replanting");
         if (replantingSection == null) {
             replantingSection = enchantsSection.createSection("replanting");
         }
-        ENCHANTS.put(ReplantingEnchant.KEY, new ReplantingEnchant(
-                replantingSection.getInt("anvilCost", 1),
-                replantingSection.getInt("weight", 10),
+
+        ReplantingEnchant replantingEnchant = new ReplantingEnchant(
+                getInt(replantingSection, "anvilCost", 1),
+                getInt(replantingSection, "weight", 10),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        replantingSection.getInt("minimumCost.base", 1),
-                        replantingSection.getInt("minimumCost.additionalPerLevel", 1)
+                        getInt(replantingSection, "minimumCost.base", 1),
+                        getInt(replantingSection, "minimumCost.additionalPerLevel", 1)
                 ),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        replantingSection.getInt("maximumCost.base", 65),
-                        replantingSection.getInt("maximumCost.additionalPerLevel", 1)
+                        getInt(replantingSection, "maximumCost.base", 65),
+                        getInt(replantingSection, "maximumCost.additionalPerLevel", 1)
                 ),
-                replantingSection.getBoolean("canGetFromEnchantingTable", true),
+                getBoolean(replantingSection, "canGetFromEnchantingTable", true),
                 getTagsFromList(getStringList(
                         replantingSection,
                         "supportedItemTags",
@@ -133,14 +127,82 @@ public class EnchantioConfig {
                                 "#minecraft:hoes"
                         )
                 ))
-        ));
+        );
 
+        if (getBoolean(replantingSection, "enabled", true)) {
+            ENCHANTS.put(ReplantingEnchant.KEY, replantingEnchant);
+        }
+
+        ConfigurationSection executionerSection = enchantsSection.getConfigurationSection("executioner");
+        if (executionerSection == null) {
+            executionerSection = enchantsSection.createSection("executioner");
+        }
+
+        ExecutionerEnchant executionerEnchant = new ExecutionerEnchant(
+                getInt(executionerSection, "anvilCost", 1),
+                getInt(executionerSection, "weight", 10),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(executionerSection, "minimumCost.base", 40),
+                        getInt(executionerSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(executionerSection, "maximumCost.base", 65),
+                        getInt(executionerSection,"maximumCost.additionalPerLevel", 1)
+                ),
+                getBoolean(executionerSection, "canGetFromEnchantingTable", true),
+                getTagsFromList(getStringList(
+                        executionerSection,
+                        "supportedItemTags",
+                        List.of(
+                                "#minecraft:enchantable/weapon"
+                        )
+                )),
+                getInt(executionerSection,"maxLevel", 5),
+                getDouble(executionerSection, "damageMultiplierPerLevel", 0.05),
+                getDouble(executionerSection, "maxDamageHpThreshold", 0.25)
+        );
+
+        if (getBoolean(executionerSection, "enabled", true)) {
+            ENCHANTS.put(ExecutionerEnchant.KEY, executionerEnchant);
+        }
+
+        configuration.save(configFile);
     }
 
     private List<String> getStringList(ConfigurationSection section, String key, List<String> defaultValue) {
         List<String> list = section.contains(key) ? section.getStringList(key) : null;
-        if (list == null) return defaultValue;
+        if (list == null) {
+            section.set(key, defaultValue);
+            return defaultValue;
+        }
         return list;
+    }
+
+    private int getInt(ConfigurationSection section, String key, int defaultValue) {
+        int value = section.contains(key) ? section.getInt(key) : -1;
+        if (value == -1) {
+            section.set(key, defaultValue);
+            return defaultValue;
+        }
+        return value;
+    }
+
+    private double getDouble(ConfigurationSection section, String key, double defaultValue) {
+        double value = section.contains(key) ? section.getDouble(key) : -1;
+        if (value == -1) {
+            section.set(key, defaultValue);
+            return defaultValue;
+        }
+        return value;
+    }
+
+    private boolean getBoolean(ConfigurationSection section, String key, boolean defaultValue) {
+        boolean value = section.contains(key) && section.getBoolean(key);
+        if (!value) {
+            section.set(key, defaultValue);
+            return defaultValue;
+        }
+        return true;
     }
 
     private Set<TagEntry<ItemType>> getTagsFromList(List<String> tags) {

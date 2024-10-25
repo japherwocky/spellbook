@@ -22,6 +22,12 @@ Replants broken crops using seeds in your inventory or from the loot of the crop
 **Description**:
 Teleports dropped items to players location and makes them immediately pickuppable.
 
+### Executioner
+**Translation key**: `enchantio.enchantment.executioner`
+
+**Description**:
+Items enchanted with executioner will deal more damage to entities under specific health threshold.
+
 
 ## Configuration
 
