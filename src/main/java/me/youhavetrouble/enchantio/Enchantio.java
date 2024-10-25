@@ -16,6 +16,8 @@ public final class Enchantio extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (getServer().isStopping()) return;
+        getLogger().severe("Enchantio is being disabled without a server shutdown. Server will be shut down to prevent issues.");
+        getServer().shutdown();
     }
 }
