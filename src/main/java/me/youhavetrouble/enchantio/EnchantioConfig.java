@@ -4,10 +4,7 @@ import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
-import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
-import me.youhavetrouble.enchantio.enchants.ReplantingEnchant;
-import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
-import me.youhavetrouble.enchantio.enchants.TelepathyEnchant;
+import me.youhavetrouble.enchantio.enchants.*;
 import net.kyori.adventure.key.Key;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -19,15 +16,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 @SuppressWarnings("UnstableApiUsage")
 public class EnchantioConfig {
 
-    public final Set<EnchantioEnchant> enchants = new HashSet<>();
+    public static final Map<Key, EnchantioEnchant> ENCHANTS = new HashMap<>();
     private final Logger logger;
 
     protected EnchantioConfig(Path filePath, Logger logger) throws IOException {
@@ -67,7 +62,7 @@ public class EnchantioConfig {
         if (soulboundSection == null) {
             soulboundSection = enchantsSection.createSection("soulbound");
         }
-        enchants.add(new SoulboundEnchant(
+        ENCHANTS.put(SoulboundEnchant.KEY, new SoulboundEnchant(
                 soulboundSection.getInt("anvilCost", 1),
                 soulboundSection.getInt("weight", 10),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
@@ -94,7 +89,7 @@ public class EnchantioConfig {
         if (telepathySection == null) {
             telepathySection = enchantsSection.createSection("telepathy");
         }
-        enchants.add(new TelepathyEnchant(
+        ENCHANTS.put(TelepathyEnchant.KEY, new TelepathyEnchant(
                 telepathySection.getInt("anvilCost", 1),
                 telepathySection.getInt("weight", 5),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
@@ -119,7 +114,7 @@ public class EnchantioConfig {
         if (replantingSection == null) {
             replantingSection = enchantsSection.createSection("replanting");
         }
-        enchants.add(new ReplantingEnchant(
+        ENCHANTS.put(ReplantingEnchant.KEY, new ReplantingEnchant(
                 replantingSection.getInt("anvilCost", 1),
                 replantingSection.getInt("weight", 10),
                 EnchantmentRegistryEntry.EnchantmentCost.of(

@@ -14,6 +14,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Logger;
@@ -32,7 +33,7 @@ public class EnchantioBootstrap implements PluginBootstrap {
             throw new RuntimeException(e);
         }
 
-        Set<EnchantioEnchant> enchantioEnchants = config.enchants;
+        Collection<EnchantioEnchant> enchantioEnchants = EnchantioConfig.ENCHANTS.values();
 
         logger.info("Registering supported item tags");
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ITEM).newHandler((event) -> {
