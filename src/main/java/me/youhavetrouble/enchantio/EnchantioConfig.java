@@ -166,6 +166,38 @@ public class EnchantioConfig {
             ENCHANTS.put(ExecutionerEnchant.KEY, executionerEnchant);
         }
 
+        ConfigurationSection beheadingSection = enchantsSection.getConfigurationSection("beheading");
+        if (beheadingSection == null) {
+            beheadingSection = enchantsSection.createSection("beheading");
+        }
+
+        BeheadingEnchant beheadingEnchant = new BeheadingEnchant(
+                getInt(beheadingSection, "anvilCost", 1),
+                getInt(beheadingSection, "weight", 10),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(beheadingSection, "minimumCost.base", 40),
+                        getInt(beheadingSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(beheadingSection, "maximumCost.base", 65),
+                        getInt(beheadingSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                getBoolean(beheadingSection, "canGetFromEnchantingTable", true),
+                getTagsFromList(getStringList(
+                        beheadingSection,
+                        "supportedItemTags",
+                        List.of(
+                                "#minecraft:axes"
+                        )
+                )),
+                getInt(beheadingSection, "maxLevel", 5),
+                getDouble(beheadingSection, "chanceToDropHeadPerLevel", 0.02)
+        );
+
+        if (getBoolean(beheadingSection, "enabled", true)) {
+            ENCHANTS.put(BeheadingEnchant.KEY, beheadingEnchant);
+        }
+
         configuration.save(configFile);
     }
 

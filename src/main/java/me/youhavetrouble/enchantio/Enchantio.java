@@ -1,13 +1,7 @@
 package me.youhavetrouble.enchantio;
 
-import me.youhavetrouble.enchantio.enchants.ExecutionerEnchant;
-import me.youhavetrouble.enchantio.enchants.ReplantingEnchant;
-import me.youhavetrouble.enchantio.enchants.SoulboundEnchant;
-import me.youhavetrouble.enchantio.enchants.TelepathyEnchant;
-import me.youhavetrouble.enchantio.listeners.ExecutionerListener;
-import me.youhavetrouble.enchantio.listeners.ReplantingListener;
-import me.youhavetrouble.enchantio.listeners.SoulboundListener;
-import me.youhavetrouble.enchantio.listeners.TelepathyListener;
+import me.youhavetrouble.enchantio.enchants.*;
+import me.youhavetrouble.enchantio.listeners.*;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Enchantio extends JavaPlugin {
@@ -25,6 +19,9 @@ public final class Enchantio extends JavaPlugin {
         }
         if (EnchantioConfig.ENCHANTS.containsKey(ExecutionerEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new ExecutionerListener(), this);
+        }
+        if (EnchantioConfig.ENCHANTS.containsKey(BeheadingEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new BeheadingListener(), this);
         }
     }
 
