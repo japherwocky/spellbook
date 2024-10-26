@@ -5,6 +5,8 @@ import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.EnchantioConfig;
 import me.youhavetrouble.enchantio.enchants.BeheadingEnchant;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
+import me.youhavetrouble.enchantio.events.EntityBeheadEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
@@ -49,37 +51,45 @@ public class BeheadingListener implements Listener {
 
         if (ThreadLocalRandom.current().nextDouble() > chance) return;
 
+        ItemStack head = null;
+
         switch (event.getEntity().getType()) {
             case ZOMBIE -> {
                 if (listContainsItemType(event.getDrops(), Material.ZOMBIE_HEAD)) return;
-                event.getDrops().add(new ItemStack(org.bukkit.Material.ZOMBIE_HEAD));
+                head = new ItemStack(org.bukkit.Material.ZOMBIE_HEAD);
             }
             case PIGLIN -> {
                 if (listContainsItemType(event.getDrops(), Material.PIGLIN_HEAD)) return;
-                event.getDrops().add(new ItemStack(org.bukkit.Material.PIGLIN_HEAD));
+                head = new ItemStack(org.bukkit.Material.PIGLIN_HEAD);
             }
             case WITHER_SKELETON -> {
                 if (listContainsItemType(event.getDrops(), Material.WITHER_SKELETON_SKULL)) return;
-                event.getDrops().add(new ItemStack(org.bukkit.Material.WITHER_SKELETON_SKULL));
+                head = new ItemStack(org.bukkit.Material.WITHER_SKELETON_SKULL);
             }
             case SKELETON -> {
                 if (listContainsItemType(event.getDrops(), Material.SKELETON_SKULL)) return;
-                event.getDrops().add(new ItemStack(org.bukkit.Material.SKELETON_SKULL));
+                head = new ItemStack(org.bukkit.Material.SKELETON_SKULL);
             }
             case CREEPER -> {
                 if (listContainsItemType(event.getDrops(), Material.CREEPER_HEAD)) return;
-                event.getDrops().add(new ItemStack(org.bukkit.Material.CREEPER_HEAD));
+                head = new ItemStack(org.bukkit.Material.CREEPER_HEAD);
             }
             case ENDER_DRAGON -> {
                 if (listContainsItemType(event.getDrops(), Material.DRAGON_HEAD)) return;
-                event.getDrops().add(new ItemStack(org.bukkit.Material.DRAGON_HEAD));
+                head = new ItemStack(org.bukkit.Material.DRAGON_HEAD);
             }
             case PLAYER -> {
                 if (listContainsItemType(event.getDrops(), Material.PLAYER_HEAD)) return;
                 Player player = (Player) event.getEntity();
-                event.getDrops().add(getPlayerHead(player));
+                head = getPlayerHead(player);
             }
         }
+
+        if (head == null) return;
+        EntityBeheadEvent beheadEvent = new EntityBeheadEvent(event.getEntity(), head);
+        Bukkit.getPluginManager().callEvent(beheadEvent);
+        if (beheadEvent.isCancelled()) return;
+        event.getDrops().add(beheadEvent.getHeadToDrop());
 
     }
 
