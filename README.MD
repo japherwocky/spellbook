@@ -28,6 +28,11 @@ Teleports dropped items to players location and makes them immediately pickuppab
 **Description**:
 Items enchanted with executioner will deal more damage to entities under specific health threshold.
 
+### Beheading
+**Translation key**: `enchantio.enchantment.beheading`
+
+**Description**:
+Adds a chance to drop the head of the entity killed (if entity has a head item available).
 
 ## Configuration
 
