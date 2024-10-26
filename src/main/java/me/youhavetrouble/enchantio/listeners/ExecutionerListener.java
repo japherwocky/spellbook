@@ -16,7 +16,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 
@@ -34,10 +33,11 @@ public class ExecutionerListener implements Listener {
         Entity damager = event.getDamageSource().getCausingEntity();
         if (damager == null) return;
         if (!damager.equals(event.getDamageSource().getDirectEntity())) return;
-        if (!(damager instanceof InventoryHolder inventoryHolder)) return;
-        if (!(inventoryHolder.getInventory() instanceof EntityEquipment entityEquipment)) return;
+        if (!(damager instanceof LivingEntity damagerEntity)) return;
 
-        ItemStack attackingItem = entityEquipment.getItemInMainHand();
+        EntityEquipment damagerEquipment = damagerEntity.getEquipment();
+        if (damagerEquipment == null) return;
+        ItemStack attackingItem = damagerEquipment.getItemInMainHand();
 
         if (!attackingItem.containsEnchantment(executioner)) return;
 

@@ -11,13 +11,13 @@ import org.bukkit.Material;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
@@ -37,14 +37,13 @@ public class BeheadingListener implements Listener {
         if (beheading == null) return;
         EnchantioEnchant enchant = EnchantioConfig.ENCHANTS.get(BeheadingEnchant.KEY);
         if (!(enchant instanceof BeheadingEnchant beheadingEnchant)) return;
-        if (event.getEntity().getKiller() == null) return;
         if (event.getDamageSource().isIndirect()) return;
         Entity killer = event.getDamageSource().getCausingEntity();
         if (killer == null) return;
-        if (!(killer instanceof InventoryHolder inventoryHolder)) return;
-        if (!(inventoryHolder.getInventory() instanceof EntityEquipment entityEquipment)) return;
-
-        ItemStack weapon = entityEquipment.getItemInMainHand();
+        if (!(killer instanceof LivingEntity killerEntity)) return;
+        EntityEquipment killerEquipment = killerEntity.getEquipment();
+        if (killerEquipment == null) return;
+        ItemStack weapon = killerEquipment.getItemInMainHand();
 
         if (!weapon.containsEnchantment(beheading)) return;
 
