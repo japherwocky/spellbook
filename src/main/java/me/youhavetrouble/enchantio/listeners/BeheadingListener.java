@@ -22,6 +22,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -51,46 +52,49 @@ public class BeheadingListener implements Listener {
 
         if (ThreadLocalRandom.current().nextDouble() > chance) return;
 
-        ItemStack head = null;
-
-        switch (event.getEntity().getType()) {
-            case ZOMBIE -> {
-                if (listContainsItemType(event.getDrops(), Material.ZOMBIE_HEAD)) return;
-                head = new ItemStack(org.bukkit.Material.ZOMBIE_HEAD);
-            }
-            case PIGLIN -> {
-                if (listContainsItemType(event.getDrops(), Material.PIGLIN_HEAD)) return;
-                head = new ItemStack(org.bukkit.Material.PIGLIN_HEAD);
-            }
-            case WITHER_SKELETON -> {
-                if (listContainsItemType(event.getDrops(), Material.WITHER_SKELETON_SKULL)) return;
-                head = new ItemStack(org.bukkit.Material.WITHER_SKELETON_SKULL);
-            }
-            case SKELETON -> {
-                if (listContainsItemType(event.getDrops(), Material.SKELETON_SKULL)) return;
-                head = new ItemStack(org.bukkit.Material.SKELETON_SKULL);
-            }
-            case CREEPER -> {
-                if (listContainsItemType(event.getDrops(), Material.CREEPER_HEAD)) return;
-                head = new ItemStack(org.bukkit.Material.CREEPER_HEAD);
-            }
-            case ENDER_DRAGON -> {
-                if (listContainsItemType(event.getDrops(), Material.DRAGON_HEAD)) return;
-                head = new ItemStack(org.bukkit.Material.DRAGON_HEAD);
-            }
-            case PLAYER -> {
-                if (listContainsItemType(event.getDrops(), Material.PLAYER_HEAD)) return;
-                Player player = (Player) event.getEntity();
-                head = getPlayerHead(player);
-            }
-        }
-
+        ItemStack head = getHeadForEntity(event.getEntity(), event.getDrops());
         if (head == null) return;
         EntityBeheadEvent beheadEvent = new EntityBeheadEvent(event.getEntity(), head);
         Bukkit.getPluginManager().callEvent(beheadEvent);
         if (beheadEvent.isCancelled()) return;
         event.getDrops().add(beheadEvent.getHeadToDrop());
+    }
 
+    private ItemStack getHeadForEntity(Entity entity, Collection<ItemStack> drops) {
+        ItemStack head = null;
+
+        switch (entity.getType()) {
+            case ZOMBIE -> {
+                if (listContainsItemType(drops, Material.ZOMBIE_HEAD)) return null;
+                head = new ItemStack(org.bukkit.Material.ZOMBIE_HEAD);
+            }
+            case PIGLIN -> {
+                if (listContainsItemType(drops, Material.PIGLIN_HEAD)) return null;
+                head = new ItemStack(org.bukkit.Material.PIGLIN_HEAD);
+            }
+            case WITHER_SKELETON -> {
+                if (listContainsItemType(drops, Material.WITHER_SKELETON_SKULL)) return null;
+                head = new ItemStack(org.bukkit.Material.WITHER_SKELETON_SKULL);
+            }
+            case SKELETON -> {
+                if (listContainsItemType(drops, Material.SKELETON_SKULL)) return null;
+                head = new ItemStack(org.bukkit.Material.SKELETON_SKULL);
+            }
+            case CREEPER -> {
+                if (listContainsItemType(drops, Material.CREEPER_HEAD)) return null;
+                head = new ItemStack(org.bukkit.Material.CREEPER_HEAD);
+            }
+            case ENDER_DRAGON -> {
+                if (listContainsItemType(drops, Material.DRAGON_HEAD)) return null;
+                head = new ItemStack(org.bukkit.Material.DRAGON_HEAD);
+            }
+            case PLAYER -> {
+                if (listContainsItemType(drops, Material.PLAYER_HEAD)) return null;
+                Player player = (Player) entity;
+                head = getPlayerHead(player);
+            }
+        }
+        return head;
     }
 
     private boolean listContainsItemType(@NotNull Iterable<ItemStack> list, @NotNull Material type) {
