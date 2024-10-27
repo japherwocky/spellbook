@@ -23,6 +23,9 @@ public final class Enchantio extends JavaPlugin {
         if (EnchantioConfig.ENCHANTS.containsKey(BeheadingEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new BeheadingListener(), this);
         }
+        if (EnchantioConfig.ENCHANTS.containsKey(SmeltingEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new SmeltingListener(), this);
+        }
     }
 
     @Override

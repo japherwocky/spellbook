@@ -198,6 +198,36 @@ public class EnchantioConfig {
             ENCHANTS.put(BeheadingEnchant.KEY, beheadingEnchant);
         }
 
+        ConfigurationSection smeltingSection = enchantsSection.getConfigurationSection("smelting");
+        if (smeltingSection == null) {
+            smeltingSection = enchantsSection.createSection("smelting");
+        }
+
+        SmeltingEnchant smeltingEnchant = new SmeltingEnchant(
+                getInt(smeltingSection, "anvilCost", 1),
+                getInt(smeltingSection, "weight", 10),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(smeltingSection, "minimumCost.base", 40),
+                        getInt(smeltingSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(smeltingSection, "maximumCost.base", 65),
+                        getInt(smeltingSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                getBoolean(smeltingSection, "canGetFromEnchantingTable", true),
+                getTagsFromList(getStringList(
+                        smeltingSection,
+                        "supportedItemTags",
+                        List.of(
+                                "#minecraft:enchantable/mining"
+                        )
+                ))
+        );
+
+        if (getBoolean(smeltingSection, "enabled", true)) {
+            ENCHANTS.put(SmeltingEnchant.KEY, smeltingEnchant);
+        }
+
         configuration.save(configFile);
     }
 
