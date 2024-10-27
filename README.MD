@@ -34,6 +34,12 @@ Items enchanted with executioner will deal more damage to entities under specifi
 **Description**:
 Adds a chance to drop the head of the entity killed (if entity has a head item available).
 
+### Smelting
+**Translation key**: `enchantio.enchantment.smelting`
+
+**Description**:
+Automatically smelts drops from mined blocks.
+
 ## Configuration
 
 ### supportedItemTags
