@@ -79,15 +79,15 @@ public class EnchantioConfig {
         }
 
         TelepathyEnchant telepathyEnchant = new TelepathyEnchant(
-                getInt(telepathySection,"anvilCost", 1),
-                getInt(telepathySection,"weight", 5),
+                getInt(telepathySection, "anvilCost", 1),
+                getInt(telepathySection, "weight", 5),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(telepathySection,"minimumCost.base", 15),
-                        getInt(telepathySection,"minimumCost.additionalPerLevel", 1)
+                        getInt(telepathySection, "minimumCost.base", 15),
+                        getInt(telepathySection, "minimumCost.additionalPerLevel", 1)
                 ),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(telepathySection,"maximumCost.base", 65),
-                        getInt(telepathySection,"maximumCost.additionalPerLevel", 1)
+                        getInt(telepathySection, "maximumCost.base", 65),
+                        getInt(telepathySection, "maximumCost.additionalPerLevel", 1)
                 ),
                 getBoolean(telepathySection, "canGetFromEnchantingTable", true),
                 getTagsFromList(getStringList(
@@ -147,7 +147,7 @@ public class EnchantioConfig {
                 ),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
                         getInt(executionerSection, "maximumCost.base", 65),
-                        getInt(executionerSection,"maximumCost.additionalPerLevel", 1)
+                        getInt(executionerSection, "maximumCost.additionalPerLevel", 1)
                 ),
                 getBoolean(executionerSection, "canGetFromEnchantingTable", true),
                 getTagsFromList(getStringList(
@@ -157,7 +157,7 @@ public class EnchantioConfig {
                                 "#minecraft:enchantable/weapon"
                         )
                 )),
-                getInt(executionerSection,"maxLevel", 5),
+                getInt(executionerSection, "maxLevel", 5),
                 getDouble(executionerSection, "damageMultiplierPerLevel", 0.05),
                 getDouble(executionerSection, "maxDamageHpThreshold", 0.25)
         );
@@ -226,6 +226,43 @@ public class EnchantioConfig {
 
         if (getBoolean(smeltingSection, "enabled", true)) {
             ENCHANTS.put(SmeltingEnchant.KEY, smeltingEnchant);
+        }
+
+        ConfigurationSection cursesSection = configuration.getConfigurationSection("curses");
+        if (cursesSection == null) {
+            cursesSection = configuration.createSection("curses");
+        }
+
+        ConfigurationSection panicSection = cursesSection.getConfigurationSection("panic");
+        if (panicSection == null) {
+            panicSection = cursesSection.createSection("panic");
+        }
+
+        PanicEnchant panicEnchant = new PanicEnchant(
+                getInt(panicSection, "anvilCost", 1),
+                getInt(panicSection, "weight", 2),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(panicSection, "minimumCost.base", 0),
+                        getInt(panicSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(panicSection, "maximumCost.base", 20),
+                        getInt(panicSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                getBoolean(panicSection, "canGetFromEnchantingTable", true),
+                getTagsFromList(getStringList(
+                        panicSection,
+                        "supportedItemTags",
+                        List.of(
+                                "#minecraft:enchantable/armor"
+                        )
+                )),
+                getInt(panicSection, "maxLevel", 1),
+                getDouble(panicSection, "panicChancePerLevel", 0.025)
+        );
+
+        if (getBoolean(panicSection, "enabled", true)) {
+            ENCHANTS.put(PanicEnchant.KEY, panicEnchant);
         }
 
         configuration.save(configFile);
