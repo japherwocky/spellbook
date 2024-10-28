@@ -40,6 +40,14 @@ Adds a chance to drop the head of the entity killed (if entity has a head item a
 **Description**:
 Automatically smelts drops from mined blocks.
 
+## Curses
+
+### Curse of Panic
+**Translation key**: `enchantio.curse.panic_curse`
+
+**Description**:
+When player takes damage, there is a chance that their hotbar items will be scrambled.
+
 ## Configuration
 
 ### supportedItemTags
