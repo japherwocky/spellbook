@@ -43,7 +43,7 @@ Automatically smelts drops from mined blocks.
 ## Curses
 
 ### Curse of Panic
-**Translation key**: `enchantio.curse.panic_curse`
+**Translation key**: `enchantio.enchant.panic_curse`
 
 **Description**:
 When player takes damage, there is a chance that their hotbar items will be scrambled.
