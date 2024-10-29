@@ -40,6 +40,12 @@ Adds a chance to drop the head of the entity killed (if entity has a head item a
 **Description**:
 Automatically smelts drops from mined blocks.
 
+### Airbag
+**Translation key**: `enchantio.enchantment.airbag`
+
+**Description**:
+Reduces damage from hitting a wall while flying with elytra.
+
 ## Curses
 
 ### Curse of Panic

@@ -1,5 +1,7 @@
 package me.youhavetrouble.enchantio;
 
+import io.papermc.paper.registry.RegistryKey;
+import io.papermc.paper.registry.TypedKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
@@ -226,6 +228,38 @@ public class EnchantioConfig {
 
         if (getBoolean(smeltingSection, "enabled", true)) {
             ENCHANTS.put(SmeltingEnchant.KEY, smeltingEnchant);
+        }
+
+        ConfigurationSection airbagSection = enchantsSection.getConfigurationSection("airbag");
+        if (airbagSection == null) {
+            airbagSection = enchantsSection.createSection("cushion");
+        }
+
+        AirbagEnchant airbagEnchant = new AirbagEnchant(
+                getInt(airbagSection, "anvilCost", 1),
+                getInt(airbagSection, "weight", 10),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(airbagSection, "minimumCost.base", 40),
+                        getInt(airbagSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(airbagSection, "maximumCost.base", 65),
+                        getInt(airbagSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                getBoolean(airbagSection, "canGetFromEnchantingTable", true),
+                getTagsFromList(getStringList(
+                        airbagSection,
+                        "supportedItemTags",
+                        List.of(
+                                "minecraft:elytra"
+                        )
+                )),
+                getInt(airbagSection, "maxLevel", 4),
+                getDouble(airbagSection, "damageReductionPerLevel", 0.2)
+        );
+
+        if (getBoolean(airbagSection, "enabled", true)) {
+            ENCHANTS.put(AirbagEnchant.KEY, airbagEnchant);
         }
 
         ConfigurationSection cursesSection = configuration.getConfigurationSection("curses");
