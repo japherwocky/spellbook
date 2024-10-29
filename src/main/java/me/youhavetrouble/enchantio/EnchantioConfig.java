@@ -310,16 +310,22 @@ public class EnchantioConfig {
             if (itemTag == null) continue;
             if (itemTag.startsWith("#")) {
                 itemTag = itemTag.substring(1);
-            } else {
-                logger.warning("Only item tags are supported for now, item tags need to begin with #");
+                try {
+                    Key key = Key.key(itemTag);
+                    TagKey<ItemType> tagKey = ItemTypeTagKeys.create(key);
+                    TagEntry<ItemType> tagEntry = TagEntry.tagEntry(tagKey);
+                    supportedItemTags.add(tagEntry);
+                } catch (IllegalArgumentException e) {
+                    logger.warning("Failed to create tag entry for " + itemTag);
+                }
                 continue;
             }
             try {
                 Key key = Key.key(itemTag);
-                TagKey<ItemType> tagKey = ItemTypeTagKeys.create(key);
-                TagEntry<ItemType> tagEntry = TagEntry.tagEntry(tagKey);
+                TypedKey<ItemType> typedKey = TypedKey.create(RegistryKey.ITEM, key);
+                TagEntry<ItemType> tagEntry = TagEntry.valueEntry(typedKey);
                 supportedItemTags.add(tagEntry);
-            } catch (IllegalArgumentException e) {
+            } catch (IllegalArgumentException | NullPointerException e) {
                 logger.warning("Failed to create tag entry for " + itemTag);
             }
         }
