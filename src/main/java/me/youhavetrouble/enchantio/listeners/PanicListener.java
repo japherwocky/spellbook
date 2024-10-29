@@ -3,7 +3,6 @@ package me.youhavetrouble.enchantio.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.BeheadingEnchant;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import me.youhavetrouble.enchantio.enchants.PanicEnchant;
 import me.youhavetrouble.enchantio.events.PlayerPanicEvent;
@@ -15,8 +14,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.inventory.EquipmentSlot;
-import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
