@@ -57,6 +57,6 @@ When player takes damage, there is a chance that their hotbar items will be scra
 ## Configuration
 
 ### supportedItemTags
-You can change which items enchant is applicable for. Currently only item tags are supported. You can add any vanilla
-or custom tag to the list, just remember to prefix them with `#`.
-
+There are 2 types of tags that can be used in the configuration:
+- `minecraft:item_name` - For specific items, use namespaced vanilla item id. If namespace is not provided, `minecraft` is assumed.
+- `#minecraft:item_tag_name` - For item tags, use namespaced tag id. If namespace is not provided, `minecraft` is assumed. Custom tags from other plugins and datapacks are also supported.
