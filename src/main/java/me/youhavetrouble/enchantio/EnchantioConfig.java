@@ -11,7 +11,9 @@ import net.kyori.adventure.key.Key;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,6 +100,13 @@ public class EnchantioConfig {
                         List.of(
                                 "#minecraft:enchantable/mining"
                         )
+                )),
+                getEquipmentSlotGroups(getStringList(
+                        telepathySection,
+                        "activeSlots",
+                        List.of(
+                                "MAINHAND"
+                        )
                 ))
         );
 
@@ -159,6 +168,13 @@ public class EnchantioConfig {
                                 "#minecraft:enchantable/weapon"
                         )
                 )),
+                getEquipmentSlotGroups(getStringList(
+                        executionerSection,
+                        "activeSlots",
+                        List.of(
+                                "MAINHAND"
+                        )
+                )),
                 getInt(executionerSection, "maxLevel", 5),
                 getDouble(executionerSection, "damageMultiplierPerLevel", 0.05),
                 getDouble(executionerSection, "maxDamageHpThreshold", 0.25)
@@ -190,6 +206,13 @@ public class EnchantioConfig {
                         "supportedItemTags",
                         List.of(
                                 "#minecraft:axes"
+                        )
+                )),
+                getEquipmentSlotGroups(getStringList(
+                        beheadingSection,
+                        "activeSlots",
+                        List.of(
+                                "MAINHAND"
                         )
                 )),
                 getInt(beheadingSection, "maxLevel", 5),
@@ -254,6 +277,13 @@ public class EnchantioConfig {
                                 "minecraft:elytra"
                         )
                 )),
+                getEquipmentSlotGroups(getStringList(
+                        airbagSection,
+                        "activeSlots",
+                        List.of(
+                                "CHEST"
+                        )
+                )),
                 getInt(airbagSection, "maxLevel", 4),
                 getDouble(airbagSection, "damageReductionPerLevel", 0.2)
         );
@@ -289,6 +319,13 @@ public class EnchantioConfig {
                         "supportedItemTags",
                         List.of(
                                 "#minecraft:enchantable/armor"
+                        )
+                )),
+                getEquipmentSlotGroups(getStringList(
+                        panicSection,
+                        "activeSlots",
+                        List.of(
+                                "ARMOR"
                         )
                 )),
                 getInt(panicSection, "maxLevel", 1),
@@ -338,7 +375,20 @@ public class EnchantioConfig {
         return true;
     }
 
-    private Set<TagEntry<ItemType>> getTagsFromList(List<String> tags) {
+    private Set<EquipmentSlotGroup> getEquipmentSlotGroups(@NotNull List<String> slots) {
+        Set<EquipmentSlotGroup> equipmentSlotGroups = new HashSet<>();
+        for (String slot : slots) {
+            try {
+                EquipmentSlotGroup equipmentSlotGroup = EquipmentSlotGroup.getByName(slot.toUpperCase(Locale.ENGLISH));
+                equipmentSlotGroups.add(equipmentSlotGroup);
+            } catch (IllegalArgumentException e) {
+                logger.warning(slot + " is not a valid equipment slot group");
+            }
+        }
+        return equipmentSlotGroups;
+    }
+
+    private Set<TagEntry<ItemType>> getTagsFromList(@NotNull List<String> tags) {
         Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
         for (String itemTag : tags) {
             if (itemTag == null) continue;

@@ -10,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ public class BeheadingEnchant implements EnchantioEnchant {
     private final Set<TagEntry<ItemType>> supportedItemTags;
     private final double chanceToDropHeadPerLevel;
     private final Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
+    private final Set<EquipmentSlotGroup> activeSlots = new HashSet<>();
 
     public BeheadingEnchant(
             int anvilCost,
@@ -34,6 +36,7 @@ public class BeheadingEnchant implements EnchantioEnchant {
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
             boolean canGetFromEnchantingTable,
             Set<TagEntry<ItemType>> supportedItemTags,
+            Set<EquipmentSlotGroup> activeSlots,
             int maxLevel,
             double chanceToDropHeadPerLevel
     ) {
@@ -44,19 +47,19 @@ public class BeheadingEnchant implements EnchantioEnchant {
         this.supportedItemTags = supportedItemTags;
         this.maxLevel = maxLevel;
         this.chanceToDropHeadPerLevel = chanceToDropHeadPerLevel;
-
+        this.activeSlots.addAll(activeSlots);
         if (canGetFromEnchantingTable) {
             enchantTagKeys.add(EnchantmentTagKeys.IN_ENCHANTING_TABLE);
         }
     }
 
     @Override
-    public Key getKey() {
+    public @NotNull Key getKey() {
         return KEY;
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.translatable("enchantio.enchant.beheading", "Beheading");
     }
 
@@ -80,32 +83,32 @@ public class BeheadingEnchant implements EnchantioEnchant {
     }
 
     @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
+    public EnchantmentRegistryEntry.@NotNull EnchantmentCost getMinimumCost() {
         return minimumCost;
     }
 
     @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
+    public EnchantmentRegistryEntry.@NotNull EnchantmentCost getMaximumCost() {
         return maximumCost;
     }
 
     @Override
-    public Iterable<EquipmentSlotGroup> getActiveSlots() {
-        return Set.of(EquipmentSlotGroup.ANY);
+    public @NotNull Iterable<EquipmentSlotGroup> getActiveSlots() {
+        return activeSlots;
     }
 
     @Override
-    public TagKey<ItemType> getTagForSupportedItems() {
+    public @NotNull TagKey<ItemType> getTagForSupportedItems() {
         return TagKey.create(RegistryKey.ITEM, Key.key("enchantio:beheading_enchantable"));
     }
 
     @Override
-    public Set<TagEntry<ItemType>> getSupportedItems() {
+    public @NotNull Set<TagEntry<ItemType>> getSupportedItems() {
         return supportedItemTags;
     }
 
     @Override
-    public Set<TagKey<Enchantment>> getEnchantTagKeys() {
+    public @NotNull Set<TagKey<Enchantment>> getEnchantTagKeys() {
         return Collections.unmodifiableSet(enchantTagKeys);
     }
 

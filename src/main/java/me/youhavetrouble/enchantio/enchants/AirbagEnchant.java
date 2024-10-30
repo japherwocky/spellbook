@@ -9,6 +9,7 @@ import net.kyori.adventure.text.Component;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -24,6 +25,7 @@ public class AirbagEnchant implements EnchantioEnchant {
     private final EnchantmentRegistryEntry.EnchantmentCost maximumCost;
     private final Set<TagEntry<ItemType>> supportedItemTags;
     private final Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
+    private final Set<EquipmentSlotGroup> activeSlots = new HashSet<>();
     private final double damageReductionPerLevel;
 
     public AirbagEnchant(
@@ -33,6 +35,7 @@ public class AirbagEnchant implements EnchantioEnchant {
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
             boolean canGetFromEnchantingTable,
             Set<TagEntry<ItemType>> supportedItemTags,
+            Set<EquipmentSlotGroup> activeSlots,
             int maxLevel,
             double damageReductionPerLevel
     ) {
@@ -43,18 +46,19 @@ public class AirbagEnchant implements EnchantioEnchant {
         this.maximumCost = maximumCost;
         this.supportedItemTags = supportedItemTags;
         this.damageReductionPerLevel = damageReductionPerLevel;
+        this.activeSlots.addAll(activeSlots);
         if (canGetFromEnchantingTable) {
             enchantTagKeys.add(EnchantmentTagKeys.IN_ENCHANTING_TABLE);
         }
     }
 
     @Override
-    public Key getKey() {
+    public @NotNull Key getKey() {
         return KEY;
     }
 
     @Override
-    public Component getDescription() {
+    public @NotNull Component getDescription() {
         return Component.translatable("enchantio.enchant.airbag", "Airbag");
     }
 
@@ -74,27 +78,27 @@ public class AirbagEnchant implements EnchantioEnchant {
     }
 
     @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMinimumCost() {
+    public EnchantmentRegistryEntry.@NotNull EnchantmentCost getMinimumCost() {
         return minimumCost;
     }
 
     @Override
-    public EnchantmentRegistryEntry.EnchantmentCost getMaximumCost() {
+    public EnchantmentRegistryEntry.@NotNull EnchantmentCost getMaximumCost() {
         return maximumCost;
     }
 
     @Override
-    public Iterable<EquipmentSlotGroup> getActiveSlots() {
-        return Set.of(EquipmentSlotGroup.ARMOR);
+    public @NotNull Iterable<EquipmentSlotGroup> getActiveSlots() {
+        return activeSlots;
     }
 
     @Override
-    public Set<TagEntry<ItemType>> getSupportedItems() {
+    public @NotNull Set<TagEntry<ItemType>> getSupportedItems() {
         return supportedItemTags;
     }
 
     @Override
-    public Set<TagKey<Enchantment>> getEnchantTagKeys() {
+    public @NotNull Set<TagKey<Enchantment>> getEnchantTagKeys() {
         return Collections.unmodifiableSet(enchantTagKeys);
     }
 
