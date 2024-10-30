@@ -2,6 +2,7 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
+import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.EnchantioConfig;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import me.youhavetrouble.enchantio.enchants.PanicEnchant;
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
@@ -37,26 +39,15 @@ public class PanicListener implements Listener {
         EnchantioEnchant enchant = EnchantioConfig.ENCHANTS.get(PanicEnchant.KEY);
         if (!(enchant instanceof PanicEnchant panicEnchant)) return;
 
-        PlayerInventory inventory = player.getInventory();
-        ItemStack highestPanicEnchantItem = null;
+        EntityEquipment equipment = player.getEquipment();
 
-        for (ItemStack item : inventory.getArmorContents()) {
-            if (item == null) continue;
-            if (item.containsEnchantment(panic)) {
-                if (highestPanicEnchantItem == null) {
-                    highestPanicEnchantItem = item;
-                } else if (item.getEnchantmentLevel(panic) > highestPanicEnchantItem.getEnchantmentLevel(panic)) {
-                    highestPanicEnchantItem = item;
-                }
-            }
-        }
-
-        if (highestPanicEnchantItem == null) return;
-
-        double chance = highestPanicEnchantItem.getEnchantmentLevel(panic) * panicEnchant.getPanicChancePerLevel();
+        int level = Enchantio.getHighestEnchantLevel(equipment, panic);
+        if (level == 0) return;
+        double chance = level * panicEnchant.getPanicChancePerLevel();
 
         if (ThreadLocalRandom.current().nextDouble() > chance) return;
 
+        PlayerInventory inventory = player.getInventory();
         List<ItemStack> hotbarItems = new ArrayList<>(Arrays.stream(inventory.getContents()).toList().subList(0, 9));
         Collections.shuffle(hotbarItems, ThreadLocalRandom.current());
 

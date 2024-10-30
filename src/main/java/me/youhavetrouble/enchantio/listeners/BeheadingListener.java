@@ -2,6 +2,7 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
+import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.EnchantioConfig;
 import me.youhavetrouble.enchantio.enchants.BeheadingEnchant;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
@@ -43,11 +44,11 @@ public class BeheadingListener implements Listener {
         if (!(killer instanceof LivingEntity killerEntity)) return;
         EntityEquipment killerEquipment = killerEntity.getEquipment();
         if (killerEquipment == null) return;
-        ItemStack weapon = killerEquipment.getItemInMainHand();
 
-        if (!weapon.containsEnchantment(beheading)) return;
+        int level = Enchantio.getHighestEnchantLevel(killerEquipment, beheading);
+        if (level == 0) return;
 
-        double chance = weapon.getEnchantmentLevel(beheading) * beheadingEnchant.getChanceToDropHeadPerLevel();
+        double chance = level * beheadingEnchant.getChanceToDropHeadPerLevel();
 
         if (ThreadLocalRandom.current().nextDouble() > chance) return;
 

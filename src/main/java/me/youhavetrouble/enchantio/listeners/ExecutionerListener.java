@@ -2,6 +2,7 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
+import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.EnchantioConfig;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import me.youhavetrouble.enchantio.enchants.ExecutionerEnchant;
@@ -16,7 +17,6 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EntityEquipment;
-import org.bukkit.inventory.ItemStack;
 
 
 @SuppressWarnings("UnstableApiUsage")
@@ -37,9 +37,8 @@ public class ExecutionerListener implements Listener {
 
         EntityEquipment damagerEquipment = damagerEntity.getEquipment();
         if (damagerEquipment == null) return;
-        ItemStack attackingItem = damagerEquipment.getItemInMainHand();
-
-        if (!attackingItem.containsEnchantment(executioner)) return;
+        int level = Enchantio.getSumOfEnchantLevels(damagerEquipment, executioner);
+        if (level == 0) return;
 
         Entity target = event.getEntity();
         if (!(target instanceof LivingEntity livingEntity)) return;
@@ -51,7 +50,7 @@ public class ExecutionerListener implements Listener {
         double targetHealthPercentage = livingEntity.getHealth() / targetMaxHealth;
 
         if (targetHealthPercentage < executionerEnchant.getMaxDamageHpThreshold()) {
-            double damageMultiplier = 1 + (executionerEnchant.getDamageMultiplierPerLevel() * attackingItem.getEnchantmentLevel(executioner));
+            double damageMultiplier = 1 + (executionerEnchant.getDamageMultiplierPerLevel() * level);
             event.setDamage(event.getDamage() * damageMultiplier);
         }
 
