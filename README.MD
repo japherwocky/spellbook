@@ -60,3 +60,16 @@ When player takes damage, there is a chance that their hotbar items will be scra
 There are 2 types of tags that can be used in the configuration:
 - `minecraft:item_name` - For specific items, use namespaced vanilla item id. If namespace is not provided, `minecraft` is assumed.
 - `#minecraft:item_tag_name` - For item tags, use namespaced tag id. If namespace is not provided, `minecraft` is assumed. Custom tags from other plugins and datapacks are also supported.
+
+### activeSlots
+Slot types that enchant is active in. Only some enchantments support this feature.
+
+Available slot types:
+- `MAINHAND` - Main hand slot.
+- `OFFHAND` - Offhand slot.
+- `ARMOR` - Any armor slot.
+- `HELMET` - Helmet slot.
+- `CHESTPLATE` - Chestplate slot.
+- `LEGGINGS` - Leggings slot.
+- `BOOTS` - Boots slot.
+- `ANY` - Enchantment is active in all slots.
