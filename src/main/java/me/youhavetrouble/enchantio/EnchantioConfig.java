@@ -378,12 +378,12 @@ public class EnchantioConfig {
     private Set<EquipmentSlotGroup> getEquipmentSlotGroups(@NotNull List<String> slots) {
         Set<EquipmentSlotGroup> equipmentSlotGroups = new HashSet<>();
         for (String slot : slots) {
-            try {
-                EquipmentSlotGroup equipmentSlotGroup = EquipmentSlotGroup.getByName(slot.toUpperCase(Locale.ENGLISH));
-                equipmentSlotGroups.add(equipmentSlotGroup);
-            } catch (IllegalArgumentException e) {
+            EquipmentSlotGroup equipmentSlotGroup = EquipmentSlotGroup.getByName(slot);
+            if (equipmentSlotGroup == null) {
                 logger.warning(slot + " is not a valid equipment slot group");
+                continue;
             }
+            equipmentSlotGroups.add(equipmentSlotGroup);
         }
         return equipmentSlotGroups;
     }
