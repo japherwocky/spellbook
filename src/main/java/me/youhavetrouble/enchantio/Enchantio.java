@@ -37,6 +37,9 @@ public final class Enchantio extends JavaPlugin {
         if (EnchantioConfig.ENCHANTS.containsKey(AirbagEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new AirbagListener(), this);
         }
+        if (EnchantioConfig.ENCHANTS.containsKey(HomecomingEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new HomecomingListener(), this);
+        }
 
         if (EnchantioConfig.ENCHANTS.containsKey(PanicEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new PanicListener(), this);

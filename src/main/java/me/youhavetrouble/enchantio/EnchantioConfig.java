@@ -292,6 +292,36 @@ public class EnchantioConfig {
             ENCHANTS.put(AirbagEnchant.KEY, airbagEnchant);
         }
 
+        ConfigurationSection homecomingSection = enchantsSection.getConfigurationSection("homecoming");
+        if (homecomingSection == null) {
+            homecomingSection = enchantsSection.createSection("homecoming");
+        }
+
+        HomecomingEnchant homecomingEnchant = new HomecomingEnchant(
+                getInt(homecomingSection, "anvilCost", 1),
+                getInt(homecomingSection, "weight", 10),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(homecomingSection, "minimumCost.base", 40),
+                        getInt(homecomingSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(homecomingSection, "maximumCost.base", 65),
+                        getInt(homecomingSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                getBoolean(homecomingSection, "canGetFromEnchantingTable", true),
+                getTagsFromList(getStringList(
+                        homecomingSection,
+                        "supportedItemTags",
+                        List.of(
+                                "minecraft:totem_of_undying"
+                        )
+                ))
+        );
+
+        if (getBoolean(homecomingSection, "enabled", true)) {
+            ENCHANTS.put(HomecomingEnchant.KEY, homecomingEnchant);
+        }
+
         ConfigurationSection cursesSection = configuration.getConfigurationSection("curses");
         if (cursesSection == null) {
             cursesSection = configuration.createSection("curses");

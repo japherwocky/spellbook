@@ -46,6 +46,12 @@ Automatically smelts drops from mined blocks.
 **Description**:
 Reduces damage from hitting a wall while flying with elytra.
 
+### Homecoming
+**Translation key**: `enchantio.enchantment.homecoming`
+
+**Description**:
+When totem of undying is activated, player is teleported to their spawn point. If spawn point is not set, player is teleported to world spawn.
+
 ## Curses
 
 ### Curse of Panic
