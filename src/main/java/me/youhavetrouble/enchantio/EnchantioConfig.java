@@ -366,6 +366,43 @@ public class EnchantioConfig {
             ENCHANTS.put(PanicEnchant.KEY, panicEnchant);
         }
 
+        ConfigurationSection vampirismSection = cursesSection.getConfigurationSection("vampirism");
+        if (vampirismSection == null) {
+            vampirismSection = cursesSection.createSection("vampirism");
+        }
+
+        VampirismEnchant vampirismEnchant = new VampirismEnchant(
+                getInt(vampirismSection, "anvilCost", 1),
+                getInt(vampirismSection, "weight", 2),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(vampirismSection, "minimumCost.base", 0),
+                        getInt(vampirismSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        getInt(vampirismSection, "maximumCost.base", 30),
+                        getInt(vampirismSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                getBoolean(vampirismSection, "canGetFromEnchantingTable", true),
+                getTagsFromList(getStringList(
+                        vampirismSection,
+                        "supportedItemTags",
+                        List.of(
+                                "#minecraft:enchantable/armor"
+                        )
+                )),
+                getEquipmentSlotGroups(getStringList(
+                        vampirismSection,
+                        "activeSlots",
+                        List.of(
+                                "ANY"
+                        )
+                ))
+        );
+
+        if (getBoolean(vampirismSection, "enabled", true)) {
+            ENCHANTS.put(VampirismEnchant.KEY, vampirismEnchant);
+        }
+
         configuration.save(configFile);
     }
 

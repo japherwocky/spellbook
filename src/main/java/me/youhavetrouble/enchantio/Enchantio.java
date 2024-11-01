@@ -44,6 +44,9 @@ public final class Enchantio extends JavaPlugin {
         if (EnchantioConfig.ENCHANTS.containsKey(PanicEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new PanicListener(), this);
         }
+        if (EnchantioConfig.ENCHANTS.containsKey(VampirismEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new VampirismListener(), this);
+        }
     }
 
     @Override

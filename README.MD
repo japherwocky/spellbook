@@ -60,6 +60,12 @@ When totem of undying is activated, player is teleported to their spawn point. I
 **Description**:
 When player takes damage, there is a chance that their hotbar items will be scrambled.
 
+### Curse of Vampirism
+**Translation key**: `enchantio.enchant.vampirism_curse`
+
+**Description**:
+Player is set on fire when exposed to direct sunlight.
+
 ## Configuration
 
 ### supportedItemTags
