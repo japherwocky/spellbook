@@ -40,373 +40,44 @@ public class EnchantioConfig {
 
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
 
-        ConfigurationSection enchantsSection = configuration.getConfigurationSection("enchants");
-        if (enchantsSection == null) {
-            enchantsSection = configuration.createSection("enchants");
-        }
+        ConfigurationSection enchantsSection = getConfigSection(configuration, "enchants");
 
-        ConfigurationSection soulboundSection = enchantsSection.getConfigurationSection("soulbound");
-        if (soulboundSection == null) {
-            soulboundSection = enchantsSection.createSection("soulbound");
-        }
+        ConfigurationSection soulboundSection = getConfigSection(enchantsSection, "soulbound");
+        SoulboundEnchant.create(soulboundSection);
 
-        SoulboundEnchant soulboundEnchant = new SoulboundEnchant(
-                getInt(soulboundSection, "anvilCost", 1),
-                getInt(soulboundSection, "weight", 10),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(soulboundSection, "minimumCost.base", 10),
-                        getInt(soulboundSection, "minimumCost.additionalPerLevel", 1)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(soulboundSection, "maximumCost.base", 65),
-                        getInt(soulboundSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(soulboundSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        soulboundSection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:enchantable/armor",
-                                "#minecraft:enchantable/weapon",
-                                "#minecraft:enchantable/mining"
-                        )
-                ))
-        );
+        ConfigurationSection telepathySection = getConfigSection(enchantsSection, "telepathy");
+        TelepathyEnchant.create(telepathySection);
 
-        if (getBoolean(soulboundSection, "enabled", true)) {
-            ENCHANTS.put(SoulboundEnchant.KEY, soulboundEnchant);
-        }
+        ConfigurationSection replantingSection = getConfigSection(enchantsSection, "replanting");
+        ReplantingEnchant.create(replantingSection);
 
-        ConfigurationSection telepathySection = enchantsSection.getConfigurationSection("telepathy");
-        if (telepathySection == null) {
-            telepathySection = enchantsSection.createSection("telepathy");
-        }
+        ConfigurationSection executionerSection = getConfigSection(enchantsSection, "executioner");
+        ExecutionerEnchant.create(executionerSection);
 
-        TelepathyEnchant telepathyEnchant = new TelepathyEnchant(
-                getInt(telepathySection, "anvilCost", 1),
-                getInt(telepathySection, "weight", 5),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(telepathySection, "minimumCost.base", 15),
-                        getInt(telepathySection, "minimumCost.additionalPerLevel", 1)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(telepathySection, "maximumCost.base", 65),
-                        getInt(telepathySection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(telepathySection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        telepathySection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:enchantable/mining"
-                        )
-                )),
-                getEquipmentSlotGroups(getStringList(
-                        telepathySection,
-                        "activeSlots",
-                        List.of(
-                                "MAINHAND"
-                        )
-                ))
-        );
+        ConfigurationSection beheadingSection = getConfigSection(enchantsSection, "beheading");
+        BeheadingEnchant.create(beheadingSection);
 
-        if (getBoolean(telepathySection, "enabled", true)) {
-            ENCHANTS.put(TelepathyEnchant.KEY, telepathyEnchant);
-        }
+        ConfigurationSection smeltingSection = getConfigSection(enchantsSection, "smelting");
+        SmeltingEnchant.create(smeltingSection);
 
-        ConfigurationSection replantingSection = enchantsSection.getConfigurationSection("replanting");
-        if (replantingSection == null) {
-            replantingSection = enchantsSection.createSection("replanting");
-        }
+        ConfigurationSection airbagSection = getConfigSection(enchantsSection, "airbag");
+        AirbagEnchant.create(airbagSection);
 
-        ReplantingEnchant replantingEnchant = new ReplantingEnchant(
-                getInt(replantingSection, "anvilCost", 1),
-                getInt(replantingSection, "weight", 10),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(replantingSection, "minimumCost.base", 1),
-                        getInt(replantingSection, "minimumCost.additionalPerLevel", 1)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(replantingSection, "maximumCost.base", 65),
-                        getInt(replantingSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(replantingSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        replantingSection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:hoes"
-                        )
-                ))
-        );
+        ConfigurationSection homecomingSection = getConfigSection(enchantsSection, "homecoming");
+        HomecomingEnchant.create(homecomingSection);
 
-        if (getBoolean(replantingSection, "enabled", true)) {
-            ENCHANTS.put(ReplantingEnchant.KEY, replantingEnchant);
-        }
+        ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
 
-        ConfigurationSection executionerSection = enchantsSection.getConfigurationSection("executioner");
-        if (executionerSection == null) {
-            executionerSection = enchantsSection.createSection("executioner");
-        }
+        ConfigurationSection panicSection = getConfigSection(cursesSection, "panic");
+        PanicEnchant.create(panicSection);
 
-        ExecutionerEnchant executionerEnchant = new ExecutionerEnchant(
-                getInt(executionerSection, "anvilCost", 1),
-                getInt(executionerSection, "weight", 10),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(executionerSection, "minimumCost.base", 40),
-                        getInt(executionerSection, "minimumCost.additionalPerLevel", 3)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(executionerSection, "maximumCost.base", 65),
-                        getInt(executionerSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(executionerSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        executionerSection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:enchantable/weapon"
-                        )
-                )),
-                getEquipmentSlotGroups(getStringList(
-                        executionerSection,
-                        "activeSlots",
-                        List.of(
-                                "MAINHAND"
-                        )
-                )),
-                getInt(executionerSection, "maxLevel", 5),
-                getDouble(executionerSection, "damageMultiplierPerLevel", 0.05),
-                getDouble(executionerSection, "maxDamageHpThreshold", 0.25)
-        );
-
-        if (getBoolean(executionerSection, "enabled", true)) {
-            ENCHANTS.put(ExecutionerEnchant.KEY, executionerEnchant);
-        }
-
-        ConfigurationSection beheadingSection = enchantsSection.getConfigurationSection("beheading");
-        if (beheadingSection == null) {
-            beheadingSection = enchantsSection.createSection("beheading");
-        }
-
-        BeheadingEnchant beheadingEnchant = new BeheadingEnchant(
-                getInt(beheadingSection, "anvilCost", 1),
-                getInt(beheadingSection, "weight", 10),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(beheadingSection, "minimumCost.base", 40),
-                        getInt(beheadingSection, "minimumCost.additionalPerLevel", 3)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(beheadingSection, "maximumCost.base", 65),
-                        getInt(beheadingSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(beheadingSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        beheadingSection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:axes"
-                        )
-                )),
-                getEquipmentSlotGroups(getStringList(
-                        beheadingSection,
-                        "activeSlots",
-                        List.of(
-                                "MAINHAND"
-                        )
-                )),
-                getInt(beheadingSection, "maxLevel", 5),
-                getDouble(beheadingSection, "chanceToDropHeadPerLevel", 0.02)
-        );
-
-        if (getBoolean(beheadingSection, "enabled", true)) {
-            ENCHANTS.put(BeheadingEnchant.KEY, beheadingEnchant);
-        }
-
-        ConfigurationSection smeltingSection = enchantsSection.getConfigurationSection("smelting");
-        if (smeltingSection == null) {
-            smeltingSection = enchantsSection.createSection("smelting");
-        }
-
-        SmeltingEnchant smeltingEnchant = new SmeltingEnchant(
-                getInt(smeltingSection, "anvilCost", 1),
-                getInt(smeltingSection, "weight", 10),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(smeltingSection, "minimumCost.base", 40),
-                        getInt(smeltingSection, "minimumCost.additionalPerLevel", 3)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(smeltingSection, "maximumCost.base", 65),
-                        getInt(smeltingSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(smeltingSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        smeltingSection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:enchantable/mining"
-                        )
-                ))
-        );
-
-        if (getBoolean(smeltingSection, "enabled", true)) {
-            ENCHANTS.put(SmeltingEnchant.KEY, smeltingEnchant);
-        }
-
-        ConfigurationSection airbagSection = enchantsSection.getConfigurationSection("airbag");
-        if (airbagSection == null) {
-            airbagSection = enchantsSection.createSection("cushion");
-        }
-
-        AirbagEnchant airbagEnchant = new AirbagEnchant(
-                getInt(airbagSection, "anvilCost", 1),
-                getInt(airbagSection, "weight", 10),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(airbagSection, "minimumCost.base", 40),
-                        getInt(airbagSection, "minimumCost.additionalPerLevel", 3)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(airbagSection, "maximumCost.base", 65),
-                        getInt(airbagSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(airbagSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        airbagSection,
-                        "supportedItemTags",
-                        List.of(
-                                "minecraft:elytra"
-                        )
-                )),
-                getEquipmentSlotGroups(getStringList(
-                        airbagSection,
-                        "activeSlots",
-                        List.of(
-                                "CHEST"
-                        )
-                )),
-                getInt(airbagSection, "maxLevel", 4),
-                getDouble(airbagSection, "damageReductionPerLevel", 0.2)
-        );
-
-        if (getBoolean(airbagSection, "enabled", true)) {
-            ENCHANTS.put(AirbagEnchant.KEY, airbagEnchant);
-        }
-
-        ConfigurationSection homecomingSection = enchantsSection.getConfigurationSection("homecoming");
-        if (homecomingSection == null) {
-            homecomingSection = enchantsSection.createSection("homecoming");
-        }
-
-        HomecomingEnchant homecomingEnchant = new HomecomingEnchant(
-                getInt(homecomingSection, "anvilCost", 1),
-                getInt(homecomingSection, "weight", 10),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(homecomingSection, "minimumCost.base", 40),
-                        getInt(homecomingSection, "minimumCost.additionalPerLevel", 3)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(homecomingSection, "maximumCost.base", 65),
-                        getInt(homecomingSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(homecomingSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        homecomingSection,
-                        "supportedItemTags",
-                        List.of(
-                                "minecraft:totem_of_undying"
-                        )
-                ))
-        );
-
-        if (getBoolean(homecomingSection, "enabled", true)) {
-            ENCHANTS.put(HomecomingEnchant.KEY, homecomingEnchant);
-        }
-
-        ConfigurationSection cursesSection = configuration.getConfigurationSection("curses");
-        if (cursesSection == null) {
-            cursesSection = configuration.createSection("curses");
-        }
-
-        ConfigurationSection panicSection = cursesSection.getConfigurationSection("panic");
-        if (panicSection == null) {
-            panicSection = cursesSection.createSection("panic");
-        }
-
-        PanicEnchant panicEnchant = new PanicEnchant(
-                getInt(panicSection, "anvilCost", 1),
-                getInt(panicSection, "weight", 2),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(panicSection, "minimumCost.base", 0),
-                        getInt(panicSection, "minimumCost.additionalPerLevel", 3)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(panicSection, "maximumCost.base", 20),
-                        getInt(panicSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(panicSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        panicSection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:enchantable/armor"
-                        )
-                )),
-                getEquipmentSlotGroups(getStringList(
-                        panicSection,
-                        "activeSlots",
-                        List.of(
-                                "ARMOR"
-                        )
-                )),
-                getInt(panicSection, "maxLevel", 1),
-                getDouble(panicSection, "panicChancePerLevel", 0.025)
-        );
-
-        if (getBoolean(panicSection, "enabled", true)) {
-            ENCHANTS.put(PanicEnchant.KEY, panicEnchant);
-        }
-
-        ConfigurationSection vampirismSection = cursesSection.getConfigurationSection("vampirism");
-        if (vampirismSection == null) {
-            vampirismSection = cursesSection.createSection("vampirism");
-        }
-
-        VampirismEnchant vampirismEnchant = new VampirismEnchant(
-                getInt(vampirismSection, "anvilCost", 1),
-                getInt(vampirismSection, "weight", 2),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(vampirismSection, "minimumCost.base", 0),
-                        getInt(vampirismSection, "minimumCost.additionalPerLevel", 3)
-                ),
-                EnchantmentRegistryEntry.EnchantmentCost.of(
-                        getInt(vampirismSection, "maximumCost.base", 30),
-                        getInt(vampirismSection, "maximumCost.additionalPerLevel", 1)
-                ),
-                getBoolean(vampirismSection, "canGetFromEnchantingTable", true),
-                getTagsFromList(getStringList(
-                        vampirismSection,
-                        "supportedItemTags",
-                        List.of(
-                                "#minecraft:enchantable/armor"
-                        )
-                )),
-                getEquipmentSlotGroups(getStringList(
-                        vampirismSection,
-                        "activeSlots",
-                        List.of(
-                                "ANY"
-                        )
-                ))
-        );
-
-        if (getBoolean(vampirismSection, "enabled", true)) {
-            ENCHANTS.put(VampirismEnchant.KEY, vampirismEnchant);
-        }
+        ConfigurationSection vampirismSection = getConfigSection(enchantsSection, "vampirism");
+        VampirismEnchant.create(vampirismSection);
 
         configuration.save(configFile);
     }
 
-    private List<String> getStringList(ConfigurationSection section, String key, List<String> defaultValue) {
+    public static List<String> getStringList(ConfigurationSection section, String key, List<String> defaultValue) {
         List<String> list = section.contains(key) ? section.getStringList(key) : null;
         if (list == null) {
             section.set(key, defaultValue);
@@ -415,7 +86,7 @@ public class EnchantioConfig {
         return list;
     }
 
-    private int getInt(ConfigurationSection section, String key, int defaultValue) {
+    public static int getInt(ConfigurationSection section, String key, int defaultValue) {
         int value = section.contains(key) ? section.getInt(key) : -1;
         if (value == -1) {
             section.set(key, defaultValue);
@@ -424,7 +95,7 @@ public class EnchantioConfig {
         return value;
     }
 
-    private double getDouble(ConfigurationSection section, String key, double defaultValue) {
+    public static double getDouble(ConfigurationSection section, String key, double defaultValue) {
         double value = section.contains(key) ? section.getDouble(key) : -1;
         if (value == -1) {
             section.set(key, defaultValue);
@@ -433,7 +104,7 @@ public class EnchantioConfig {
         return value;
     }
 
-    private boolean getBoolean(ConfigurationSection section, String key, boolean defaultValue) {
+    public static boolean getBoolean(ConfigurationSection section, String key, boolean defaultValue) {
         boolean value = section.contains(key) && section.getBoolean(key);
         if (!value) {
             section.set(key, defaultValue);
@@ -442,12 +113,11 @@ public class EnchantioConfig {
         return true;
     }
 
-    private Set<EquipmentSlotGroup> getEquipmentSlotGroups(@NotNull List<String> slots) {
+    public static Set<EquipmentSlotGroup> getEquipmentSlotGroups(@NotNull List<String> slots) {
         Set<EquipmentSlotGroup> equipmentSlotGroups = new HashSet<>();
         for (String slot : slots) {
             EquipmentSlotGroup equipmentSlotGroup = EquipmentSlotGroup.getByName(slot);
             if (equipmentSlotGroup == null) {
-                logger.warning(slot + " is not a valid equipment slot group");
                 continue;
             }
             equipmentSlotGroups.add(equipmentSlotGroup);
@@ -455,7 +125,7 @@ public class EnchantioConfig {
         return equipmentSlotGroups;
     }
 
-    private Set<TagEntry<ItemType>> getTagsFromList(@NotNull List<String> tags) {
+    public static Set<TagEntry<ItemType>> getTagsFromList(@NotNull List<String> tags) {
         Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
         for (String itemTag : tags) {
             if (itemTag == null) continue;
@@ -467,7 +137,6 @@ public class EnchantioConfig {
                     TagEntry<ItemType> tagEntry = TagEntry.tagEntry(tagKey);
                     supportedItemTags.add(tagEntry);
                 } catch (IllegalArgumentException e) {
-                    logger.warning("Failed to create tag entry for " + itemTag);
                 }
                 continue;
             }
@@ -477,10 +146,17 @@ public class EnchantioConfig {
                 TagEntry<ItemType> tagEntry = TagEntry.valueEntry(typedKey);
                 supportedItemTags.add(tagEntry);
             } catch (IllegalArgumentException | NullPointerException e) {
-                logger.warning("Failed to create tag entry for " + itemTag);
             }
         }
         return supportedItemTags;
+    }
+
+    public static ConfigurationSection getConfigSection(ConfigurationSection section, String key) {
+        ConfigurationSection value = section.getConfigurationSection(key);
+        if (value == null) {
+            value = section.createSection(key);
+        }
+        return value;
     }
 
 }

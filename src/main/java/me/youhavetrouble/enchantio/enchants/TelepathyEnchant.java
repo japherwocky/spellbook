@@ -4,8 +4,10 @@ import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
+import me.youhavetrouble.enchantio.EnchantioConfig;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
@@ -13,7 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static me.youhavetrouble.enchantio.EnchantioConfig.ENCHANTS;
 
 @SuppressWarnings("UnstableApiUsage")
 public class TelepathyEnchant implements EnchantioEnchant {
@@ -54,7 +59,7 @@ public class TelepathyEnchant implements EnchantioEnchant {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.translatable("enchantio.enchant.telepathy","Telepathy");
+        return Component.translatable("enchantio.enchant.telepathy", "Telepathy");
     }
 
     @Override
@@ -95,6 +100,42 @@ public class TelepathyEnchant implements EnchantioEnchant {
     @Override
     public @NotNull Set<TagKey<Enchantment>> getEnchantTagKeys() {
         return Collections.unmodifiableSet(enchantTagKeys);
+    }
+
+    public static TelepathyEnchant create(ConfigurationSection configurationSection) {
+        TelepathyEnchant telepathyEnchant = new TelepathyEnchant(
+                EnchantioConfig.getInt(configurationSection, "anvilCost", 1),
+                EnchantioConfig.getInt(configurationSection, "weight", 5),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.base", 15),
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.additionalPerLevel", 1)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        EnchantioConfig.getInt(configurationSection, "maximumCost.base", 65),
+                        EnchantioConfig.getInt(configurationSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                EnchantioConfig.getBoolean(configurationSection, "canGetFromEnchantingTable", true),
+                EnchantioConfig.getTagsFromList(EnchantioConfig.getStringList(
+                        configurationSection,
+                        "supportedItemTags",
+                        List.of(
+                                "#minecraft:enchantable/mining"
+                        )
+                )),
+                EnchantioConfig.getEquipmentSlotGroups(EnchantioConfig.getStringList(
+                        configurationSection,
+                        "activeSlots",
+                        List.of(
+                                "MAINHAND"
+                        )
+                ))
+        );
+
+        if (EnchantioConfig.getBoolean(configurationSection, "enabled", true)) {
+            ENCHANTS.put(TelepathyEnchant.KEY, telepathyEnchant);
+        }
+
+        return telepathyEnchant;
     }
 
 }

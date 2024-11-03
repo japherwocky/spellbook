@@ -5,8 +5,10 @@ import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
+import me.youhavetrouble.enchantio.EnchantioConfig;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
@@ -14,7 +16,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import static me.youhavetrouble.enchantio.EnchantioConfig.ENCHANTS;
 
 @SuppressWarnings("UnstableApiUsage")
 public class BeheadingEnchant implements EnchantioEnchant {
@@ -110,6 +115,44 @@ public class BeheadingEnchant implements EnchantioEnchant {
     @Override
     public @NotNull Set<TagKey<Enchantment>> getEnchantTagKeys() {
         return Collections.unmodifiableSet(enchantTagKeys);
+    }
+
+    public static BeheadingEnchant create(ConfigurationSection configurationSection) {
+        BeheadingEnchant beheadingEnchant = new BeheadingEnchant(
+                EnchantioConfig.getInt(configurationSection, "anvilCost", 1),
+                EnchantioConfig.getInt(configurationSection, "weight", 1),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.base", 40),
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        EnchantioConfig.getInt(configurationSection, "maximumCost.base", 65),
+                        EnchantioConfig.getInt(configurationSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                configurationSection.getBoolean("canGetFromEnchantingTable", true),
+                EnchantioConfig.getTagsFromList(EnchantioConfig.getStringList(
+                        configurationSection,
+                        "supportedItemTags",
+                        List.of(
+                                "#minecraft:axes"
+                        )
+                )),
+                EnchantioConfig.getEquipmentSlotGroups(EnchantioConfig.getStringList(
+                        configurationSection,
+                        "activeSlots",
+                        List.of(
+                                "MAINHAND"
+                        )
+                )),
+                EnchantioConfig.getInt(configurationSection, "maxLevel", 1),
+                EnchantioConfig.getDouble(configurationSection, "chanceToDropHeadPerLevel", 0.1)
+        );
+
+        if (EnchantioConfig.getBoolean(configurationSection, "enabled", true)) {
+            ENCHANTS.put(BeheadingEnchant.KEY, beheadingEnchant);
+        }
+
+        return beheadingEnchant;
     }
 
 }

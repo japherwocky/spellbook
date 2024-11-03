@@ -4,8 +4,10 @@ import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
+import me.youhavetrouble.enchantio.EnchantioConfig;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
@@ -13,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @SuppressWarnings("UnstableApiUsage")
@@ -28,7 +31,7 @@ public class AirbagEnchant implements EnchantioEnchant {
     private final Set<EquipmentSlotGroup> activeSlots = new HashSet<>();
     private final double damageReductionPerLevel;
 
-    public AirbagEnchant(
+    private AirbagEnchant(
             int anvilCost,
             int weight,
             EnchantmentRegistryEntry.EnchantmentCost minimumCost,
@@ -104,6 +107,44 @@ public class AirbagEnchant implements EnchantioEnchant {
 
     public double getDamageReductionPerLevel() {
         return damageReductionPerLevel;
+    }
+
+    public static AirbagEnchant create(ConfigurationSection configurationSection) {
+        AirbagEnchant airbagEnchant = new AirbagEnchant(
+                EnchantioConfig.getInt(configurationSection, "anvilCost", 1),
+                EnchantioConfig.getInt(configurationSection, "weight", 10),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.base", 40),
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.additionalPerLevel", 3)
+                ),
+                EnchantmentRegistryEntry.EnchantmentCost.of(
+                        EnchantioConfig.getInt(configurationSection, "maximumCost.base", 65),
+                        EnchantioConfig.getInt(configurationSection, "maximumCost.additionalPerLevel", 1)
+                ),
+                EnchantioConfig.getBoolean(configurationSection, "canGetFromEnchantingTable", true),
+                EnchantioConfig.getTagsFromList(EnchantioConfig.getStringList(
+                        configurationSection,
+                        "supportedItemTags",
+                        List.of(
+                                "minecraft:elytra"
+                        )
+                )),
+                EnchantioConfig.getEquipmentSlotGroups(EnchantioConfig.getStringList(
+                        configurationSection,
+                        "activeSlots",
+                        List.of(
+                                "CHEST"
+                        )
+                )),
+                EnchantioConfig.getInt(configurationSection, "maxLevel", 4),
+                EnchantioConfig.getDouble(configurationSection, "damageReductionPerLevel", 0.2)
+        );
+
+        if (EnchantioConfig.getBoolean(configurationSection, "enabled", true)) {
+            EnchantioConfig.ENCHANTS.put(airbagEnchant.getKey(), airbagEnchant);
+        }
+
+        return airbagEnchant;
     }
 
 }
