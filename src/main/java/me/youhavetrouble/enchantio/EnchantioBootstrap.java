@@ -23,7 +23,7 @@ public class EnchantioBootstrap implements PluginBootstrap {
     @Override
     public void bootstrap(@NotNull BootstrapContext context) {
         try {
-            new EnchantioConfig(context.getDataDirectory(), logger);
+            EnchantioConfig.init(context.getDataDirectory());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

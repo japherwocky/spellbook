@@ -2,7 +2,6 @@ package me.youhavetrouble.enchantio;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
-import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
@@ -19,17 +18,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.logging.Logger;
 
 @SuppressWarnings("UnstableApiUsage")
 public class EnchantioConfig {
 
     public static final Map<Key, EnchantioEnchant> ENCHANTS = new HashMap<>();
-    private final Logger logger;
+    private static boolean initialized = false;
 
-    protected EnchantioConfig(Path filePath, Logger logger) throws IOException {
-        this.logger = logger;
-
+    protected static void init(Path filePath) throws IOException {
+        if (initialized) {
+            return;
+        }
+        initialized = true;
         File file = filePath.toFile();
         if (!file.exists()) {
             file.mkdirs();
