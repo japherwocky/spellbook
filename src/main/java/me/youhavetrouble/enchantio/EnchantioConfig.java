@@ -74,6 +74,9 @@ public class EnchantioConfig {
         ConfigurationSection vampirismSection = getConfigSection(enchantsSection, "vampirism");
         VampirismEnchant.create(vampirismSection);
 
+        ConfigurationSection insomniaSection = getConfigSection(cursesSection, "insomnia");
+        InsomniaEnchant.create(insomniaSection);
+
         configuration.save(configFile);
     }
 

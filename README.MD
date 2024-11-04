@@ -66,6 +66,12 @@ When player takes damage, there is a chance that their hotbar items will be scra
 **Description**:
 Player is set on fire when exposed to direct sunlight.
 
+### Curse of Insomnia
+**Translation key**: `enchantio.enchant.insomnia_curse`
+
+**Description**:
+Player will not count as sleeping for the purpose of skipping the night/thunderstorm.
+
 ## Configuration
 
 ### supportedItemTags

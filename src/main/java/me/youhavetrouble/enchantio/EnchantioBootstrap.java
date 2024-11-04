@@ -9,16 +9,17 @@ import io.papermc.paper.registry.event.RegistryEvents;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Set;
-import java.util.logging.Logger;
 
 @SuppressWarnings("UnstableApiUsage")
 public class EnchantioBootstrap implements PluginBootstrap {
 
-    private final Logger logger = Logger.getLogger("enchantio");
+    private final Logger logger = LoggerFactory.getLogger("Enchantio");
 
     @Override
     public void bootstrap(@NotNull BootstrapContext context) {
@@ -30,10 +31,10 @@ public class EnchantioBootstrap implements PluginBootstrap {
 
         Collection<EnchantioEnchant> enchantioEnchants = EnchantioConfig.ENCHANTS.values();
 
-        logger.fine("Registering supported item tags");
+        logger.info("Registering supported item tags");
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ITEM).newHandler((event) -> {
             for (EnchantioEnchant enchant : enchantioEnchants) {
-                logger.fine("Registering item tag " + enchant.getTagForSupportedItems().key());
+                logger.info("Registering item tag {}", enchant.getTagForSupportedItems().key());
                 event.registrar().addToTag(
                         ItemTypeTagKeys.create(enchant.getTagForSupportedItems().key()),
                         enchant.getSupportedItems()
@@ -43,7 +44,7 @@ public class EnchantioBootstrap implements PluginBootstrap {
 
         context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.freeze().newHandler(event -> {
             for (EnchantioEnchant enchant : enchantioEnchants) {
-                logger.fine("Registering enchantment " + enchant.getKey());
+                logger.info("Registering enchantment {}", enchant.getKey());
                 event.registry().register(TypedKey.create(RegistryKey.ENCHANTMENT, enchant.getKey()), enchantment -> {
                     enchantment.description(enchant.getDescription());
                     enchantment.anvilCost(enchant.getAnvilCost());
@@ -60,7 +61,6 @@ public class EnchantioBootstrap implements PluginBootstrap {
         context.getLifecycleManager().registerEventHandler(LifecycleEvents.TAGS.preFlatten(RegistryKey.ENCHANTMENT).newHandler((event) -> {
             for (EnchantioEnchant enchant : enchantioEnchants) {
                 enchant.getEnchantTagKeys().forEach(enchantmentTagKey -> {
-                    logger.fine("Registering enchantment tag " + enchantmentTagKey.key());
                     event.registrar().addToTag(enchantmentTagKey, Set.of(enchant.getTagEntry()));
                 });
             }
