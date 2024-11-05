@@ -52,6 +52,12 @@ Reduces damage from hitting a wall while flying with elytra.
 **Description**:
 When totem of undying is activated, player is teleported to their spawn point. If spawn point is not set, player is teleported to world spawn.
 
+### Cloaking
+**Translation key**: `enchantio.enchantment.cloaking`
+
+**Description**:
+Gives invisibility effect when player is sneaking and not moving.
+
 ## Curses
 
 ### Curse of Panic

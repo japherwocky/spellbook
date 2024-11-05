@@ -66,6 +66,9 @@ public class EnchantioConfig {
         ConfigurationSection homecomingSection = getConfigSection(enchantsSection, "homecoming");
         HomecomingEnchant.create(homecomingSection);
 
+        ConfigurationSection cloakingSection = getConfigSection(enchantsSection, "cloaking");
+        CloakingEnchant.create(cloakingSection);
+
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
 
         ConfigurationSection panicSection = getConfigSection(cursesSection, "panic");
