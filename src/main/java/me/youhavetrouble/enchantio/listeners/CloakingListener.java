@@ -1,10 +1,15 @@
 package me.youhavetrouble.enchantio.listeners;
 
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
+import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.EnchantioConfig;
 import me.youhavetrouble.enchantio.enchants.CloakingEnchant;
+import me.youhavetrouble.enchantio.enchants.ExecutionerEnchant;
 import org.bukkit.Bukkit;
+import org.bukkit.Registry;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -26,7 +31,11 @@ public class CloakingListener implements Listener {
     private final CloakingEnchant cloakingEnchant = (CloakingEnchant) EnchantioConfig.ENCHANTS.get(CloakingEnchant.KEY);
     private final PotionEffect cloakingEffect = new PotionEffect(PotionEffectType.INVISIBILITY,  3, 0, false, false, false);
 
+    private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+    private final Enchantment cloaking = registry.get(CloakingEnchant.KEY);
+
     public CloakingListener() {
+        if (cloaking == null) return;
         Enchantio enchantio = Enchantio.getPlugin(Enchantio.class);
         Bukkit.getGlobalRegionScheduler().runAtFixedRate(enchantio, (task) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
@@ -34,6 +43,8 @@ public class CloakingListener implements Listener {
                     ticksSinceLastMovement.put(player.getUniqueId(), 0L);
                     continue;
                 }
+                int cloakingLevel = Enchantio.getSumOfEnchantLevels(player.getEquipment(), cloaking);
+                if (cloakingLevel == 0) continue;
                 ticksSinceLastMovement.computeIfPresent(player.getUniqueId(), (uuid, ticks) -> ticks + 1);
                 if (ticksSinceLastMovement.getOrDefault(player.getUniqueId(), 0L) < cloakingEnchant.getTicksToActivate()) continue;
                 player.getScheduler().execute(enchantio, () -> player.addPotionEffect(cloakingEffect), () -> {}, 1);
