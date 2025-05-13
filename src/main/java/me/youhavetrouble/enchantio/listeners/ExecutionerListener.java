@@ -17,12 +17,13 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.inventory.EntityEquipment;
+import org.jetbrains.annotations.NotNull;
 
 
 @SuppressWarnings("UnstableApiUsage")
 public class ExecutionerListener implements Listener {
 
-    private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
+    private final Registry<@NotNull Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
     private final Enchantment executioner = registry.get(ExecutionerEnchant.KEY);
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
@@ -43,7 +44,7 @@ public class ExecutionerListener implements Listener {
         Entity target = event.getEntity();
         if (!(target instanceof LivingEntity livingEntity)) return;
 
-        AttributeInstance maxHealthAttribute = livingEntity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        AttributeInstance maxHealthAttribute = livingEntity.getAttribute(Attribute.MAX_HEALTH);
         if (maxHealthAttribute == null) return;
         double targetMaxHealth = maxHealthAttribute.getValue();
 
