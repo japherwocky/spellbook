@@ -72,6 +72,9 @@ public class EnchantioConfig {
         ConfigurationSection volleySection = getConfigSection(enchantsSection, "volley");
         VolleyEnchant.create(volleySection);
 
+        ConfigurationSection wardSection = getConfigSection(enchantsSection, "ward");
+        WardEnchant.create(wardSection);
+
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
 
         ConfigurationSection panicSection = getConfigSection(cursesSection, "panic");
@@ -93,6 +96,15 @@ public class EnchantioConfig {
             return defaultValue;
         }
         return list;
+    }
+
+    public static String getString(ConfigurationSection section, String key, String defaultValue) {
+        String value = section.contains(key) ? section.getString(key) : null;
+        if (value == null) {
+            section.set(key, defaultValue);
+            return defaultValue;
+        }
+        return value;
     }
 
     public static int getInt(ConfigurationSection section, String key, int defaultValue) {
