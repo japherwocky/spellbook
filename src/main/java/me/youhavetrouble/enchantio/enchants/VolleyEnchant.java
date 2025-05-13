@@ -31,6 +31,7 @@ public class VolleyEnchant implements EnchantioEnchant {
     private final Set<TagEntry<ItemType>> supportedItemTags;
     private final Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
     private final Set<EquipmentSlotGroup> activeSlots = new HashSet<>();
+    private final double spread;
 
     public VolleyEnchant(
             int anvilCost,
@@ -41,7 +42,8 @@ public class VolleyEnchant implements EnchantioEnchant {
             Set<TagEntry<ItemType>> supportedItemTags,
             Set<EquipmentSlotGroup> activeSlots,
             int maxLevel,
-            int additionalArrowsPerLevel
+            int additionalArrowsPerLevel,
+            double spread
     ) {
         this.anvilCost = anvilCost;
         this.weight = weight;
@@ -51,6 +53,7 @@ public class VolleyEnchant implements EnchantioEnchant {
         this.maxLevel = maxLevel;
         this.activeSlots.addAll(activeSlots);
         this.additionalArrowsPerLevel = additionalArrowsPerLevel;
+        this.spread = spread;
         if (canGetFromEnchantingTable) {
             enchantTagKeys.add(EnchantmentTagKeys.IN_ENCHANTING_TABLE);
         }
@@ -78,6 +81,10 @@ public class VolleyEnchant implements EnchantioEnchant {
 
     public int getAdditionalArrowsPerLevel() {
         return additionalArrowsPerLevel;
+    }
+
+    public double getSpread() {
+        return spread;
     }
 
     @Override
@@ -138,7 +145,8 @@ public class VolleyEnchant implements EnchantioEnchant {
                         )
                 )),
                 EnchantioConfig.getInt(configurationSection, "maxLevel", 3),
-                EnchantioConfig.getInt(configurationSection, "additionalArrowsPerLevel", 1)
+                EnchantioConfig.getInt(configurationSection, "additionalArrowsPerLevel", 1),
+                EnchantioConfig.getDouble(configurationSection, "spread", 0.5)
         );
 
         if (EnchantioConfig.getBoolean(configurationSection, "enabled", true)) {

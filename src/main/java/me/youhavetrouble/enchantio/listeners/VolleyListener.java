@@ -3,7 +3,6 @@ package me.youhavetrouble.enchantio.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
 import me.youhavetrouble.enchantio.enchants.ExecutionerEnchant;
 import me.youhavetrouble.enchantio.enchants.VolleyEnchant;
 import org.bukkit.Registry;
@@ -43,10 +42,10 @@ public class VolleyListener implements Listener {
         int level = bow.getEnchantmentLevel(volley);
         if (level <= 0) return;
         if (!(EnchantioConfig.ENCHANTS.get(ExecutionerEnchant.KEY) instanceof VolleyEnchant volleyEnchant)) return;
+        double spread = volleyEnchant.getSpread();
         if (projectileEntity instanceof Arrow arrow) {
             for (int i = 0; i < level * volleyEnchant.getAdditionalArrowsPerLevel(); i++) {
                 Vector velocity = arrow.getVelocity();
-                double spread = 0.5;
                 double spreadX = (random.nextDouble() - 0.5) * spread;
                 double spreadY = (random.nextDouble() - 0.5) * spread;
                 double spreadZ = (random.nextDouble() - 0.5) * spread;
@@ -68,7 +67,6 @@ public class VolleyListener implements Listener {
             arrow.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
             for (int i = 0; i < level; i++) {
                 Vector velocity = arrow.getVelocity();
-                double spread = 0.5; // Adjust the spread value as needed
                 double spreadX = (random.nextDouble() - 0.5) * spread;
                 double spreadY = (random.nextDouble() - 0.5) * spread;
                 double spreadZ = (random.nextDouble() - 0.5) * spread;
