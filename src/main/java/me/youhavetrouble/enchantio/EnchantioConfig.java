@@ -69,6 +69,9 @@ public class EnchantioConfig {
         ConfigurationSection cloakingSection = getConfigSection(enchantsSection, "cloaking");
         CloakingEnchant.create(cloakingSection);
 
+        ConfigurationSection volleySection = getConfigSection(enchantsSection, "volley");
+        VolleyEnchant.create(volleySection);
+
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
 
         ConfigurationSection panicSection = getConfigSection(cursesSection, "panic");

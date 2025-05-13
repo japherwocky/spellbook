@@ -43,6 +43,9 @@ public final class Enchantio extends JavaPlugin {
         if (EnchantioConfig.ENCHANTS.containsKey(CloakingEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new CloakingListener(), this);
         }
+        if (EnchantioConfig.ENCHANTS.containsKey(VolleyEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new VolleyListener(), this);
+        }
 
         if (EnchantioConfig.ENCHANTS.containsKey(PanicEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new PanicListener(), this);
