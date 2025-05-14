@@ -1,5 +1,10 @@
 name: Build commit
-on: [push]
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - "src/**"
+  workflow_dispatch:
 
 jobs:
   build-commit:
