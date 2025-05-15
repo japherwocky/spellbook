@@ -59,6 +59,20 @@ When totem of undying is activated, player is teleported to their spawn point. I
 **Description**:
 Gives invisibility effect when player is sneaking and not moving.
 
+### Volley
+**Translation key**: `enchantio.enchantment.volley`
+
+**Description**:
+Shoots additional arrows when shooting a bow. Amount of arrows and their spread is configurable.
+
+### Ward
+**Translation key**: `enchantio.enchantment.ward`
+
+**Description**:
+Automatically blocks hits, but triggers a configurable cooldown every time it does. It triggers a cooldown for
+the enchanted items cooldown group, so if you make this enchantment support more than just 1 item, you're going to have
+to handle applying the cooldown group to them yourself.
+
 ## Curses
 
 ### Curse of Panic

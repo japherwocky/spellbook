@@ -134,6 +134,20 @@ Amount of ticks player needs to be sneaking in place for the enchantment to acti
 
 Amount of arrows to shoot additionally per shot. This is additive, so if you want to shoot 3 arrows, set this to 2.
 
+### Ward
+
+#### cooldownTicks
+
+- **Type**: `int`
+
+Cooldown in ticks that will be applied to the activating items cooldown group.
+
+#### blockSound
+
+- **Type**: `string`
+
+Namespaced key of the sound that will play when enchantment blocks a hit.
+
 ### Panic
 
 #### panicChancePerLevel
