@@ -139,7 +139,7 @@ public class WardEnchant implements EnchantioEnchant {
                         configurationSection,
                         "activeSlots",
                         List.of(
-                                "OFF_HAND"
+                                "OFFHAND"
                         )
                 )),
                 EnchantioConfig.getInt(configurationSection, "cooldownTicks", 40),

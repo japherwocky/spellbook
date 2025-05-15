@@ -39,11 +39,10 @@ public class WardListener implements Listener {
         if (item == null) return;
         if (!(EnchantioConfig.ENCHANTS.get(WardEnchant.KEY) instanceof WardEnchant wardEnchant)) return;
         if (entity instanceof HumanEntity humanEntity) {
-            if (humanEntity.getCooldown(item.getType()) > 0) return;
+            if (humanEntity.getCooldown(item) > 0) return;
             if (wardEnchant.getCooldownTicks() > 0) {
                 humanEntity.setCooldown(item, wardEnchant.getCooldownTicks());
             }
-            item.damage((int) Math.ceil(event.getFinalDamage()), humanEntity);
         } else {
             if (wardEnchant.getCooldownTicks() > 0) {
                 // non-human entities don't support cooldowns, so simulate it with a timestamp
@@ -52,8 +51,8 @@ public class WardListener implements Listener {
                 if (lastWard != null && Instant.now().toEpochMilli() - lastWard < 50L * wardEnchant.getCooldownTicks()) return;
                 pdc.set(wardKey, PersistentDataType.LONG, Instant.now().toEpochMilli());
             }
-            item.damage((int) Math.ceil(event.getFinalDamage()), entity);
         }
+        item.damage((int) Math.ceil(event.getFinalDamage()), entity);
         entity.getWorld().playSound(entity, wardEnchant.getBlockSound(), SoundCategory.MASTER, 1, 1);
         event.setDamage(0);
     }
