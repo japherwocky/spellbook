@@ -59,7 +59,8 @@ public interface EnchantioEnchant {
 
     static @Nullable ItemStack findFirstWithEnchant(
             @NotNull EntityEquipment equipment,
-            @NotNull Enchantment enchantment) {
+            @NotNull Enchantment enchantment
+    ) {
 
         Set<EquipmentSlotGroup> equipmentSlotGroups = enchantment.getActiveSlotGroups();
 
