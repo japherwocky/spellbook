@@ -53,16 +53,17 @@ Base cost of the enchant.
 
 Cost to add per level of the enchantment.
 
-#### canGetFromEnchantingTable
+#### enchantmentTags
 
-- **Type**: `boolean`
+- **Type**: `key[]`
 
-If true, the enchantment can be obtained from the enchanting table. If false, it will not show up in the enchanting
-table. Item needs to be *enchantable* for any enchantment to show up for it in the enchanting table.
+This is list of [tags](/configuration/input-types#tags) that the enchantment will be tagged with. This can be used to put the enchantment in enchanting table,
+mark it as a curse, etc. <a href="https://minecraft.wiki/w/Enchantment_tag_(Java_Edition)" target="_blank">All vanilla</a>
+and custom tags are supported.
 
 #### supportedItemTags
 
-- **Type**: `string[]`
+- **Type**: `key[]`
 
 [Items and/or item tags](/configuration/input-types#tags) that the enchantment can be applied to.
 
