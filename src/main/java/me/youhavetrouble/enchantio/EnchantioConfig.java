@@ -2,6 +2,7 @@ package me.youhavetrouble.enchantio;
 
 import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.TypedKey;
+import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
@@ -10,6 +11,7 @@ import net.kyori.adventure.key.Key;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
@@ -41,6 +43,7 @@ public class EnchantioConfig {
         FileConfiguration configuration = YamlConfiguration.loadConfiguration(configFile);
 
         ConfigurationSection enchantsSection = getConfigSection(configuration, "enchants");
+        migrateEnchantTags(enchantsSection);
 
         ConfigurationSection soulboundSection = getConfigSection(enchantsSection, "soulbound");
         SoulboundEnchant.create(soulboundSection);
@@ -76,6 +79,7 @@ public class EnchantioConfig {
         WardEnchant.create(wardSection);
 
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
+        migrateEnchantTags(cursesSection);
 
         ConfigurationSection panicSection = getConfigSection(cursesSection, "panic");
         PanicEnchant.create(panicSection);
@@ -134,6 +138,16 @@ public class EnchantioConfig {
         return true;
     }
 
+    public static void migrateEnchantTags(@NotNull ConfigurationSection section) {
+        for (String sectionKey : section.getKeys(false)) {
+            ConfigurationSection enchantSection = section.getConfigurationSection(sectionKey);
+            if (enchantSection == null) continue;
+            if (!enchantSection.isSet("canGetFromEnchantingTable") || enchantSection.isSet("enchantmentTags")) return;
+            boolean canGetFromEnchantingTable = section.getBoolean("canGetFromEnchantingTable", true);
+            section.set("enchantmentTags", canGetFromEnchantingTable ? List.of("#in_enchanting_table") : List.of());
+        }
+    }
+
     public static Set<EquipmentSlotGroup> getEquipmentSlotGroups(@NotNull List<String> slots) {
         Set<EquipmentSlotGroup> equipmentSlotGroups = new HashSet<>();
         for (String slot : slots) {
@@ -146,7 +160,7 @@ public class EnchantioConfig {
         return equipmentSlotGroups;
     }
 
-    public static Set<TagEntry<ItemType>> getTagsFromList(@NotNull List<String> tags) {
+    public static Set<TagEntry<ItemType>> getItemTagEntriesFromList(@NotNull List<String> tags) {
         Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
         for (String itemTag : tags) {
             if (itemTag == null) continue;
@@ -170,6 +184,31 @@ public class EnchantioConfig {
             }
         }
         return supportedItemTags;
+    }
+
+    public static Set<TagKey<Enchantment>> getEnchantmentTagKeysFromList(@NotNull List<String> tags) {
+        Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
+        for (String enchantmentTag : tags) {
+            if (enchantmentTag == null) continue;
+            if (enchantmentTag.startsWith("#")) {
+                enchantmentTag = enchantmentTag.substring(1);
+                try {
+                    Key key = Key.key(enchantmentTag);
+                    TagKey<Enchantment> tagKey = EnchantmentTagKeys.create(key);
+                    enchantTagKeys.add(tagKey);
+                } catch (IllegalArgumentException ignored) {
+                }
+                continue;
+            }
+            try {
+                Key key = Key.key(enchantmentTag);
+                TypedKey<Enchantment> typedKey = TypedKey.create(RegistryKey.ENCHANTMENT, key);
+                TagKey<Enchantment> tagKey = EnchantmentTagKeys.create(key);
+                enchantTagKeys.add(tagKey);
+            } catch (IllegalArgumentException | NullPointerException ignored) {
+            }
+        }
+        return enchantTagKeys;
     }
 
     public static ConfigurationSection getConfigSection(ConfigurationSection section, String key) {

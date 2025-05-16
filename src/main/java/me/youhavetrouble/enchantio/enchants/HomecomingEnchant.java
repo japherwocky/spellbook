@@ -1,7 +1,6 @@
 package me.youhavetrouble.enchantio.enchants;
 
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
-import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
 import me.youhavetrouble.enchantio.EnchantioConfig;
@@ -13,10 +12,7 @@ import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static me.youhavetrouble.enchantio.EnchantioConfig.ENCHANTS;
 
@@ -28,7 +24,7 @@ public class HomecomingEnchant implements EnchantioEnchant {
     private final int anvilCost, weight;
     private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
     private final EnchantmentRegistryEntry.EnchantmentCost maximumCost;
-    private final Set<TagEntry<ItemType>> supportedItemTags;
+    private final Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
     private final Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
 
     public HomecomingEnchant(
@@ -36,17 +32,15 @@ public class HomecomingEnchant implements EnchantioEnchant {
             int weight,
             EnchantmentRegistryEntry.EnchantmentCost minimumCost,
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
-            boolean canGetFromEnchantingTable,
-            Set<TagEntry<ItemType>> supportedItemTags
+            Collection<TagKey<Enchantment>> enchantTagKeys,
+            Collection<TagEntry<ItemType>> supportedItemTags
     ) {
         this.anvilCost = anvilCost;
         this.weight = weight;
         this.minimumCost = minimumCost;
         this.maximumCost = maximumCost;
-        this.supportedItemTags = supportedItemTags;
-        if (canGetFromEnchantingTable) {
-            enchantTagKeys.add(EnchantmentTagKeys.IN_ENCHANTING_TABLE);
-        }
+        this.supportedItemTags.addAll(supportedItemTags);
+        this.enchantTagKeys.addAll(enchantTagKeys);
     }
 
     @Override
@@ -111,8 +105,12 @@ public class HomecomingEnchant implements EnchantioEnchant {
                         EnchantioConfig.getInt(configurationSection, "maximumCost.base", 65),
                         EnchantioConfig.getInt(configurationSection, "maximumCost.additionalPerLevel", 1)
                 ),
-                EnchantioConfig.getBoolean(configurationSection, "canGetFromEnchantingTable", true),
-                EnchantioConfig.getTagsFromList(EnchantioConfig.getStringList(
+                EnchantioConfig.getEnchantmentTagKeysFromList(EnchantioConfig.getStringList(
+                        configurationSection,
+                        "enchantmentTags",
+                        List.of("#in_enchanting_table")
+                )),
+                EnchantioConfig.getItemTagEntriesFromList(EnchantioConfig.getStringList(
                         configurationSection,
                         "supportedItemTags",
                         List.of(
