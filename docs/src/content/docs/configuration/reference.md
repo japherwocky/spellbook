@@ -53,7 +53,7 @@ Base cost of the enchant.
 
 Cost to add per level of the enchantment.
 
-#### enchantmentTags
+### enchantmentTags
 
 - **Type**: `key[]`
 
@@ -61,20 +61,20 @@ This is list of [tags](/configuration/input-types#tags) that the enchantment wil
 mark it as a curse, etc. <a href="https://minecraft.wiki/w/Enchantment_tag_(Java_Edition)" target="_blank">All vanilla</a>
 and custom tags are supported.
 
-#### supportedItemTags
+### supportedItemTags
 
 - **Type**: `key[]`
 
 [Items and/or item tags](/configuration/input-types#tags) that the enchantment can be applied to.
 
-#### activeSlots
+### activeSlots
 
 - **Type**: `string[]`
 
 [Slots](/configuration/input-types#slot-types) that the enchantment will be active in.
 
 
-#### enabled
+### enabled
 
 - **Type**: `boolean`
 
@@ -94,24 +94,24 @@ Maximum level of the enchantment. If set to 1, the enchantment will be a single 
 in the configuration section for specific enchantment, it means it's locked to a single level enchantment, because logic
 of the enchantment does not support multiple levels.
 
-### Executioner
+## Executioner
 
-#### maxDamageHpThreshold
+### maxDamageHpThreshold
 
 - **Type**: `double`
 
 Health threshold under which the enchantment will deal more damage.
 
-#### damageMultiplierPerLevel
+### damageMultiplierPerLevel
 
 - **Type**: `double`
 
 Multiplier that will be applied to the damage dealt by the enchantment. Value of the multiplier is added to 1.0, so if
 you want to deal 2x damage, set this to 1.0. If you want to deal 3x damage, set this to 2.0 and so on. This is additive.
 
-### Airbag
+## Airbag
 
-#### damageReductionPerLevel
+### damageReductionPerLevel
 
 - **Type**: `double`
 
@@ -119,39 +119,39 @@ Damage reduction that will be applied to the damage dealt by the enchantment. Va
 so if you want to reduce damage by 50%, set this to 0.5. If you want to reduce damage by 75%, set this to 0.25 and so
 on. This is additive.
 
-### Cloaking
+## Cloaking
 
-#### ticksToActivate
+### ticksToActivate
 
 - **Type**: `int`
 
 Amount of ticks player needs to be sneaking in place for the enchantment to activate.
 
-### Volley
+## Volley
 
-#### additionalArrowsPerLevel
+### additionalArrowsPerLevel
 
 - **Type**: `int`
 
 Amount of arrows to shoot additionally per shot. This is additive, so if you want to shoot 3 arrows, set this to 2.
 
-### Ward
+## Ward
 
-#### cooldownTicks
+### cooldownTicks
 
 - **Type**: `int`
 
 Cooldown in ticks that will be applied to the activating items cooldown group.
 
-#### blockSound
+### blockSound
 
 - **Type**: `string`
 
 Namespaced key of the sound that will play when enchantment blocks a hit.
 
-### Panic
+## Panic
 
-#### panicChancePerLevel
+### panicChancePerLevel
 
 - **Type**: `double`
 
