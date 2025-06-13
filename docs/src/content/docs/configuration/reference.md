@@ -94,6 +94,12 @@ Maximum level of the enchantment. If set to 1, the enchantment will be a single 
 in the configuration section for specific enchantment, it means it's locked to a single level enchantment, because logic
 of the enchantment does not support multiple levels.
 
+## Telepathy
+
+- **Type**: `boolean`
+
+If set to true, items teleported by the enchant will only be able to be picked up by the player that broke the block.
+
 ## Executioner
 
 ### maxDamageHpThreshold

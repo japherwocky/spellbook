@@ -27,6 +27,7 @@ public class TelepathyEnchant implements EnchantioEnchant {
     private final Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
     private final Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
     private final Set<EquipmentSlotGroup> activeSlots = new HashSet<>();
+    private final boolean onlyUserCanPickupItems;
 
     public TelepathyEnchant(
             int anvilCost,
@@ -35,7 +36,8 @@ public class TelepathyEnchant implements EnchantioEnchant {
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
             Collection<TagKey<Enchantment>> enchantTagKeys,
             Collection<TagEntry<ItemType>> supportedItemTags,
-            Collection<EquipmentSlotGroup> activeSlots
+            Collection<EquipmentSlotGroup> activeSlots,
+            boolean onlyUserCanPickupItems
     ) {
         this.anvilCost = anvilCost;
         this.weight = weight;
@@ -44,6 +46,7 @@ public class TelepathyEnchant implements EnchantioEnchant {
         this.supportedItemTags.addAll(supportedItemTags);
         this.activeSlots.addAll(activeSlots);
         this.enchantTagKeys.addAll(enchantTagKeys);
+        this.onlyUserCanPickupItems = onlyUserCanPickupItems;
     }
 
     @Override
@@ -96,6 +99,10 @@ public class TelepathyEnchant implements EnchantioEnchant {
         return Collections.unmodifiableSet(enchantTagKeys);
     }
 
+    public boolean isOnlyUserCanPickupItems() {
+        return onlyUserCanPickupItems;
+    }
+
     public static TelepathyEnchant create(ConfigurationSection configurationSection) {
         TelepathyEnchant telepathyEnchant = new TelepathyEnchant(
                 EnchantioConfig.getInt(configurationSection, "anvilCost", 1),
@@ -126,7 +133,8 @@ public class TelepathyEnchant implements EnchantioEnchant {
                         List.of(
                                 "MAINHAND"
                         )
-                ))
+                )),
+                EnchantioConfig.getBoolean(configurationSection, "onlyUserCanPickupItems", false)
         );
 
         if (EnchantioConfig.getBoolean(configurationSection, "enabled", true)) {
