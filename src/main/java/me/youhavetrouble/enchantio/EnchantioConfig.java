@@ -130,12 +130,11 @@ public class EnchantioConfig {
     }
 
     public static boolean getBoolean(ConfigurationSection section, String key, boolean defaultValue) {
-        boolean value = section.contains(key) && section.getBoolean(key);
-        if (!value) {
+        if (!section.contains(key)) {
             section.set(key, defaultValue);
             return defaultValue;
         }
-        return true;
+        return section.getBoolean(key);
     }
 
     public static void migrateEnchantTags(@NotNull ConfigurationSection section) {
