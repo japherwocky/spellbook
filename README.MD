@@ -2,8 +2,8 @@
 
 Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
-- <a href="https://enchantio.yht.one/documentation/enchant-list/" target="_blank">Enchantment list</a>
-- <a href="https://enchantio.yht.one" target="_blank">Documentation</a>
+- [Enchantment list](docs/src/content/docs/documentation/enchant-list.md)
+- [Documentation](docs/)
 - <a href="https://modrinth.com/plugin/enchantio" target="_blank">Download</a>
 
 ## Building from Source
@@ -35,6 +35,27 @@ Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 1. This plugin is designed for Paper servers (Minecraft 1.21.5+)
 2. Place the compiled JAR in your Paper server's `plugins` folder
 3. Restart your server to load the plugin
+
+### Documentation
+
+The documentation is built using [Astro](https://astro.build/) with the [Starlight](https://starlight.astro.build/) integration. To build and view the documentation locally:
+
+1. Navigate to the docs directory:
+   ```bash
+   cd docs
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:4321` to view the documentation
 
 ## Contributing
 
