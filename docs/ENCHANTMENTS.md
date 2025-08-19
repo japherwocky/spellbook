@@ -1,6 +1,6 @@
 # Enchantio Enchantments
 
-This document provides a complete list of all enchantments available in the Enchantio plugin.
+This document provides a complete list of all standard enchantments available in the Enchantio plugin.
 
 ## Standard Enchantments
 
@@ -36,15 +36,3 @@ This document provides a complete list of all enchantments available in the Ench
 
 ### Ward
 **Description**: Automatically blocks hits, but triggers a configurable cooldown every time it does. It triggers a cooldown for the enchanted item's cooldown group.
-
-## Curses
-
-### Curse of Panic
-**Description**: When player takes damage, there is a chance that their hotbar items will be scrambled.
-
-### Curse of Vampirism
-**Description**: Player is set on fire when exposed to direct sunlight.
-
-### Curse of Insomnia
-**Description**: Player will not count as sleeping for the purpose of skipping the night/thunderstorm.
-
