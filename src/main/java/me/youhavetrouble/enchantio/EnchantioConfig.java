@@ -86,8 +86,7 @@ public class EnchantioConfig {
 
         // Vampirism curse removed
 
-        ConfigurationSection insomniaSection = getConfigSection(cursesSection, "insomnia");
-        InsomniaEnchant.create(insomniaSection);
+        // Insomnia curse removed
 
         configuration.save(configFile);
     }

@@ -54,9 +54,7 @@ public final class Enchantio extends JavaPlugin {
             getServer().getPluginManager().registerEvents(new PanicListener(), this);
         }
         // Vampirism curse removed
-        if (EnchantioConfig.ENCHANTS.containsKey(InsomniaEnchant.KEY)) {
-            getServer().getPluginManager().registerEvents(new InsomniaListener(), this);
-        }
+        // Insomnia curse removed
     }
 
     @Override
