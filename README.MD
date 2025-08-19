@@ -1,5 +1,7 @@
 # Enchantio
 
+![Build](https://github.com/japherwocky/Enchantio/workflows/Build/badge.svg)
+
 Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 - [Enchantment list](docs/ENCHANTMENTS.md)
@@ -15,7 +17,7 @@ Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/Enchantio.git
+   git clone https://github.com/japherwocky/Enchantio.git
    cd Enchantio
    ```
 
