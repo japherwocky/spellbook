@@ -84,8 +84,7 @@ public class EnchantioConfig {
         ConfigurationSection panicSection = getConfigSection(cursesSection, "panic");
         PanicEnchant.create(panicSection);
 
-        ConfigurationSection vampirismSection = getConfigSection(cursesSection, "vampirism");
-        VampirismEnchant.create(vampirismSection);
+        // Vampirism curse removed
 
         ConfigurationSection insomniaSection = getConfigSection(cursesSection, "insomnia");
         InsomniaEnchant.create(insomniaSection);

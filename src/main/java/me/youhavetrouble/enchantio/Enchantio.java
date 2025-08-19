@@ -53,9 +53,7 @@ public final class Enchantio extends JavaPlugin {
         if (EnchantioConfig.ENCHANTS.containsKey(PanicEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new PanicListener(), this);
         }
-        if (EnchantioConfig.ENCHANTS.containsKey(VampirismEnchant.KEY)) {
-            getServer().getPluginManager().registerEvents(new VampirismListener(), this);
-        }
+        // Vampirism curse removed
         if (EnchantioConfig.ENCHANTS.containsKey(InsomniaEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new InsomniaListener(), this);
         }
