@@ -1,10 +1,10 @@
 package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.Registry;
 import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.enchants.FireballEnchant;
-import org.bukkit.Registry;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -74,4 +74,3 @@ public class FireballListener implements Listener {
         }
     }
 }
-

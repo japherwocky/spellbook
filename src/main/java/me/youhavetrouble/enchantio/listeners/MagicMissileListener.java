@@ -1,10 +1,14 @@
 package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
+import io.papermc.paper.registry.Registry;
 import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.enchants.MagicMissileEnchant;
-import org.bukkit.*;
+import org.bukkit.Color;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -166,4 +170,3 @@ public class MagicMissileListener implements Listener {
         }.runTaskTimer(plugin, 0L, 1L);
     }
 }
-
