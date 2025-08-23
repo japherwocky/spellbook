@@ -79,7 +79,7 @@ public class FlightEnchant implements EnchantioEnchant {
     }
 
     @Override
-    public @NotNull Iterable<EquipmentSlotGroup> getActiveSlots() {
+    public @NotNull Set<EquipmentSlotGroup> getActiveSlotGroups() {
         return Set.of(EquipmentSlotGroup.FEET);
     }
 
@@ -126,4 +126,3 @@ public class FlightEnchant implements EnchantioEnchant {
         return flightEnchant;
     }
 }
-

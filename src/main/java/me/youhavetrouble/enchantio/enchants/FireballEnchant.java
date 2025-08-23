@@ -82,7 +82,7 @@ public class FireballEnchant implements EnchantioEnchant {
     }
 
     @Override
-    public @NotNull Iterable<EquipmentSlotGroup> getActiveSlots() {
+    public @NotNull Set<EquipmentSlotGroup> getActiveSlotGroups() {
         return Set.of(EquipmentSlotGroup.MAINHAND);
     }
 
@@ -108,7 +108,7 @@ public class FireballEnchant implements EnchantioEnchant {
         
         // Create the fireball
         Fireball fireball = entity.getWorld().spawn(
-                entity.getEyeLocation().add(direction.multiply(1.5)), // Spawn in front of the player
+                entity.getEyeLocation().add(direction.clone().multiply(1.5)), // Spawn in front of the player
                 Fireball.class
         );
         
@@ -116,7 +116,7 @@ public class FireballEnchant implements EnchantioEnchant {
         fireball.setShooter(entity);
         fireball.setYield(power); // Explosion power
         fireball.setIsIncendiary(true); // Set fire
-        fireball.setDirection(direction);
+        fireball.setVelocity(direction.multiply(0.5)); // Set velocity instead of direction
         
         return fireball;
     }
@@ -154,4 +154,3 @@ public class FireballEnchant implements EnchantioEnchant {
         return fireballEnchant;
     }
 }
-
