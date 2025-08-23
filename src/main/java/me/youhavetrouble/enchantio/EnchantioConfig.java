@@ -8,6 +8,8 @@ import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
 import me.youhavetrouble.enchantio.enchants.*;
 import me.youhavetrouble.enchantio.enchants.FlightEnchant;
+import me.youhavetrouble.enchantio.enchants.FireballEnchant;
+import me.youhavetrouble.enchantio.enchants.MagicMissileEnchant;
 import net.kyori.adventure.key.Key;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -81,6 +83,12 @@ public class EnchantioConfig {
         
         ConfigurationSection flightSection = getConfigSection(enchantsSection, "flight");
         FlightEnchant.create(flightSection);
+        
+        ConfigurationSection fireballSection = getConfigSection(enchantsSection, "fireball");
+        FireballEnchant.create(fireballSection);
+        
+        ConfigurationSection magicMissileSection = getConfigSection(enchantsSection, "magic_missile");
+        MagicMissileEnchant.create(magicMissileSection);
 
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
         migrateEnchantTags(cursesSection);

@@ -3,6 +3,8 @@ package me.youhavetrouble.enchantio;
 import me.youhavetrouble.enchantio.enchants.*;
 import me.youhavetrouble.enchantio.listeners.*;
 import me.youhavetrouble.enchantio.enchants.FlightEnchant;
+import me.youhavetrouble.enchantio.enchants.FireballEnchant;
+import me.youhavetrouble.enchantio.enchants.MagicMissileEnchant;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -57,6 +59,14 @@ public final class Enchantio extends JavaPlugin {
         
         if (EnchantioConfig.ENCHANTS.containsKey(FlightEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new FlightListener(this), this);
+        }
+        
+        if (EnchantioConfig.ENCHANTS.containsKey(FireballEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new FireballListener(this), this);
+        }
+        
+        if (EnchantioConfig.ENCHANTS.containsKey(MagicMissileEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new MagicMissileListener(this), this);
         }
         // Vampirism curse removed
         // Insomnia curse removed
