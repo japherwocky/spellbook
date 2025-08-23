@@ -7,6 +7,7 @@ import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
 import me.youhavetrouble.enchantio.enchants.*;
+import me.youhavetrouble.enchantio.enchants.FlightEnchant;
 import net.kyori.adventure.key.Key;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -77,6 +78,9 @@ public class EnchantioConfig {
 
         ConfigurationSection wardSection = getConfigSection(enchantsSection, "ward");
         WardEnchant.create(wardSection);
+        
+        ConfigurationSection flightSection = getConfigSection(enchantsSection, "flight");
+        FlightEnchant.create(flightSection);
 
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
         migrateEnchantTags(cursesSection);
