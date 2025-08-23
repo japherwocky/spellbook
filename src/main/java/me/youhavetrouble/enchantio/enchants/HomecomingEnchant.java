@@ -79,7 +79,7 @@ public class HomecomingEnchant implements EnchantioEnchant {
     }
 
     @Override
-    public @NotNull Iterable<EquipmentSlotGroup> getActiveSlots() {
+    public @NotNull Set<EquipmentSlotGroup> getActiveSlotGroups() {
         return Set.of(EquipmentSlotGroup.HAND);
     }
 
