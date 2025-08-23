@@ -39,7 +39,7 @@ public interface EnchantioEnchant {
     EnchantmentRegistryEntry.EnchantmentCost getMaximumCost();
 
     @NotNull
-    Iterable<EquipmentSlotGroup> getActiveSlots();
+    Set<EquipmentSlotGroup> getActiveSlotGroups();
 
     @NotNull
     Set<TagEntry<ItemType>> getSupportedItems();

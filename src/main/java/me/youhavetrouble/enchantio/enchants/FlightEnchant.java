@@ -17,9 +17,9 @@ import java.util.*;
 import static me.youhavetrouble.enchantio.EnchantioConfig.ENCHANTS;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ReplantingEnchant implements EnchantioEnchant {
+public class FlightEnchant implements EnchantioEnchant {
 
-    public static final Key KEY = Key.key("enchantio:replanting");
+    public static final Key KEY = Key.key("enchantio:flight");
 
     private final int anvilCost, weight;
     private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
@@ -27,7 +27,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
     private final Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
     private final Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
 
-    public ReplantingEnchant(
+    public FlightEnchant(
             int anvilCost,
             int weight,
             EnchantmentRegistryEntry.EnchantmentCost minimumCost,
@@ -50,7 +50,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.translatable("enchantio.enchant.replanting", "Replanting");
+        return Component.translatable("enchantio.enchant.flight", "Flight");
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public @NotNull Set<EquipmentSlotGroup> getActiveSlotGroups() {
-        return Set.of(EquipmentSlotGroup.MAINHAND);
+        return Set.of(EquipmentSlotGroup.FEET);
     }
 
     @Override
@@ -93,12 +93,12 @@ public class ReplantingEnchant implements EnchantioEnchant {
         return Collections.unmodifiableSet(enchantTagKeys);
     }
 
-    public static ReplantingEnchant create(ConfigurationSection configurationSection) {
-        ReplantingEnchant replantingEnchant = new ReplantingEnchant(
+    public static FlightEnchant create(ConfigurationSection configurationSection) {
+        FlightEnchant flightEnchant = new FlightEnchant(
                 EnchantioConfig.getInt(configurationSection, "anvilCost", 1),
                 EnchantioConfig.getInt(configurationSection, "weight", 10),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        EnchantioConfig.getInt(configurationSection, "minimumCost.base", 1),
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.base", 10),
                         EnchantioConfig.getInt(configurationSection, "minimumCost.additionalPerLevel", 1)
                 ),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
@@ -114,16 +114,15 @@ public class ReplantingEnchant implements EnchantioEnchant {
                         configurationSection,
                         "supportedItemTags",
                         List.of(
-                                "#minecraft:hoes"
+                                "#minecraft:enchantable/armor_feet"
                         )
                 ))
         );
 
         if (EnchantioConfig.getBoolean(configurationSection, "enabled", true)) {
-            ENCHANTS.put(ReplantingEnchant.KEY, replantingEnchant);
+            ENCHANTS.put(FlightEnchant.KEY, flightEnchant);
         }
 
-        return replantingEnchant;
+        return flightEnchant;
     }
-
 }

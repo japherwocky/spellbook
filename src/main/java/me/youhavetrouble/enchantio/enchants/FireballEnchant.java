@@ -8,8 +8,11 @@ import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Fireball;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlotGroup;
 import org.bukkit.inventory.ItemType;
+import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -17,9 +20,9 @@ import java.util.*;
 import static me.youhavetrouble.enchantio.EnchantioConfig.ENCHANTS;
 
 @SuppressWarnings("UnstableApiUsage")
-public class ReplantingEnchant implements EnchantioEnchant {
+public class FireballEnchant implements EnchantioEnchant {
 
-    public static final Key KEY = Key.key("enchantio:replanting");
+    public static final Key KEY = Key.key("enchantio:fireball");
 
     private final int anvilCost, weight;
     private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
@@ -27,7 +30,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
     private final Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
     private final Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
 
-    public ReplantingEnchant(
+    public FireballEnchant(
             int anvilCost,
             int weight,
             EnchantmentRegistryEntry.EnchantmentCost minimumCost,
@@ -50,7 +53,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.translatable("enchantio.enchant.replanting", "Replanting");
+        return Component.translatable("enchantio.enchant.fireball", "Fireball");
     }
 
     @Override
@@ -60,7 +63,7 @@ public class ReplantingEnchant implements EnchantioEnchant {
 
     @Override
     public int getMaxLevel() {
-        return 1;
+        return 2;
     }
 
     @Override
@@ -93,17 +96,42 @@ public class ReplantingEnchant implements EnchantioEnchant {
         return Collections.unmodifiableSet(enchantTagKeys);
     }
 
-    public static ReplantingEnchant create(ConfigurationSection configurationSection) {
-        ReplantingEnchant replantingEnchant = new ReplantingEnchant(
+    /**
+     * Creates a fireball entity at the location of the given entity, with the direction of the entity's view.
+     * 
+     * @param entity The entity that is shooting the fireball
+     * @param power The power of the fireball (affects explosion size)
+     * @return The created fireball entity
+     */
+    public static Fireball createFireball(LivingEntity entity, float power) {
+        Vector direction = entity.getEyeLocation().getDirection();
+        
+        // Create the fireball
+        Fireball fireball = entity.getWorld().spawn(
+                entity.getEyeLocation().add(direction.clone().multiply(1.5)), // Spawn in front of the player
+                Fireball.class
+        );
+        
+        // Set properties
+        fireball.setShooter(entity);
+        fireball.setYield(power); // Explosion power
+        fireball.setIsIncendiary(true); // Set fire
+        fireball.setVelocity(direction.multiply(0.5)); // Set velocity instead of direction
+        
+        return fireball;
+    }
+
+    public static FireballEnchant create(ConfigurationSection configurationSection) {
+        FireballEnchant fireballEnchant = new FireballEnchant(
                 EnchantioConfig.getInt(configurationSection, "anvilCost", 1),
                 EnchantioConfig.getInt(configurationSection, "weight", 10),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
-                        EnchantioConfig.getInt(configurationSection, "minimumCost.base", 1),
-                        EnchantioConfig.getInt(configurationSection, "minimumCost.additionalPerLevel", 1)
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.base", 10),
+                        EnchantioConfig.getInt(configurationSection, "minimumCost.additionalPerLevel", 13)
                 ),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
                         EnchantioConfig.getInt(configurationSection, "maximumCost.base", 65),
-                        EnchantioConfig.getInt(configurationSection, "maximumCost.additionalPerLevel", 1)
+                        EnchantioConfig.getInt(configurationSection, "maximumCost.additionalPerLevel", 13)
                 ),
                 EnchantioConfig.getEnchantmentTagKeysFromList(EnchantioConfig.getStringList(
                         configurationSection,
@@ -114,16 +142,15 @@ public class ReplantingEnchant implements EnchantioEnchant {
                         configurationSection,
                         "supportedItemTags",
                         List.of(
-                                "#minecraft:hoes"
+                                "#minecraft:enchantable/weapon"
                         )
                 ))
         );
 
         if (EnchantioConfig.getBoolean(configurationSection, "enabled", true)) {
-            ENCHANTS.put(ReplantingEnchant.KEY, replantingEnchant);
+            ENCHANTS.put(FireballEnchant.KEY, fireballEnchant);
         }
 
-        return replantingEnchant;
+        return fireballEnchant;
     }
-
 }

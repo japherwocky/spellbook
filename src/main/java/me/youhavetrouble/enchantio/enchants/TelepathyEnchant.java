@@ -85,7 +85,7 @@ public class TelepathyEnchant implements EnchantioEnchant {
     }
 
     @Override
-    public @NotNull Iterable<EquipmentSlotGroup> getActiveSlots() {
+    public @NotNull Set<EquipmentSlotGroup> getActiveSlotGroups() {
         return activeSlots;
     }
 

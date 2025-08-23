@@ -92,7 +92,7 @@ public class BeheadingEnchant implements EnchantioEnchant {
     }
 
     @Override
-    public @NotNull Iterable<EquipmentSlotGroup> getActiveSlots() {
+    public @NotNull Set<EquipmentSlotGroup> getActiveSlotGroups() {
         return activeSlots;
     }
 

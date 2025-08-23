@@ -52,7 +52,7 @@ public class EnchantioBootstrap implements PluginBootstrap {
                     enchantment.weight(enchant.getWeight());
                     enchantment.minimumCost(enchant.getMinimumCost());
                     enchantment.maximumCost(enchant.getMaximumCost());
-                    enchantment.activeSlots(enchant.getActiveSlots());
+                    enchantment.activeSlots(enchant.getActiveSlotGroups());
                     enchantment.supportedItems(event.getOrCreateTag(enchant.getTagForSupportedItems()));
                 });
             }
