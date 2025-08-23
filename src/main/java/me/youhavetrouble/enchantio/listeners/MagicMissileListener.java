@@ -1,7 +1,7 @@
 package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.Registry;
+import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.enchants.MagicMissileEnchant;
@@ -28,8 +28,7 @@ import java.util.UUID;
 
 public class MagicMissileListener implements Listener {
 
-    private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
-    private final Enchantment magicMissile = registry.get(MagicMissileEnchant.KEY);
+    private final Enchantment magicMissile = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(MagicMissileEnchant.KEY);
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     private final long COOLDOWN_TICKS = 40; // 2 second cooldown
     
@@ -117,7 +116,7 @@ public class MagicMissileListener implements Listener {
                     // Hit target
                     target.damage(damage, player);
                     target.getWorld().spawnParticle(
-                            Particle.EXPLOSION_NORMAL, 
+                            Particle.EXPLOSION, 
                             target.getEyeLocation(), 
                             10, 
                             0.2, 0.2, 0.2, 
@@ -146,7 +145,7 @@ public class MagicMissileListener implements Listener {
                 );
                 
                 currentLoc.getWorld().spawnParticle(
-                        Particle.REDSTONE,
+                        Particle.DUST,
                         currentLoc,
                         5, // Count
                         0.1, 0.1, 0.1, // Offset
@@ -157,7 +156,7 @@ public class MagicMissileListener implements Listener {
                 // Add some sparkle
                 if (ticks % 2 == 0) {
                     currentLoc.getWorld().spawnParticle(
-                            Particle.SPELL_INSTANT,
+                            Particle.INSTANT_EFFECT,
                             currentLoc,
                             2,
                             0.1, 0.1, 0.1,

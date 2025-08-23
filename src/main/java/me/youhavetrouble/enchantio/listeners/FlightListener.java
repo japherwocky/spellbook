@@ -1,8 +1,9 @@
 package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.Registry;
+import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
+import org.bukkit.GameMode;
 import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.enchants.FlightEnchant;
 import org.bukkit.enchantments.Enchantment;
@@ -21,8 +22,7 @@ import java.util.UUID;
 
 public class FlightListener implements Listener {
 
-    private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
-    private final Enchantment flight = registry.get(FlightEnchant.KEY);
+    private final Enchantment flight = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(FlightEnchant.KEY);
     private final Map<UUID, Boolean> previousFlightStates = new HashMap<>();
     
     private final Enchantio plugin;
@@ -59,7 +59,8 @@ public class FlightListener implements Listener {
         if (previousFlightStates.containsKey(playerId)) {
             boolean originalState = previousFlightStates.get(playerId);
             // Only change if the player isn't in creative or spectator mode
-            if (!player.isCreative() && !player.isSpectator()) {
+            GameMode gameMode = player.getGameMode();
+            if (gameMode != GameMode.CREATIVE && gameMode != GameMode.SPECTATOR) {
                 player.setAllowFlight(originalState);
                 if (!originalState) {
                     player.setFlying(false);
@@ -79,7 +80,8 @@ public class FlightListener implements Listener {
         if (flight == null) return;
         
         // Don't modify flight for creative or spectator players
-        if (player.isCreative() || player.isSpectator()) return;
+        GameMode gameMode = player.getGameMode();
+        if (gameMode == GameMode.CREATIVE || gameMode == GameMode.SPECTATOR) return;
         
         // Check if player has boots with the flight enchantment
         ItemStack boots = player.getInventory().getBoots();

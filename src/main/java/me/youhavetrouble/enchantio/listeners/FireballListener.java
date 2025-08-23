@@ -1,7 +1,7 @@
 package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
-import io.papermc.paper.registry.Registry;
+import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
 import me.youhavetrouble.enchantio.Enchantio;
 import me.youhavetrouble.enchantio.enchants.FireballEnchant;
@@ -22,8 +22,7 @@ import java.util.UUID;
 
 public class FireballListener implements Listener {
 
-    private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
-    private final Enchantment fireball = registry.get(FireballEnchant.KEY);
+    private final Enchantment fireball = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(FireballEnchant.KEY);
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     private final long COOLDOWN_TICKS = 20; // 1 second cooldown
     
