@@ -36,3 +36,12 @@ This document provides a complete list of all standard enchantments available in
 
 ### Ward
 **Description**: Automatically blocks hits, but triggers a configurable cooldown every time it does. It triggers a cooldown for the enchanted item's cooldown group.
+
+### Flight
+**Description**: Allows creative-like flight while wearing enchanted boots. Drains hunger (adds exhaustion) while flying. Automatically disables in creative/spectator mode.
+
+### Fireball
+**Description**: Allows players to shoot fireballs with enchanted swords. Has a 1-second cooldown between uses. Fireball power scales with enchantment level, and using the enchantment adds exhaustion based on level.
+
+### Magic Missile
+**Description**: Launches tracking missiles at nearby targets when right-clicking with an enchanted sword. Has a 2-second cooldown between uses. Range and damage increase with enchantment level. Creates a particle trail effect and plays sound effects.
