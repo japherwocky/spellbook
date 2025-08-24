@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static me.youhavetrouble.enchantio.SpellbookConfig.ENCHANTS;
+import static me.japherwocky.spellbook.SpellbookConfig.ENCHANTS;
 
 @SuppressWarnings("UnstableApiUsage")
 public class WardEnchant implements SpellbookEnchant {

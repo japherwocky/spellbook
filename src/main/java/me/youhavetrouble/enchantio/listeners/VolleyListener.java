@@ -2,9 +2,9 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.ExecutionerEnchant;
-import me.youhavetrouble.enchantio.enchants.VolleyEnchant;
+import me.japherwocky.spellbook.EnchantioConfig;
+import me.japherwocky.spellbook.enchants.ExecutionerEnchant;
+import me.japherwocky.spellbook.enchants.VolleyEnchant;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.*;

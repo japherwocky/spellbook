@@ -1,10 +1,10 @@
 package me.youhavetrouble.enchantio;
 
-import me.youhavetrouble.enchantio.enchants.*;
-import me.youhavetrouble.enchantio.listeners.*;
-import me.youhavetrouble.enchantio.enchants.FlightEnchant;
-import me.youhavetrouble.enchantio.enchants.FireballEnchant;
-import me.youhavetrouble.enchantio.enchants.MagicMissileEnchant;
+import me.japherwocky.spellbook.enchants.*;
+import me.japherwocky.spellbook.listeners.*;
+import me.japherwocky.spellbook.enchants.FlightEnchant;
+import me.japherwocky.spellbook.enchants.FireballEnchant;
+import me.japherwocky.spellbook.enchants.MagicMissileEnchant;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.EquipmentSlotGroup;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Set;
 
 @SuppressWarnings("UnstableApiUsage")
-public final class Enchantio extends JavaPlugin {
+public final class Spellbook extends JavaPlugin {
 
     @Override
     public void onEnable() {
@@ -75,7 +75,7 @@ public final class Enchantio extends JavaPlugin {
     @Override
     public void onDisable() {
         if (getServer().isStopping()) return;
-        getLogger().severe("Enchantio is being disabled without a server shutdown. Server will be shut down to prevent issues.");
+        getLogger().severe("Spellbook is being disabled without a server shutdown. Server will be shut down to prevent issues.");
         getServer().shutdown();
     }
 

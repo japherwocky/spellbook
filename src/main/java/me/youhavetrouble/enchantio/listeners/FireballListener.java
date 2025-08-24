@@ -3,8 +3,8 @@ package me.youhavetrouble.enchantio.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.Enchantio;
-import me.youhavetrouble.enchantio.enchants.FireballEnchant;
+import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.enchants.FireballEnchant;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -26,9 +26,9 @@ public class FireballListener implements Listener {
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     private final long COOLDOWN_TICKS = 20; // 1 second cooldown
     
-    private final Enchantio plugin;
+    private final Spellbook plugin;
     
-    public FireballListener(Enchantio plugin) {
+    public FireballListener(Spellbook plugin) {
         this.plugin = plugin;
     }
     

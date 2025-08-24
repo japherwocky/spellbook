@@ -3,8 +3,8 @@ package me.youhavetrouble.enchantio.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.Enchantio;
-import me.youhavetrouble.enchantio.enchants.MagicMissileEnchant;
+import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.enchants.MagicMissileEnchant;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -32,9 +32,9 @@ public class MagicMissileListener implements Listener {
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     private final long COOLDOWN_TICKS = 40; // 2 second cooldown
     
-    private final Enchantio plugin;
+    private final Spellbook plugin;
     
-    public MagicMissileListener(Enchantio plugin) {
+    public MagicMissileListener(Spellbook plugin) {
         this.plugin = plugin;
     }
     

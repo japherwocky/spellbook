@@ -4,7 +4,7 @@ import io.papermc.paper.registry.RegistryAccess;
 import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.GameMode;
-import me.japherwocky.spellbook.Enchantio;
+import me.japherwocky.spellbook.Spellbook;
 import me.japherwocky.spellbook.enchants.FlightEnchant;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -27,7 +27,7 @@ public class FlightListener implements Listener {
     
     private final Spellbook plugin;
     
-    public FlightListener(Enchantio plugin) {
+    public FlightListener(Spellbook plugin) {
         this.plugin = plugin;
         
         // Start a repeating task to check for the flight enchantment

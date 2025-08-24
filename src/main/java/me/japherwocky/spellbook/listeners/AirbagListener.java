@@ -2,7 +2,7 @@ package me.japherwocky.spellbook.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.japherwocky.spellbook.Enchantio;
+import me.japherwocky.spellbook.Spellbook;
 import me.japherwocky.spellbook.SpellbookConfig;
 import me.japherwocky.spellbook.enchants.AirbagEnchant;
 import org.bukkit.Registry;
@@ -30,7 +30,7 @@ public class AirbagListener implements Listener {
         EntityEquipment entityEquipment = livingEntity.getEquipment();
         if (entityEquipment == null) return;
 
-        int levels = Enchantio.getSumOfEnchantLevels(entityEquipment, airbag);
+        int levels = Spellbook.getSumOfEnchantLevels(entityEquipment, airbag);
         if (levels == 0) return;
 
         AirbagEnchant airbagEnchant = (AirbagEnchant) SpellbookConfig.ENCHANTS.get(AirbagEnchant.KEY);

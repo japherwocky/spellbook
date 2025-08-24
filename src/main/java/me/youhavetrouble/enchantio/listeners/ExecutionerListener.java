@@ -2,10 +2,10 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.Enchantio;
-import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
-import me.youhavetrouble.enchantio.enchants.ExecutionerEnchant;
+import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.EnchantioConfig;
+import me.japherwocky.spellbook.enchants.SpellbookEnchant;
+import me.japherwocky.spellbook.enchants.ExecutionerEnchant;
 import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -29,7 +29,7 @@ public class ExecutionerListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onExecutionerDamage(EntityDamageByEntityEvent event) {
         if (executioner == null) return;
-        EnchantioEnchant enchant = EnchantioConfig.ENCHANTS.get(ExecutionerEnchant.KEY);
+        SpellbookEnchant enchant = EnchantioConfig.ENCHANTS.get(ExecutionerEnchant.KEY);
         if (!(enchant instanceof ExecutionerEnchant executionerEnchant)) return;
         Entity damager = event.getDamageSource().getCausingEntity();
         if (damager == null) return;
@@ -38,7 +38,7 @@ public class ExecutionerListener implements Listener {
 
         EntityEquipment damagerEquipment = damagerEntity.getEquipment();
         if (damagerEquipment == null) return;
-        int level = Enchantio.getSumOfEnchantLevels(damagerEquipment, executioner);
+        int level = Spellbook.getSumOfEnchantLevels(damagerEquipment, executioner);
         if (level == 0) return;
 
         Entity target = event.getEntity();

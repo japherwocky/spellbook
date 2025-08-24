@@ -2,8 +2,8 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.*;
+import me.japherwocky.spellbook.EnchantioConfig;
+import me.japherwocky.spellbook.enchants.*;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.SoundCategory;
@@ -35,7 +35,7 @@ public class WardListener implements Listener {
         if (!(event.getEntity() instanceof LivingEntity entity)) return;
         EntityEquipment equipment = entity.getEquipment();
         if (equipment == null) return;
-        ItemStack item = EnchantioEnchant.findFirstWithEnchant(equipment, ward);
+        ItemStack item = SpellbookEnchant.findFirstWithEnchant(equipment, ward);
         if (item == null) return;
         if (!(EnchantioConfig.ENCHANTS.get(WardEnchant.KEY) instanceof WardEnchant wardEnchant)) return;
         if (entity instanceof HumanEntity humanEntity) {

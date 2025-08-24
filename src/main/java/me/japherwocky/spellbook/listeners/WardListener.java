@@ -35,7 +35,7 @@ public class WardListener implements Listener {
         if (!(event.getEntity() instanceof LivingEntity entity)) return;
         EntityEquipment equipment = entity.getEquipment();
         if (equipment == null) return;
-        ItemStack item = EnchantioEnchant.findFirstWithEnchant(equipment, ward);
+        ItemStack item = SpellbookEnchant.findFirstWithEnchant(equipment, ward);
         if (item == null) return;
         if (!(SpellbookConfig.ENCHANTS.get(WardEnchant.KEY) instanceof WardEnchant wardEnchant)) return;
         if (entity instanceof HumanEntity humanEntity) {

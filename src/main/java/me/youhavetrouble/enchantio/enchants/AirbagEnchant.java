@@ -3,7 +3,7 @@ package me.youhavetrouble.enchantio.enchants;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
-import me.youhavetrouble.enchantio.EnchantioConfig;
+import me.japherwocky.spellbook.EnchantioConfig;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 
 @SuppressWarnings("UnstableApiUsage")
-public class AirbagEnchant implements EnchantioEnchant {
+public class AirbagEnchant implements SpellbookEnchant {
 
     public static final Key KEY = Key.key("enchantio:airbag");
 

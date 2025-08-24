@@ -3,7 +3,7 @@ package me.japherwocky.spellbook.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
-import me.japherwocky.spellbook.Enchantio;
+import me.japherwocky.spellbook.Spellbook;
 import me.japherwocky.spellbook.enchants.MagicMissileEnchant;
 import org.bukkit.Color;
 import org.bukkit.Location;
@@ -34,7 +34,7 @@ public class MagicMissileListener implements Listener {
     
     private final Spellbook plugin;
     
-    public MagicMissileListener(Enchantio plugin) {
+    public MagicMissileListener(Spellbook plugin) {
         this.plugin = plugin;
     }
     

@@ -2,7 +2,7 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.enchants.SmeltingEnchant;
+import me.japherwocky.spellbook.enchants.SmeltingEnchant;
 import org.bukkit.Bukkit;
 import org.bukkit.Registry;
 import org.bukkit.block.BlockState;

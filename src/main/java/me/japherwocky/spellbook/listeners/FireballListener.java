@@ -3,7 +3,7 @@ package me.japherwocky.spellbook.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
-import me.japherwocky.spellbook.Enchantio;
+import me.japherwocky.spellbook.Spellbook;
 import me.japherwocky.spellbook.enchants.FireballEnchant;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -28,7 +28,7 @@ public class FireballListener implements Listener {
     
     private final Spellbook plugin;
     
-    public FireballListener(Enchantio plugin) {
+    public FireballListener(Spellbook plugin) {
         this.plugin = plugin;
     }
     

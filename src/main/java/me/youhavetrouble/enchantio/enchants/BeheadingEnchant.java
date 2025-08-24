@@ -4,7 +4,7 @@ import io.papermc.paper.registry.RegistryKey;
 import io.papermc.paper.registry.data.EnchantmentRegistryEntry;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
-import me.youhavetrouble.enchantio.EnchantioConfig;
+import me.japherwocky.spellbook.EnchantioConfig;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
-import static me.youhavetrouble.enchantio.EnchantioConfig.ENCHANTS;
+import static me.japherwocky.spellbook.EnchantioConfig.ENCHANTS;
 
 @SuppressWarnings("UnstableApiUsage")
-public class BeheadingEnchant implements EnchantioEnchant {
+public class BeheadingEnchant implements SpellbookEnchant {
 
     public static final Key KEY = Key.key("enchantio:beheading");
 

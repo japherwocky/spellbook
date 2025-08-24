@@ -2,11 +2,11 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.Enchantio;
-import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
-import me.youhavetrouble.enchantio.enchants.PanicEnchant;
-import me.youhavetrouble.enchantio.events.PlayerPanicEvent;
+import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.EnchantioConfig;
+import me.japherwocky.spellbook.enchants.SpellbookEnchant;
+import me.japherwocky.spellbook.enchants.PanicEnchant;
+import me.japherwocky.spellbook.events.PlayerPanicEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
@@ -36,12 +36,12 @@ public class PanicListener implements Listener {
 
         if (!(event.getEntity() instanceof Player player)) return;
 
-        EnchantioEnchant enchant = EnchantioConfig.ENCHANTS.get(PanicEnchant.KEY);
+        SpellbookEnchant enchant = EnchantioConfig.ENCHANTS.get(PanicEnchant.KEY);
         if (!(enchant instanceof PanicEnchant panicEnchant)) return;
 
         EntityEquipment equipment = player.getEquipment();
 
-        int level = Enchantio.getHighestEnchantLevel(equipment, panic);
+        int level = Spellbook.getHighestEnchantLevel(equipment, panic);
         if (level == 0) return;
         double chance = level * panicEnchant.getPanicChancePerLevel();
 

@@ -4,8 +4,8 @@ import io.papermc.paper.registry.RegistryAccess;
 import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.GameMode;
-import me.youhavetrouble.enchantio.Enchantio;
-import me.youhavetrouble.enchantio.enchants.FlightEnchant;
+import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.enchants.FlightEnchant;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,9 +25,9 @@ public class FlightListener implements Listener {
     private final Enchantment flight = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT).get(FlightEnchant.KEY);
     private final Map<UUID, Boolean> previousFlightStates = new HashMap<>();
     
-    private final Enchantio plugin;
+    private final Spellbook plugin;
     
-    public FlightListener(Enchantio plugin) {
+    public FlightListener(Spellbook plugin) {
         this.plugin = plugin;
         
         // Start a repeating task to check for the flight enchantment

@@ -2,8 +2,8 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.enchants.HomecomingEnchant;
-import me.youhavetrouble.enchantio.events.HomecomingEvent;
+import me.japherwocky.spellbook.enchants.HomecomingEnchant;
+import me.japherwocky.spellbook.events.HomecomingEvent;
 import org.bukkit.Location;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;

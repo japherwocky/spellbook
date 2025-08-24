@@ -6,10 +6,10 @@ import io.papermc.paper.registry.keys.tags.EnchantmentTagKeys;
 import io.papermc.paper.registry.keys.tags.ItemTypeTagKeys;
 import io.papermc.paper.registry.tag.TagKey;
 import io.papermc.paper.tag.TagEntry;
-import me.youhavetrouble.enchantio.enchants.*;
-import me.youhavetrouble.enchantio.enchants.FlightEnchant;
-import me.youhavetrouble.enchantio.enchants.FireballEnchant;
-import me.youhavetrouble.enchantio.enchants.MagicMissileEnchant;
+import me.japherwocky.spellbook.enchants.*;
+import me.japherwocky.spellbook.enchants.FlightEnchant;
+import me.japherwocky.spellbook.enchants.FireballEnchant;
+import me.japherwocky.spellbook.enchants.MagicMissileEnchant;
 import net.kyori.adventure.key.Key;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -27,7 +27,7 @@ import java.util.*;
 @SuppressWarnings("UnstableApiUsage")
 public class EnchantioConfig {
 
-    public static final Map<Key, EnchantioEnchant> ENCHANTS = new HashMap<>();
+    public static final Map<Key, SpellbookEnchant> ENCHANTS = new HashMap<>();
     private static boolean initialized = false;
 
     protected static void init(Path filePath) throws IOException {

@@ -2,11 +2,11 @@ package me.youhavetrouble.enchantio.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.Enchantio;
-import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.BeheadingEnchant;
-import me.youhavetrouble.enchantio.enchants.EnchantioEnchant;
-import me.youhavetrouble.enchantio.events.EntityBeheadEvent;
+import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.EnchantioConfig;
+import me.japherwocky.spellbook.enchants.BeheadingEnchant;
+import me.japherwocky.spellbook.enchants.SpellbookEnchant;
+import me.japherwocky.spellbook.events.EntityBeheadEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Registry;
@@ -36,7 +36,7 @@ public class BeheadingListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onBeheading(EntityDeathEvent event) {
         if (beheading == null) return;
-        EnchantioEnchant enchant = EnchantioConfig.ENCHANTS.get(BeheadingEnchant.KEY);
+        SpellbookEnchant enchant = EnchantioConfig.ENCHANTS.get(BeheadingEnchant.KEY);
         if (!(enchant instanceof BeheadingEnchant beheadingEnchant)) return;
         if (event.getDamageSource().isIndirect()) return;
         Entity killer = event.getDamageSource().getCausingEntity();
@@ -45,7 +45,7 @@ public class BeheadingListener implements Listener {
         EntityEquipment killerEquipment = killerEntity.getEquipment();
         if (killerEquipment == null) return;
 
-        int level = Enchantio.getHighestEnchantLevel(killerEquipment, beheading);
+        int level = Spellbook.getHighestEnchantLevel(killerEquipment, beheading);
         if (level == 0) return;
 
         double chance = level * beheadingEnchant.getChanceToDropHeadPerLevel();

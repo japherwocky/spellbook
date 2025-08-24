@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Set;
 
 @SuppressWarnings("UnstableApiUsage")
-public interface EnchantioEnchant {
+public interface SpellbookEnchant {
 
     @NotNull
     Key getKey();

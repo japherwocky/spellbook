@@ -2,10 +2,10 @@ package me.japherwocky.spellbook.listeners;
 
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.japherwocky.spellbook.Enchantio;
+import me.japherwocky.spellbook.Spellbook;
 import me.japherwocky.spellbook.SpellbookConfig;
 import me.japherwocky.spellbook.enchants.BeheadingEnchant;
-import me.japherwocky.spellbook.enchants.EnchantioEnchant;
+import me.japherwocky.spellbook.enchants.SpellbookEnchant;
 import me.japherwocky.spellbook.events.EntityBeheadEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,7 +36,7 @@ public class BeheadingListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onBeheading(EntityDeathEvent event) {
         if (beheading == null) return;
-        EnchantioEnchant enchant = SpellbookConfig.ENCHANTS.get(BeheadingEnchant.KEY);
+        SpellbookEnchant enchant = SpellbookConfig.ENCHANTS.get(BeheadingEnchant.KEY);
         if (!(enchant instanceof BeheadingEnchant beheadingEnchant)) return;
         if (event.getDamageSource().isIndirect()) return;
         Entity killer = event.getDamageSource().getCausingEntity();
@@ -45,7 +45,7 @@ public class BeheadingListener implements Listener {
         EntityEquipment killerEquipment = killerEntity.getEquipment();
         if (killerEquipment == null) return;
 
-        int level = Enchantio.getHighestEnchantLevel(killerEquipment, beheading);
+        int level = Spellbook.getHighestEnchantLevel(killerEquipment, beheading);
         if (level == 0) return;
 
         double chance = level * beheadingEnchant.getChanceToDropHeadPerLevel();

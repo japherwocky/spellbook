@@ -3,10 +3,10 @@ package me.youhavetrouble.enchantio.listeners;
 import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
-import me.youhavetrouble.enchantio.Enchantio;
-import me.youhavetrouble.enchantio.EnchantioConfig;
-import me.youhavetrouble.enchantio.enchants.CloakingEnchant;
-import me.youhavetrouble.enchantio.enchants.ExecutionerEnchant;
+import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.EnchantioConfig;
+import me.japherwocky.spellbook.enchants.CloakingEnchant;
+import me.japherwocky.spellbook.enchants.ExecutionerEnchant;
 import org.bukkit.Bukkit;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
@@ -36,14 +36,14 @@ public class CloakingListener implements Listener {
 
     public CloakingListener() {
         if (cloaking == null) return;
-        Enchantio enchantio = Enchantio.getPlugin(Enchantio.class);
+        Spellbook enchantio = Spellbook.getPlugin(Spellbook.class);
         Bukkit.getGlobalRegionScheduler().runAtFixedRate(enchantio, (task) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!player.isSneaking()) {
                     ticksSinceLastMovement.put(player.getUniqueId(), 0L);
                     continue;
                 }
-                int cloakingLevel = Enchantio.getSumOfEnchantLevels(player.getEquipment(), cloaking);
+                int cloakingLevel = Spellbook.getSumOfEnchantLevels(player.getEquipment(), cloaking);
                 if (cloakingLevel == 0) continue;
                 ticksSinceLastMovement.computeIfPresent(player.getUniqueId(), (uuid, ticks) -> ticks + 1);
                 if (ticksSinceLastMovement.getOrDefault(player.getUniqueId(), 0L) < cloakingEnchant.getTicksToActivate()) continue;
