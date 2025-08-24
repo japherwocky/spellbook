@@ -142,7 +142,12 @@ public class FireballEnchant implements EnchantioEnchant {
                         configurationSection,
                         "supportedItemTags",
                         List.of(
-                                "#minecraft:enchantable/weapon"
+                                "minecraft:wooden_sword",
+                                "minecraft:stone_sword",
+                                "minecraft:iron_sword",
+                                "minecraft:golden_sword",
+                                "minecraft:diamond_sword",
+                                "minecraft:netherite_sword"
                         )
                 ))
         );
