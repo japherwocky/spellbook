@@ -114,7 +114,12 @@ public class FlightEnchant implements EnchantioEnchant {
                         configurationSection,
                         "supportedItemTags",
                         List.of(
-                                "#minecraft:enchantable/armor_feet"
+                                "minecraft:iron_boots",
+                                "minecraft:golden_boots",
+                                "minecraft:diamond_boots",
+                                "minecraft:netherite_boots",
+                                "minecraft:leather_boots",
+                                "minecraft:chainmail_boots"
                         )
                 ))
         );
