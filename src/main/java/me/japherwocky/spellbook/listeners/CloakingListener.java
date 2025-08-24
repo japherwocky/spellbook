@@ -37,7 +37,7 @@ public class CloakingListener implements Listener {
     public CloakingListener() {
         if (cloaking == null) return;
         Spellbook spellbook = Spellbook.getPlugin(Spellbook.class);
-        Bukkit.getGlobalRegionScheduler().runAtFixedRate(enchantio, (task) -> {
+        Bukkit.getGlobalRegionScheduler().runAtFixedRate(spellbook, (task) -> {
             for (Player player : Bukkit.getOnlinePlayers()) {
                 if (!player.isSneaking()) {
                     ticksSinceLastMovement.put(player.getUniqueId(), 0L);
@@ -47,7 +47,7 @@ public class CloakingListener implements Listener {
                 if (cloakingLevel == 0) continue;
                 ticksSinceLastMovement.computeIfPresent(player.getUniqueId(), (uuid, ticks) -> ticks + 1);
                 if (ticksSinceLastMovement.getOrDefault(player.getUniqueId(), 0L) < cloakingEnchant.getTicksToActivate()) continue;
-                player.getScheduler().execute(enchantio, () -> player.addPotionEffect(cloakingEffect), () -> {}, 1);
+                player.getScheduler().execute(spellbook, () -> player.addPotionEffect(cloakingEffect), () -> {}, 1);
             }
         }, 1, 1);
     }
