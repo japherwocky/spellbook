@@ -27,6 +27,6 @@ jobs:
       if: success() && github.event_name == 'pull_request'
       uses: actions/upload-artifact@v4
       with:
-        name: enchantio-plugin
-        path: target/Enchantio-*.jar
+        name: spellbook-plugin
+        path: target/Spellbook-*.jar
         if-no-files-found: error
