@@ -1,11 +1,11 @@
-# Enchantio
+# Spellbook
 
-![Build](https://github.com/japherwocky/Enchantio/workflows/Build/badge.svg)
+![Build](https://github.com/japherwocky/spellbook/workflows/Build/badge.svg)
 
 Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 - [Enchantment list](docs/ENCHANTMENTS.md)
-- <a href="https://modrinth.com/plugin/enchantio" target="_blank">Download</a>
+- <a href="https://modrinth.com/plugin/spellbook" target="_blank">Download</a>
 
 ## Building from Source
 
@@ -17,8 +17,8 @@ Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/japherwocky/Enchantio.git
-   cd Enchantio
+   git clone https://github.com/japherwocky/spellbook.git
+   cd spellbook
    ```
 
 2. Build with Maven:
@@ -28,7 +28,7 @@ Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 3. The compiled JAR file will be located in the `target` directory:
    ```bash
-   target/Enchantio-{version}.jar
+   target/Spellbook-{version}.jar
    ```
 
 ### Development Setup

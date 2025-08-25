@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Find all enchant classes
-enchant_files=$(grep -l "getActiveSlots" --include="*.java" src/main/java/me/youhavetrouble/enchantio/enchants/*.java)
+enchant_files=$(grep -l "getActiveSlots" --include="*.java" src/main/java/me/japherwocky/spellbook/enchants/*.java)
 
 # Update each file
 for file in $enchant_files; do
@@ -10,4 +10,3 @@ for file in $enchant_files; do
 done
 
 echo "All files updated!"
-

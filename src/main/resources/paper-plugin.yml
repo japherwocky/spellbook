@@ -1,8 +1,8 @@
-name: Enchantio
+name: Spellbook
 version: '${project.version}'
-main: me.youhavetrouble.enchantio.Enchantio
-bootstrapper: me.youhavetrouble.enchantio.EnchantioBootstrap
+main: me.japherwocky.spellbook.Spellbook
+bootstrapper: me.japherwocky.spellbook.SpellbookBootstrap
 api-version: '1.21.5'
-authors: [YouHaveTrouble]
+authors: [japherwocky]
 description: Custom enchants for paper servers
-website: https://youhavetrouble.me
+website: https://japherwocky.me

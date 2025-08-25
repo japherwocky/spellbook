@@ -1,6 +1,6 @@
-# Enchantio Enchantments
+# Spellbook Enchantments
 
-This document provides a complete list of all standard enchantments available in the Enchantio plugin.
+This document provides a complete list of all standard enchantments available in the Spellbook plugin.
 
 ## Standard Enchantments
 
