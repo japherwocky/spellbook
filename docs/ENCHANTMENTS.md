@@ -45,3 +45,6 @@ This document provides a complete list of all standard enchantments available in
 
 ### Magic Missile
 **Description**: Launches tracking missiles at nearby targets when right-clicking with an enchanted sword. Has a 2-second cooldown between uses. Range and damage increase with enchantment level. Creates a particle trail effect and plays sound effects.
+
+### Bless
+**Description**: Adds flat damage bonus to weapon attacks. Each level adds +1 damage to every attack made with the enchanted weapon.
