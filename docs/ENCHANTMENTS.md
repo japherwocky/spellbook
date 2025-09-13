@@ -48,3 +48,6 @@ This document provides a complete list of all standard enchantments available in
 
 ### Bless
 **Description**: Adds flat damage bonus to weapon attacks. Each level adds +1 damage to every attack made with the enchanted weapon.
+
+### Armor
+**Description**: Increases armor points for better damage reduction. Each level adds +1 armor point to the player's total armor rating when wearing enchanted armor pieces.

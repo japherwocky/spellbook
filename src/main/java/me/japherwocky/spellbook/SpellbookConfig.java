@@ -92,6 +92,9 @@ public class SpellbookConfig {
         
         ConfigurationSection blessSection = getConfigSection(enchantsSection, "bless");
         BlessEnchant.create(blessSection);
+        
+        ConfigurationSection armorSection = getConfigSection(enchantsSection, "armor");
+        ArmorEnchant.create(armorSection);
 
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
         migrateEnchantTags(cursesSection);
