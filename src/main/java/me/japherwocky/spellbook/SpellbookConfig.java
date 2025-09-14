@@ -89,6 +89,12 @@ public class SpellbookConfig {
         
         ConfigurationSection magicMissileSection = getConfigSection(enchantsSection, "magic_missile");
         MagicMissileEnchant.create(magicMissileSection);
+        
+        ConfigurationSection blessSection = getConfigSection(enchantsSection, "bless");
+        BlessEnchant.create(blessSection);
+        
+        ConfigurationSection armorSection = getConfigSection(enchantsSection, "armor");
+        ArmorEnchant.create(armorSection);
 
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
         migrateEnchantTags(cursesSection);
@@ -229,4 +235,3 @@ public class SpellbookConfig {
     }
 
 }
-
