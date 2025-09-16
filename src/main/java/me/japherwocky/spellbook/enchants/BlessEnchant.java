@@ -136,7 +136,7 @@ public class BlessEnchant implements SpellbookEnchant {
                         List.of(
                                 "#swords",
                                 "#axes",
-                                "#tridents"
+                                "minecraft:trident"
                         )
                 )),
                 SpellbookConfig.getEquipmentSlotGroups(SpellbookConfig.getStringList(

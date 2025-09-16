@@ -132,7 +132,7 @@ public class ArmorEnchant implements SpellbookEnchant {
                         configurationSection,
                         "supportedItems",
                         List.of(
-                                "#armor"
+                                "#armors"
                         )
                 )),
                 SpellbookConfig.getEquipmentSlotGroups(SpellbookConfig.getStringList(
