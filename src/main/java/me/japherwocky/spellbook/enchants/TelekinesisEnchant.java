@@ -17,9 +17,9 @@ import java.util.*;
 import static me.japherwocky.spellbook.SpellbookConfig.ENCHANTS;
 
 @SuppressWarnings("UnstableApiUsage")
-public class TelepathyEnchant implements SpellbookEnchant {
+public class TelekinesisEnchant implements SpellbookEnchant {
 
-    public static final Key KEY = Key.key("spellbook:telepathy");
+    public static final Key KEY = Key.key("spellbook:telekinesis");
 
     private final int anvilCost, weight;
     private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
@@ -29,7 +29,7 @@ public class TelepathyEnchant implements SpellbookEnchant {
     private final Set<EquipmentSlotGroup> activeSlots = new HashSet<>();
     private final boolean onlyUserCanPickupItems;
 
-    public TelepathyEnchant(
+    public TelekinesisEnchant(
             int anvilCost,
             int weight,
             EnchantmentRegistryEntry.EnchantmentCost minimumCost,
@@ -56,7 +56,7 @@ public class TelepathyEnchant implements SpellbookEnchant {
 
     @Override
     public @NotNull Component getDescription() {
-        return Component.translatable("spellbook.enchant.telepathy", "Telepathy");
+        return Component.translatable("spellbook.enchant.telekinesis", "Telekinesis");
     }
 
     @Override
@@ -103,8 +103,8 @@ public class TelepathyEnchant implements SpellbookEnchant {
         return onlyUserCanPickupItems;
     }
 
-    public static TelepathyEnchant create(ConfigurationSection configurationSection) {
-        TelepathyEnchant telepathyEnchant = new TelepathyEnchant(
+    public static TelekinesisEnchant create(ConfigurationSection configurationSection) {
+        TelekinesisEnchant telekinesisEnchant = new TelekinesisEnchant(
                 SpellbookConfig.getInt(configurationSection, "anvilCost", 1),
                 SpellbookConfig.getInt(configurationSection, "weight", 5),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
@@ -138,10 +138,10 @@ public class TelepathyEnchant implements SpellbookEnchant {
         );
 
         if (SpellbookConfig.getBoolean(configurationSection, "enabled", true)) {
-            ENCHANTS.put(TelepathyEnchant.KEY, telepathyEnchant);
+            ENCHANTS.put(TelekinesisEnchant.KEY, telekinesisEnchant);
         }
 
-        return telepathyEnchant;
+        return telekinesisEnchant;
     }
 
 }

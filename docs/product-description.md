@@ -70,7 +70,7 @@ Automatically replants crops after harvesting
 
 _Sustainable farming made easy_
 
-### 📡 Telepathy (Tools)
+### 🤏 Telekinesis (Tools)
 
 Teleports mined items directly to your inventory
 

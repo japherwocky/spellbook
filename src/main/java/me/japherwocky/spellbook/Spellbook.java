@@ -22,8 +22,8 @@ public final class Spellbook extends JavaPlugin {
         if (SpellbookConfig.ENCHANTS.containsKey(SoulboundEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new SoulboundListener(), this);
         }
-        if (SpellbookConfig.ENCHANTS.containsKey(TelepathyEnchant.KEY)) {
-            getServer().getPluginManager().registerEvents(new TelepathyListener(), this);
+        if (SpellbookConfig.ENCHANTS.containsKey(TelekinesisEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new TelekinesisListener(), this);
         }
         if (SpellbookConfig.ENCHANTS.containsKey(ReplantingEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new ReplantingListener(), this);
