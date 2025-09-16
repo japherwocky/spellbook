@@ -51,8 +51,8 @@ public class SpellbookConfig {
         ConfigurationSection soulboundSection = getConfigSection(enchantsSection, "soulbound");
         SoulboundEnchant.create(soulboundSection);
 
-        ConfigurationSection telepathySection = getConfigSection(enchantsSection, "telepathy");
-        TelepathyEnchant.create(telepathySection);
+        ConfigurationSection telekinesisSection = getConfigSection(enchantsSection, "telekinesis");
+        TelekinesisEnchant.create(telekinesisSection);
 
         ConfigurationSection replantingSection = getConfigSection(enchantsSection, "replanting");
         ReplantingEnchant.create(replantingSection);

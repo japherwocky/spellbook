@@ -10,7 +10,7 @@ This document provides a complete list of all standard enchantments available in
 ### Replanting
 **Description**: Replants broken crops using seeds in your inventory or from the loot of the crop if no seeds are available in player's inventory.
 
-### Telepathy
+### Telekinesis
 **Description**: Teleports dropped items to player's location and makes them immediately pickuppable.
 
 ### Executioner
