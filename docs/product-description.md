@@ -109,9 +109,9 @@ _Sometimes magic has a mind of its own_
 
 ## 🔧 Server Requirements
 
-* **Minecraft Version**: 1.21.5+
+* **Minecraft Version**: 1.21.9+
 * **Server Software**: Paper (required)
-* **Java Version**: 21+
+* **Java Version**: 21+ (required for Minecraft 1.21.9+)
 
 ## For Server Admins
 

@@ -33,7 +33,7 @@ Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 ### Development Setup
 
-1. This plugin is designed for Paper servers (Minecraft 1.21.5+)
+1. This plugin is designed for Paper servers (Minecraft 1.21.9+)
 2. Place the compiled JAR in your Paper server's `plugins` folder
 3. Restart your server to load the plugin
 
