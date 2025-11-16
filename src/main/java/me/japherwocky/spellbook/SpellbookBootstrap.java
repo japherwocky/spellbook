@@ -42,7 +42,7 @@ public class SpellbookBootstrap implements PluginBootstrap {
             }
         }));
 
-        context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.newHandler(event -> {
+        context.getLifecycleManager().registerEventHandler(RegistryEvents.ENCHANTMENT.compose().newHandler(event -> {
             for (SpellbookEnchant enchant : spellbookEnchants) {
                 logger.info("Registering enchantment {}", enchant.getKey());
                 event.registry().register(TypedKey.create(RegistryKey.ENCHANTMENT, enchant.getKey()), enchantment -> {
