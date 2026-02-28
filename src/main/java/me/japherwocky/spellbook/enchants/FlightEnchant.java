@@ -22,6 +22,7 @@ public class FlightEnchant implements SpellbookEnchant {
     public static final Key KEY = Key.key("spellbook:flight");
 
     private final int anvilCost, weight;
+    private final float hungerDrain;
     private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
     private final EnchantmentRegistryEntry.EnchantmentCost maximumCost;
     private final Set<TagEntry<ItemType>> supportedItemTags = new HashSet<>();
@@ -30,6 +31,7 @@ public class FlightEnchant implements SpellbookEnchant {
     public FlightEnchant(
             int anvilCost,
             int weight,
+            float hungerDrain,
             EnchantmentRegistryEntry.EnchantmentCost minimumCost,
             EnchantmentRegistryEntry.EnchantmentCost maximumCost,
             Collection<TagKey<Enchantment>> enchantTagKeys,
@@ -37,6 +39,7 @@ public class FlightEnchant implements SpellbookEnchant {
     ) {
         this.anvilCost = anvilCost;
         this.weight = weight;
+        this.hungerDrain = hungerDrain;
         this.minimumCost = minimumCost;
         this.maximumCost = maximumCost;
         this.supportedItemTags.addAll(supportedItemTags);
@@ -68,6 +71,10 @@ public class FlightEnchant implements SpellbookEnchant {
         return weight;
     }
 
+    public float getHungerDrain() {
+        return hungerDrain;
+    }
+
     @Override
     public EnchantmentRegistryEntry.@NotNull EnchantmentCost getMinimumCost() {
         return minimumCost;
@@ -97,6 +104,7 @@ public class FlightEnchant implements SpellbookEnchant {
         FlightEnchant flightEnchant = new FlightEnchant(
                 SpellbookConfig.getInt(configurationSection, "anvilCost", 1),
                 SpellbookConfig.getInt(configurationSection, "weight", 10),
+                SpellbookConfig.getFloat(configurationSection, "hungerDrain", 0.69F),
                 EnchantmentRegistryEntry.EnchantmentCost.of(
                         SpellbookConfig.getInt(configurationSection, "minimumCost.base", 10),
                         SpellbookConfig.getInt(configurationSection, "minimumCost.additionalPerLevel", 1)

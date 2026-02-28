@@ -145,6 +145,15 @@ public class SpellbookConfig {
         return value;
     }
 
+    public static float getFloat(ConfigurationSection section, String key, float defaultValue) {
+        double value = section.contains(key) ? section.getDouble(key) : -1;
+        if (value == -1) {
+            section.set(key, defaultValue);
+            return defaultValue;
+        }
+        return (float) value;
+    }
+
     public static boolean getBoolean(ConfigurationSection section, String key, boolean defaultValue) {
         if (!section.contains(key)) {
             section.set(key, defaultValue);

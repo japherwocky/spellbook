@@ -5,6 +5,7 @@ import org.bukkit.Registry;
 import io.papermc.paper.registry.RegistryKey;
 import org.bukkit.GameMode;
 import me.japherwocky.spellbook.Spellbook;
+import me.japherwocky.spellbook.SpellbookConfig;
 import me.japherwocky.spellbook.enchants.FlightEnchant;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -95,7 +96,9 @@ public class FlightListener implements Listener {
             
             // Add exhaustion when flying (similar to the original mod)
             if (player.isFlying()) {
-                player.setExhaustion(player.getExhaustion() + 0.13F);
+                FlightEnchant flightEnchant = (FlightEnchant) SpellbookConfig.ENCHANTS.get(FlightEnchant.KEY);
+                float hungerDrain = flightEnchant != null ? flightEnchant.getHungerDrain() : 0.69F;
+                player.setExhaustion(player.getExhaustion() + hungerDrain);
             }
         } else {
             // Only disable flight if we previously enabled it
