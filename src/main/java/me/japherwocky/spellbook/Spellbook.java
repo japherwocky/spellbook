@@ -2,6 +2,7 @@ package me.japherwocky.spellbook;
 
 import me.japherwocky.spellbook.enchants.*;
 import me.japherwocky.spellbook.listeners.*;
+import me.japherwocky.spellbook.listeners.UnbreakableNetheriteListener;
 import me.japherwocky.spellbook.enchants.FlightEnchant;
 import me.japherwocky.spellbook.enchants.FireballEnchant;
 import me.japherwocky.spellbook.enchants.MagicMissileEnchant;
@@ -78,6 +79,11 @@ public final class Spellbook extends JavaPlugin {
         }
         // Vampirism curse removed
         // Insomnia curse removed
+        
+        // Register unbreakable netherite feature if enabled
+        if (SpellbookConfig.UNBREAKABLE_NETHERITE_ENABLED) {
+            getServer().getPluginManager().registerEvents(new UnbreakableNetheriteListener(), this);
+        }
     }
 
     @Override

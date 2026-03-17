@@ -28,6 +28,7 @@ import java.util.*;
 public class SpellbookConfig {
 
     public static final Map<Key, SpellbookEnchant> ENCHANTS = new HashMap<>();
+    public static boolean UNBREAKABLE_NETHERITE_ENABLED = true;
     private static boolean initialized = false;
 
     protected static void init(Path filePath) throws IOException {
@@ -105,6 +106,9 @@ public class SpellbookConfig {
         // Vampirism curse removed
 
         // Insomnia curse removed
+
+        // Load unbreakable netherite feature setting
+        UNBREAKABLE_NETHERITE_ENABLED = getBoolean(configuration, "unbreakableNetherite.enabled", true);
 
         configuration.save(configFile);
     }

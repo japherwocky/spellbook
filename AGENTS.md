@@ -119,6 +119,9 @@ Use `SpellbookConfig.getInt()`, `getString()`, `getBoolean()`, etc. with sensibl
 ### Curses
 - **Panic** - (Curse) Triggers on low health
 
+### Features (Non-Enchantment)
+- **Unbreakable Netherite** - Netherite armor and tools take no durability damage. Configurable via `unbreakableNetherite.enabled` in config.yml.
+
 ## Key Patterns
 
 ### Utility Methods in `Spellbook.java`
