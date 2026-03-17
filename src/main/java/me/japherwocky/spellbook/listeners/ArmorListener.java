@@ -6,6 +6,7 @@ import me.japherwocky.spellbook.Spellbook;
 import me.japherwocky.spellbook.SpellbookConfig;
 import me.japherwocky.spellbook.enchants.SpellbookEnchant;
 import me.japherwocky.spellbook.enchants.ArmorEnchant;
+import net.kyori.adventure.key.Key;
 import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -31,9 +32,9 @@ public class ArmorListener implements Listener {
     private final Registry<@NotNull Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
     private final Enchantment armor = registry.get(ArmorEnchant.KEY);
     
-    // Unique modifier ID for our armor enchantment
+    // Unique modifier key for our armor enchantment
+    private static final Key ARMOR_MODIFIER_KEY = Key.key("spellbook:armor_enchant");
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");
-    private static final String ARMOR_MODIFIER_NAME = "spellbook.armor_enchant";
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -91,7 +92,7 @@ public class ArmorListener implements Listener {
         if (armorAttribute == null) return;
 
         // Remove existing modifier if present
-        AttributeModifier existingModifier = armorAttribute.getModifier(ARMOR_MODIFIER_UUID);
+        AttributeModifier existingModifier = armorAttribute.getModifier(ARMOR_MODIFIER_KEY);
         if (existingModifier != null) {
             armorAttribute.removeModifier(existingModifier);
         }
@@ -99,9 +100,10 @@ public class ArmorListener implements Listener {
         // Add new modifier if there's any armor enchantment level
         if (totalArmorLevel > 0) {
             double armorBonus = totalArmorLevel * armorEnchant.getArmorPerLevel();
+            @SuppressWarnings("deprecation")
             AttributeModifier modifier = new AttributeModifier(
                 ARMOR_MODIFIER_UUID,
-                ARMOR_MODIFIER_NAME,
+                "spellbook.armor_enchant",
                 armorBonus,
                 AttributeModifier.Operation.ADD_NUMBER
             );
