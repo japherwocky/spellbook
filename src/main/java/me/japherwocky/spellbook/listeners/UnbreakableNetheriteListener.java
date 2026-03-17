@@ -23,8 +23,9 @@ public class UnbreakableNetheriteListener implements Listener {
             return;
         }
 
-        // Cancel the damage event - netherite gear takes no damage
-        event.setCancelled(true);
+        // Set damage to 0 - netherite gear takes no damage
+        // Using setDamage(0) instead of setCancelled(true) for better client sync
+        event.setDamage(0);
     }
 
     /**
