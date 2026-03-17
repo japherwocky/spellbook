@@ -120,7 +120,7 @@ Use `SpellbookConfig.getInt()`, `getString()`, `getBoolean()`, etc. with sensibl
 - **Panic** - (Curse) Triggers on low health
 
 ### Features (Non-Enchantment)
-- **Unbreakable Netherite** - Netherite armor and tools take no durability damage. Configurable via `unbreakableNetherite.enabled` in config.yml.
+- **Unbreakable Netherite** - Netherite armor and tools take no durability damage. Configurable via `unbreakableNetherite.enabled` in config.yml (default: true). The durability bar will not appear on fresh netherite items, and existing damage is preserved (not repaired).
 
 ## Key Patterns
 
