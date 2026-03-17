@@ -100,6 +100,14 @@ Randomly teleports you when taking damage
 
 _Sometimes magic has a mind of its own_
 
+## ✨ End-Game Quality of Life
+
+### ♾️ Unbreakable Netherite
+
+Netherite armor and tools take **zero durability damage**. Play with your best gear without worrying about mending or repairs.
+
+_Perfect for players who've already enchanted their netherite gear_
+
 ## Perfect for Survival Servers
 
 * **Vanilla-Style Design**: Each enchantment feels like it belongs in Minecraft
