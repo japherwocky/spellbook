@@ -136,7 +136,7 @@ public class CloakingEnchant implements SpellbookEnchant {
                 SpellbookConfig.getInt(configurationSection, "ticksToActivate", 30)
         );
 
-        if (SpellbookConfig.getBoolean(configurationSection, "enabled", true)) {
+        if (SpellbookConfig.getBoolean(configurationSection, "enabled", false)) {
             ENCHANTS.put(CloakingEnchant.KEY, cloakingEnchant);
         }
 

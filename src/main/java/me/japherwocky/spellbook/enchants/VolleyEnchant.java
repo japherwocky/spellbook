@@ -147,7 +147,7 @@ public class VolleyEnchant implements SpellbookEnchant {
                 SpellbookConfig.getDouble(configurationSection, "spread", 0.5)
         );
 
-        if (SpellbookConfig.getBoolean(configurationSection, "enabled", true)) {
+        if (SpellbookConfig.getBoolean(configurationSection, "enabled", false)) {
             ENCHANTS.put(VolleyEnchant.KEY, executionerEnchant);
         }
 

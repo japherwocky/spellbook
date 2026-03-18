@@ -138,7 +138,7 @@ public class AirbagEnchant implements SpellbookEnchant {
                 SpellbookConfig.getDouble(configurationSection, "damageReductionPerLevel", 0.2)
         );
 
-        if (SpellbookConfig.getBoolean(configurationSection, "enabled", true)) {
+        if (SpellbookConfig.getBoolean(configurationSection, "enabled", false)) {
             SpellbookConfig.ENCHANTS.put(airbagEnchant.getKey(), airbagEnchant);
         }
 

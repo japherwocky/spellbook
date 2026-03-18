@@ -137,7 +137,7 @@ public class TelekinesisEnchant implements SpellbookEnchant {
                 SpellbookConfig.getBoolean(configurationSection, "onlyUserCanPickupItems", false)
         );
 
-        if (SpellbookConfig.getBoolean(configurationSection, "enabled", true)) {
+        if (SpellbookConfig.getBoolean(configurationSection, "enabled", false)) {
             ENCHANTS.put(TelekinesisEnchant.KEY, telekinesisEnchant);
         }
 

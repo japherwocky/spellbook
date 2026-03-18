@@ -8,6 +8,19 @@
   - Level 2: ~3.75 hunger per cast (was ~0.125)
 - **Added sword swing animation** - Players now see their sword swing when casting fireballs, making the ability feel more responsive
 
+## Disabled Enchantments (Untested)
+
+The following enchantments have been disabled by default pending testing:
+- **Telekinesis** - Keep items from mobs you kill
+- **Replanting** - Auto-replant harvested crops
+- **Executioner** - Bonus damage to low-health targets
+- **Smelting** - Auto-smelt mined ores
+- **Airbag** - Fall damage reduction for Elytra users
+- **Cloaking** - Invisibility while sneaking
+- **Volley** - Fire multiple arrows per shot
+
+These can be re-enabled in `plugins/Spellbook/config.yml` by setting `enchants.<enchantname>.enabled: true`
+
 ---
 
 # Spellbook v1.2.0 Release Notes

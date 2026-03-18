@@ -148,7 +148,7 @@ public class ExecutionerEnchant implements SpellbookEnchant {
                 SpellbookConfig.getDouble(configurationSection, "maxDamageHpThreshold", 0.25)
         );
 
-        if (SpellbookConfig.getBoolean(configurationSection, "enabled", true)) {
+        if (SpellbookConfig.getBoolean(configurationSection, "enabled", false)) {
             ENCHANTS.put(ExecutionerEnchant.KEY, executionerEnchant);
         }
 

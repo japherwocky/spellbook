@@ -119,7 +119,7 @@ public class ReplantingEnchant implements SpellbookEnchant {
                 ))
         );
 
-        if (SpellbookConfig.getBoolean(configurationSection, "enabled", true)) {
+        if (SpellbookConfig.getBoolean(configurationSection, "enabled", false)) {
             ENCHANTS.put(ReplantingEnchant.KEY, replantingEnchant);
         }
 
