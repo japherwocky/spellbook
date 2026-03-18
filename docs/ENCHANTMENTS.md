@@ -2,37 +2,18 @@
 
 This document provides a complete list of all standard enchantments available in the Spellbook plugin.
 
-## Standard Enchantments
+## Enabled Enchantments
+
+The following enchantments are enabled by default and ready to use.
 
 ### Soulbound
 **Description**: Keep the item in your inventory after death.
 
-### Replanting
-**Description**: Replants broken crops using seeds in your inventory or from the loot of the crop if no seeds are available in player's inventory.
-
-### Telekinesis
-**Description**: Teleports dropped items to player's location and makes them immediately pickuppable.
-
-### Executioner
-**Description**: Items enchanted with executioner will deal more damage to entities under specific health threshold.
-
 ### Beheading
 **Description**: Adds a chance to drop the head of the entity killed (if entity has a head item available).
 
-### Smelting
-**Description**: Automatically smelts drops from mined blocks.
-
-### Airbag
-**Description**: Reduces damage from hitting a wall while flying with elytra.
-
 ### Homecoming
 **Description**: When totem of undying is activated, player is teleported to their spawn point. If spawn point is not set, player is teleported to world spawn.
-
-### Cloaking
-**Description**: Gives invisibility effect when player is sneaking and not moving.
-
-### Volley
-**Description**: Shoots additional arrows when shooting a bow. Amount of arrows and their spread is configurable.
 
 ### Ward
 **Description**: Automatically blocks hits, but triggers a configurable cooldown every time it does. It triggers a cooldown for the enchanted item's cooldown group.
@@ -51,3 +32,33 @@ This document provides a complete list of all standard enchantments available in
 
 ### Armor
 **Description**: Increases armor points for better damage reduction. Each level adds +1 armor point to the player's total armor rating when wearing enchanted armor pieces.
+
+## Disabled Enchantments
+
+The following enchantments are disabled by default pending testing. They can be enabled in `plugins/Spellbook/config.yml` by setting `enchants.<enchantment>.enabled: true`.
+
+### Replanting
+**Description**: Replants broken crops using seeds in your inventory or from the loot of the crop if no seeds are available in player's inventory.
+
+### Telekinesis
+**Description**: Teleports dropped items to player's location and makes them immediately pickuppable.
+
+### Executioner
+**Description**: Items enchanted with executioner will deal more damage to entities under specific health threshold.
+
+### Smelting
+**Description**: Automatically smelts drops from mined blocks.
+
+### Airbag
+**Description**: Reduces damage from hitting a wall while flying with elytra.
+
+### Cloaking
+**Description**: Gives invisibility effect when player is sneaking and not moving.
+
+### Volley
+**Description**: Shoots additional arrows when shooting a bow. Amount of arrows and their spread is configurable.
+
+## Curses
+
+### Panic
+**Description**: Randomly teleports you when taking damage.

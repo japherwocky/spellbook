@@ -2,7 +2,7 @@
 
 Spellbook brings 16 unique, vanilla-style enchantments to your Paper server, designed to enhance gameplay without breaking the Minecraft experience. Each enchantment feels like it could belong in the base game while adding exciting new mechanics for players to discover.
 
-## Complete Enchantment List
+## ✨ Available Enchantments
 
 ### ⚔️ Bless (Weapons)
 
@@ -28,18 +28,6 @@ Teleports you to your spawn point when the totem activates
 
 _Never lose your way home again_
 
-### 🫥 Cloaking (Armor)
-
-Grants invisibility when sneaking and standing still
-
-_Master the art of stealth_
-
-### 🗡️ Executioner (Weapons)
-
-Deals massive bonus damage to low-health enemies
-
-_Finish your foes with style_
-
 ### 💀 Beheading (Weapons)
 
 Chance to drop mob heads when killing entities
@@ -58,30 +46,6 @@ Launches tracking missiles at nearby targets
 
 _Homing projectiles that never miss_
 
-### 🏹 Volley (Bows)
-
-Shoots multiple arrows in a spread pattern
-
-_Turn any bow into a shotgun_
-
-### 🌱 Replanting (Hoes)
-
-Automatically replants crops after harvesting
-
-_Sustainable farming made easy_
-
-### 🤏 Telekinesis (Tools)
-
-Teleports mined items directly to your inventory
-
-_No more chasing dropped items_
-
-### 🔥 Smelting (Tools)
-
-Automatically smelts mined ores and blocks
-
-_Skip the furnace, get straight to the goods_
-
 ### 👻 Soulbound (Any Item)
 
 Keep enchanted items in your inventory after death
@@ -94,11 +58,20 @@ Enables creative-style flight (drains hunger)
 
 _Soar through the skies with magical wings_
 
-### 😱 Panic (Curse)
+## ⏳ Coming Soon
 
-Randomly teleports you when taking damage
+The following enchantments are available but currently disabled pending testing. Server admins can enable them in `config.yml`:
 
-_Sometimes magic has a mind of its own_
+| Enchantment | Category | Description |
+|-------------|----------|-------------|
+| Cloaking | Armor | Grants invisibility when sneaking and standing still |
+| Executioner | Weapons | Deals massive bonus damage to low-health enemies |
+| Volley | Bows | Shoots multiple arrows in a spread pattern |
+| Replanting | Hoes | Automatically replants crops after harvesting |
+| Telekinesis | Tools | Teleports mined items directly to your inventory |
+| Smelting | Tools | Automatically smelts mined ores and blocks |
+| Airbag | Chestplate | Reduces elytra crash damage |
+| Panic | Curse | Randomly teleports you when taking damage |
 
 ## ✨ End-Game Quality of Life
 
