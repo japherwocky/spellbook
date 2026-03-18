@@ -111,3 +111,14 @@ buildNumber.properties
 
 # Common working directory
 run/
+
+# Eclipse
+.classpath
+.factorypath
+.project
+.settings/
+
+# Build artifacts
+ERROR.md
+RELEASE_NOTES.txt
+apache-maven-*/
