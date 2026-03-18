@@ -62,8 +62,11 @@ public class FireballListener implements Listener {
             // Create and shoot fireball
             FireballEnchant.createFireball(player, level * 0.5f); // Scale power with enchantment level
             
-            // Add exhaustion based on level (higher level = less exhaustion)
-            player.setExhaustion(player.getExhaustion() + (3.0f - level));
+            // Add exhaustion based on level - 10x hunger drain (level 1 = 20 exhaustion, level 2 = 30)
+            player.setExhaustion(player.getExhaustion() + (10.0f + (level * 10.0f)));
+            
+            // Trigger sword swing animation
+            player.swingMainHand();
             
             // Play sound effect
             player.playSound(player.getLocation(), Sound.ENTITY_GHAST_SHOOT, 0.6f, 1.0f);

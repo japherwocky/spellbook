@@ -1,3 +1,15 @@
+# Spellbook v1.2.1 Release Notes
+
+## Changes
+
+### Fireball Enchantment
+- **Hunger drain increased 10x** - Casting fireballs now consumes significantly more hunger, making it a more costly ability to use
+  - Level 1: ~2.5 hunger per cast (was ~0.25)
+  - Level 2: ~3.75 hunger per cast (was ~0.125)
+- **Added sword swing animation** - Players now see their sword swing when casting fireballs, making the ability feel more responsive
+
+---
+
 # Spellbook v1.2.0 Release Notes
 
 ## New Features
