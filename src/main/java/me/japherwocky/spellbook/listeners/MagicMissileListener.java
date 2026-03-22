@@ -19,13 +19,16 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class MagicMissileListener implements Listener {
@@ -34,6 +37,7 @@ public class MagicMissileListener implements Listener {
     private final Map<UUID, Long> cooldowns = new HashMap<>();
     private final Map<UUID, BukkitRunnable> chargeTasks = new HashMap<>(); // Active charging tasks
     private final Map<UUID, Long> chargeStartTimes = new HashMap<>(); // When charging started
+    private final Set<UUID> isCharging = new HashSet<>(); // Track who's currently charging
     private final long COOLDOWN_TICKS = 20; // 1 second cooldown
     private static final long MAX_CHARGE_TICKS = 20; // 1 second to fully charge (like bow)
     private static final long MIN_CHARGE_TICKS = 5; // Minimum charge to fire (0.25 seconds)
@@ -71,34 +75,35 @@ public class MagicMissileListener implements Listener {
         }
         
         // Check if already charging
-        if (chargeStartTimes.containsKey(playerId)) {
+        if (isCharging.contains(playerId)) {
             return; // Already charging
         }
         
         // Start charging
+        isCharging.add(playerId);
         chargeStartTimes.put(playerId, currentTime);
         event.setCancelled(true);
         
         // Play charge start sound
         player.playSound(player.getLocation(), Sound.ITEM_CROSSBOW_LOADING_START, 0.6f, 1.2f);
         
-        // Start a task to monitor charging and fire on release
+        // Start a task to monitor charging
         BukkitRunnable chargeTask = new BukkitRunnable() {
-            private boolean fired = false;
             private int ticks = 0;
             
             @Override
             public void run() {
-                if (fired) return;
+                if (!isCharging.contains(playerId)) {
+                    this.cancel();
+                    return;
+                }
                 
                 // Display charging particles
                 displayChargeParticles(player, ticks);
                 ticks++;
                 
-                // Check if player is still holding right-click (hand raised)
-                if (!player.isHandRaised()) {
-                    // Player released - fire the missile
-                    fired = true;
+                // Auto-fire at max charge (like bow)
+                if (ticks >= MAX_CHARGE_TICKS) {
                     fireMissile(player, item);
                     this.cancel();
                 }
@@ -170,11 +175,53 @@ public class MagicMissileListener implements Listener {
         }
     }
     
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerLeftClick(PlayerInteractEvent event) {
+        // Fire missile on left-click if charging
+        if (event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK) return;
+        
+        Player player = event.getPlayer();
+        UUID playerId = player.getUniqueId();
+        
+        if (isCharging.contains(playerId)) {
+            ItemStack item = player.getInventory().getItemInMainHand();
+            fireMissile(player, item);
+        }
+    }
+    
+    @EventHandler
+    public void onPlayerSneak(PlayerToggleSneakEvent event) {
+        // Cancel charging if player sneaks
+        Player player = event.getPlayer();
+        UUID playerId = player.getUniqueId();
+        
+        if (isCharging.contains(playerId) && event.isSneaking()) {
+            cancelCharge(playerId);
+            player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.3f, 1.2f);
+        }
+    }
+    
+    private void cancelCharge(UUID playerId) {
+        isCharging.remove(playerId);
+        chargeStartTimes.remove(playerId);
+        BukkitRunnable task = chargeTasks.remove(playerId);
+        if (task != null) {
+            task.cancel();
+        }
+    }
+    
     /**
      * Fires the magic missile when the player releases their charge.
      */
     private void fireMissile(Player player, ItemStack item) {
         UUID playerId = player.getUniqueId();
+        
+        // Remove from charging state first
+        isCharging.remove(playerId);
+        BukkitRunnable task = chargeTasks.remove(playerId);
+        if (task != null) {
+            task.cancel();
+        }
         
         // Get charge time
         long chargeStart = chargeStartTimes.getOrDefault(playerId, 0L);
@@ -183,7 +230,6 @@ public class MagicMissileListener implements Listener {
         
         // Clean up tracking
         chargeStartTimes.remove(playerId);
-        chargeTasks.remove(playerId);
         
         // Check minimum charge
         if (chargeTime < MIN_CHARGE_TICKS) {
@@ -293,12 +339,7 @@ public class MagicMissileListener implements Listener {
     
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        UUID playerId = event.getPlayer().getUniqueId();
-        chargeStartTimes.remove(playerId);
-        BukkitRunnable task = chargeTasks.remove(playerId);
-        if (task != null) {
-            task.cancel();
-        }
+        cancelCharge(event.getPlayer().getUniqueId());
     }
     
     @EventHandler
@@ -307,12 +348,8 @@ public class MagicMissileListener implements Listener {
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
         
-        if (chargeStartTimes.containsKey(playerId)) {
-            chargeStartTimes.remove(playerId);
-            BukkitRunnable task = chargeTasks.remove(playerId);
-            if (task != null) {
-                task.cancel();
-            }
+        if (isCharging.contains(playerId)) {
+            cancelCharge(playerId);
             // Play cancel sound
             player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.3f, 1.2f);
         }
