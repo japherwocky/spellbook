@@ -166,7 +166,7 @@ public class MagicMissileListener implements Listener {
         // Add sparkle at full charge
         if (progress >= 1.0 && ticks % 4 == 0) {
             player.getWorld().spawnParticle(
-                    Particle.INSTANT_EFFECT,
+                    Particle.WITCH,
                     particleLoc,
                     1,
                     0.1, 0.1, 0.1,
@@ -324,7 +324,7 @@ public class MagicMissileListener implements Listener {
                 // Add sparkle effect occasionally
                 if (ticks % 3 == 0) {
                     arrow.getWorld().spawnParticle(
-                            Particle.INSTANT_EFFECT,
+                            Particle.WITCH,
                             arrow.getLocation(),
                             1,
                             0.1, 0.1, 0.1,
