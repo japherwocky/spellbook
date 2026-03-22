@@ -42,9 +42,9 @@ _Channel your inner blaze_
 
 ### 🎯 Magic Missile (Swords)
 
-Launches tracking missiles at nearby targets
+Charge and fire magic arrows with bow-like mechanics. Hold right-click to charge, left-click to fire.
 
-_Homing projectiles that never miss_
+_Magical projectiles with charging mechanics_
 
 ### 👻 Soulbound (Any Item)
 

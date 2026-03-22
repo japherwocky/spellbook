@@ -25,7 +25,23 @@ The following enchantments are enabled by default and ready to use.
 **Description**: Allows players to shoot fireballs with enchanted swords. Has a 1-second cooldown between uses. Fireball power scales with enchantment level, and using the enchantment adds exhaustion based on level.
 
 ### Magic Missile
-**Description**: Launches tracking missiles at nearby targets when right-clicking with an enchanted sword. Has a 2-second cooldown between uses. Range and damage increase with enchantment level. Creates a particle trail effect and plays sound effects.
+**Description**: Launches a magic missile arrow when using enchanted swords with bow-like charging mechanics.
+
+**How to use:**
+- Hold **right-click** to charge the missile
+- **Left-click** to fire (or wait for max charge auto-fire)
+- Press **sneak** to cancel charging
+
+**Details:**
+- Uses actual arrow projectiles that deal damage naturally through Minecraft's mechanics
+- Arrows fly 40% faster than regular bow arrows
+- Minimum charge: 0.25 seconds to fire
+- Maximum charge: 1 second for full power
+- Damage scales with charge: 50-100% of base damage (4/6/8 for levels 1/2/3)
+- Charging particles spiral and change color (purple → magenta)
+- Creates particle trail on arrow flight
+- Cooldown: 1 second between casts
+- Adds 2-4 exhaustion (hunger drain) per use
 
 ### Bless
 **Description**: Adds flat damage bonus to weapon attacks. Each level adds +1 damage to every attack made with the enchanted weapon.
