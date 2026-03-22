@@ -34,9 +34,9 @@ jobs:
     - name: Find JAR file
       id: jar
       run: |
-        JAR_FILE=$(find target -name "Spellbook-*.jar" -not -name "*-original.jar" | head -1)
+        JAR_FILE=$(find target -name "Spellbook-*-shaded.jar" | head -1)
         if [ -z "$JAR_FILE" ]; then
-          echo "Error: No JAR file found!"
+          echo "Error: No shaded JAR file found!"
           exit 1
         fi
         echo "jar_path=$JAR_FILE" >> $GITHUB_OUTPUT

@@ -28,5 +28,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: spellbook-plugin
-        path: target/Spellbook-*.jar
+        path: target/Spellbook-*-shaded.jar
         if-no-files-found: error
