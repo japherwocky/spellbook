@@ -40,7 +40,7 @@ Netherite armor and tools now take **zero durability damage**. This is designed 
   - Color shifts from purple to bright magenta as charge increases
   - Particles spiral inward as charge builds
   - Sparkles appear when fully charged
-- **Damage formula**: Base 4/6/8 damage (levels 1/2/3), scaled by charge
+- **Damage formula**: Base 3/4/5 damage (levels 1/2/3), scaled 50-100% by charge = 1.5-3 / 2-4 / 2.5-5 damage
 - **Cooldown**: 1 second between casts
 - **Hunger cost**: Scales with charge (4-6 exhaustion = ~1-1.5 hunger points)
 

@@ -37,11 +37,14 @@ The following enchantments are enabled by default and ready to use.
 - Arrows fly 40% faster than regular bow arrows
 - Minimum charge: 0.25 seconds to fire
 - Maximum charge: 1 second for full power
-- Damage scales with charge: 50-100% of base damage (4/6/8 for levels 1/2/3)
+- Damage scales with charge: 50-100% of base damage
+  - Level 1: 1.5-3 damage (0.75-1.5 hearts)
+  - Level 2: 2-4 damage (1-2 hearts)  
+  - Level 3: 2.5-5 damage (1.25-2.5 hearts)
 - Charging particles spiral and change color (purple → magenta)
 - Creates particle trail on arrow flight
 - Cooldown: 1 second between casts
-- Adds 2-4 exhaustion (hunger drain) per use
+- Adds 4-6 exhaustion (~1-1.5 hunger points) per use
 
 ### Bless
 **Description**: Adds flat damage bonus to weapon attacks. Each level adds +1 damage to every attack made with the enchanted weapon.

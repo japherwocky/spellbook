@@ -292,8 +292,9 @@ public class MagicMissileListener implements Listener {
         );
         
         // Set damage based on level and charge
-        // Base damage: 2.0 + (level * 2.0), scaled by charge ratio
-        double baseDamage = 2.0 + (level * 2.0); // 4/6/8 for levels 1/2/3
+        // Base damage: 2.0 + (level * 1.0), scaled by charge ratio
+        // Results in: Level 1 = 1-2 damage, Level 2 = 1.5-3 damage, Level 3 = 2-4 damage
+        double baseDamage = 2.0 + level; // 3/4/5 for levels 1/2/3
         double damage = baseDamage * (0.5 + chargeRatio * 0.5); // 50-100% damage based on charge
         arrow.setDamage(damage);
         
