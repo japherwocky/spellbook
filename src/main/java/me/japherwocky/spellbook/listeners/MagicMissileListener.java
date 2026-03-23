@@ -272,8 +272,8 @@ public class MagicMissileListener implements Listener {
         Location eyeLocation = player.getEyeLocation();
         Vector direction = eyeLocation.getDirection();
         
-        // Spawn arrow slightly in front of player
-        Location spawnLoc = eyeLocation.clone().add(direction.clone().multiply(0.5));
+        // Spawn arrow in front of player (1.5 blocks out, similar to fireball)
+        Location spawnLoc = eyeLocation.clone().add(direction.clone().multiply(1.5));
         
         Arrow arrow = player.getWorld().spawn(spawnLoc, Arrow.class);
         arrow.setShooter(player);
