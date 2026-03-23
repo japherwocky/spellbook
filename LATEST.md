@@ -42,7 +42,7 @@ Netherite armor and tools now take **zero durability damage**. This is designed 
   - Sparkles appear when fully charged
 - **Damage formula**: Base 4/6/8 damage (levels 1/2/3), scaled by charge
 - **Cooldown**: 1 second between casts
-- **Hunger cost**: Scales with charge (2-4 exhaustion)
+- **Hunger cost**: Scales with charge (4-6 exhaustion = ~1-1.5 hunger points)
 
 ## Disabled Enchantments (Untested)
 
