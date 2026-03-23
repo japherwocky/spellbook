@@ -275,6 +275,10 @@ public class MagicMissileListener implements Listener {
         // Spawn arrow in front of player (1.5 blocks out, similar to fireball)
         Location spawnLoc = eyeLocation.clone().add(direction.clone().multiply(1.5));
         
+        // Create spawn location with correct rotation
+        spawnLoc.setYaw(eyeLocation.getYaw());
+        spawnLoc.setPitch(eyeLocation.getPitch());
+        
         Arrow arrow = player.getWorld().spawn(spawnLoc, Arrow.class);
         arrow.setShooter(player);
         arrow.setPickupStatus(Arrow.PickupStatus.DISALLOWED); // Can't be picked up
@@ -283,6 +287,8 @@ public class MagicMissileListener implements Listener {
         double velocity = MIN_VELOCITY + chargeRatio * (MAX_VELOCITY - MIN_VELOCITY);
         Vector velocityVector = direction.clone().multiply(velocity);
         
+        // Teleport to set rotation immediately before applying velocity
+        arrow.teleport(spawnLoc);
         arrow.setVelocity(velocityVector);
         
         // Set damage based on level and charge
