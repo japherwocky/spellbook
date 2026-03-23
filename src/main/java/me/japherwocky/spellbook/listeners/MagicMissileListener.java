@@ -285,12 +285,6 @@ public class MagicMissileListener implements Listener {
         
         arrow.setVelocity(velocityVector);
         
-        // Set arrow rotation to match velocity direction (prevents wobbling)
-        arrow.setRotation(
-                eyeLocation.getYaw(),
-                eyeLocation.getPitch()
-        );
-        
         // Set damage based on level and charge
         // Base damage: 2.0 + (level * 1.0), scaled by charge ratio
         // Results in: Level 1 = 1-2 damage, Level 2 = 1.5-3 damage, Level 3 = 2-4 damage
