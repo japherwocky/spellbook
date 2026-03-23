@@ -280,8 +280,15 @@ public class MagicMissileListener implements Listener {
         
         // Calculate velocity based on charge (40% faster than bow)
         double velocity = MIN_VELOCITY + chargeRatio * (MAX_VELOCITY - MIN_VELOCITY);
+        Vector velocityVector = direction.clone().multiply(velocity);
         
-        arrow.setVelocity(direction.clone().multiply(velocity));
+        arrow.setVelocity(velocityVector);
+        
+        // Set arrow rotation to match velocity direction (prevents wobbling)
+        arrow.setRotation(
+                eyeLocation.getYaw(),
+                eyeLocation.getPitch()
+        );
         
         // Set damage based on level and charge
         // Base damage: 2.0 + (level * 2.0), scaled by charge ratio
