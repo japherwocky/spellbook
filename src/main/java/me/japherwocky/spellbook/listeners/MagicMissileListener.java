@@ -260,8 +260,9 @@ public class MagicMissileListener implements Listener {
         // Play launch sound
         player.playSound(player.getLocation(), Sound.ENTITY_ARROW_SHOOT, 0.8f, 1.2f);
         
-        // Add exhaustion (less than bow, but scales with charge)
-        player.setExhaustion(player.getExhaustion() + (float) (2.0 + chargeRatio * 2.0));
+        // Add exhaustion (scales with charge, similar to bow usage)
+        // Full charge = ~6 exhaustion (1.5 hunger points), min charge = ~4 exhaustion (1 hunger point)
+        player.setExhaustion(player.getExhaustion() + (float) (4.0 + chargeRatio * 2.0));
     }
     
     /**
