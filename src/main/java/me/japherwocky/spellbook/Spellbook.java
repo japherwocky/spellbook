@@ -77,6 +77,10 @@ public final class Spellbook extends JavaPlugin {
         if (SpellbookConfig.ENCHANTS.containsKey(ArmorEnchant.KEY)) {
             getServer().getPluginManager().registerEvents(new ArmorListener(), this);
         }
+        
+        if (SpellbookConfig.ENCHANTS.containsKey(VeinMinerEnchant.KEY)) {
+            getServer().getPluginManager().registerEvents(new VeinMinerListener(), this);
+        }
         // Vampirism curse removed
         // Insomnia curse removed
         

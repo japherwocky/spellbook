@@ -97,6 +97,9 @@ public class SpellbookConfig {
         ConfigurationSection armorSection = getConfigSection(enchantsSection, "armor");
         ArmorEnchant.create(armorSection);
 
+        ConfigurationSection veinMinerSection = getConfigSection(enchantsSection, "veinminer");
+        VeinMinerEnchant.create(veinMinerSection);
+
         ConfigurationSection cursesSection = getConfigSection(configuration, "curses");
         migrateEnchantTags(cursesSection);
 
