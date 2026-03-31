@@ -155,7 +155,7 @@ public class VeinMinerEnchant implements SpellbookEnchant {
                 ))
         );
 
-        if (SpellbookConfig.getBoolean(config, "enabled", false)) {
+        if (SpellbookConfig.getBoolean(config, "enabled", true)) {
             ENCHANTS.put(VeinMinerEnchant.KEY, veinMinerEnchant);
         }
 
