@@ -154,6 +154,28 @@ mvn clean package
 
 Output: `target/Spellbook-{version}.jar`
 
+### Toolchain gotchas
+
+- **Java version is tied to the Paper API version, not chosen freely.** Paper occasionally bumps the Java bytecode version its own `paper-api` jar is compiled with (e.g. the 26.x line moved to Java 25 / class file major version 69). javac's `--release` flag hard-rejects any classpath entry with a *newer* class file version than the target release, even when the compiler itself is a newer JDK — so `<java.version>` in [pom.xml](pom.xml) must be bumped to match whatever `paper-api` requires whenever it's upgraded, or the build fails with `bad class file ... wrong version`.
+- **`maven-shade-plugin` needs to be new enough to shade that bytecode too.** Its bundled ASM library independently needs to support the target class file version (3.6.2+ for Java 25/class file 69) or `mvn package` fails at the shade step even after the compile step succeeds.
+- **CI workflow JDK versions must be kept in sync with `pom.xml`.** [.github/workflows/build.yml](.github/workflows/build.yml) and [.github/workflows/release.yml](.github/workflows/release.yml) each pin a `java-version` in the `setup-java` step independently of `pom.xml`'s `<java.version>`. These silently drift out of sync — this repo had every CI build red for four months (April-August 2026) after a Paper bump before anyone noticed, since nothing was gating merges on it.
+- When bumping the Paper API version, always do a real local `mvn clean package` (not just skim the diff) before pushing — a clean local build catches this class of failure immediately if your local JDK happens to already be new enough.
+
+## Release Process
+
+Releases are cut by creating a GitHub release, not just pushing a tag:
+
+```bash
+gh release create 1.5.0 --title "Spellbook v1.5.0" --notes "..."
+```
+
+- Tag name is the bare version (no `v` prefix, per current convention — some older tags do have one).
+- Creating the release triggers [release.yml](../.github/workflows/release.yml) (`on: release: [created, edited]`), which builds with `-Drevision=<tag>` and uploads the shaded jar as a release asset.
+- Editing a release's notes *should* also re-trigger the build, but this has been unreliable in practice — if a build needs to be retried, deleting and recreating the release (`gh release delete <tag> --yes --cleanup-tag`, then `gh release create` again) is the reliable path.
+- Don't move an already-pushed tag to a new commit (`git tag -f` + force-push) to retry a broken release — delete and recreate instead; force-pushing a shared ref is a bigger footgun than a clean redo.
+- Always confirm the resulting release actually has a jar attached (`gh release view <tag> --json assets`) — a failed build still leaves the release published, just asset-less.
+- Remember to mark the newest version `--latest` after cutting it, especially if releases were created out of chronological order (e.g. backfilling older versions after the newest one already exists).
+
 ## Testing
 
 1. Build the plugin

@@ -117,6 +117,7 @@ run/
 .factorypath
 .project
 .settings/
+bin/
 
 # Build artifacts
 ERROR.md
