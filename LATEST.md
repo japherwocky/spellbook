@@ -7,7 +7,7 @@ This release updates Spellbook to support **Minecraft 26.2** running on **Paper 
 
 - **Updated Paper API**: `26.1.2.build.13-alpha` → `26.2.build.112-stable`
 - **API Version**: `1.26.1.2` → `26.2`
-- **Java Version**: Still requires Java 21
+- **Java Version**: `21` → `25` (Paper 26.2 ships class files built for Java 25; both the build JDK and the server JVM must be Java 25+)
 
 ## Compatibility
 
