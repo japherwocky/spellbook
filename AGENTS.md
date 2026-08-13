@@ -8,7 +8,7 @@ This document provides context for AI agents working on the Spellbook Minecraft 
 
 - **Language**: Java 21
 - **Build Tool**: Maven
-- **Platform**: Paper API 1.21.11+
+- **Platform**: Paper API 26.2+ (Minecraft 26.2)
 - **License**: See LICENSE file
 
 ## Architecture

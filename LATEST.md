@@ -1,12 +1,12 @@
-# Spellbook v1.4.0 Release Notes
+# Spellbook v1.5.0 Release Notes
 
 ## Platform Update
 
-### Paper 1.26.1.2 Support
-This release updates Spellbook to support **Minecraft 1.26.1.2** running on **Paper build 13**.
+### Paper 26.2 Support
+This release updates Spellbook to support **Minecraft 26.2** running on **Paper build 112 (stable)**.
 
-- **Updated Paper API**: `1.21.11-R0.1-SNAPSHOT` → `26.1.2.build.13-alpha`
-- **API Version**: `1.21.8` → `1.26.1.2`
+- **Updated Paper API**: `26.1.2.build.13-alpha` → `26.2.build.112-stable`
+- **API Version**: `1.26.1.2` → `26.2`
 - **Java Version**: Still requires Java 21
 
 ## Compatibility
@@ -37,15 +37,15 @@ Netherite armor and tools continue to take **zero durability damage**.
 
 ## Technical Changes
 
-- Updated Maven dependency to use new Paper versioning scheme (`26.1.2.build.13-alpha`)
-- No breaking API changes required in plugin code
+- Updated Maven dependency to `26.2.build.112-stable` (Paper's now-stable 26.2 release channel)
+- No breaking API changes required in plugin code — compiled and packaged cleanly against the new API
 - All enchantment registry and event handling APIs remain compatible
 
 ## Installation
 
-1. Download `Spellbook-1.4.0.jar`
+1. Download `Spellbook-1.5.0.jar`
 2. Place in your server's `plugins/` folder
-3. Ensure you're running **Paper 1.26.1.2 (build 13)** or compatible version
+3. Ensure you're running **Paper 26.2 (build 112)** or compatible version
 4. Restart your server
 
 ---
