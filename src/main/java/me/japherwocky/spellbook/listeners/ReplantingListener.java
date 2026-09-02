@@ -4,6 +4,7 @@ import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import me.japherwocky.spellbook.enchants.ReplantingEnchant;
 import org.bukkit.*;
+import org.bukkit.block.data.Ageable;
 import org.bukkit.block.BlockState;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
@@ -32,6 +33,10 @@ public class ReplantingListener implements Listener {
 
         if (cropTag == null) return;
         if (!cropTag.isTagged(block.getType())) return;
+
+        // Only replant fully-grown crops; breaking an immature crop would waste a seed.
+        if (!(block.getBlockData() instanceof Ageable ageable)) return;
+        if (ageable.getAge() < ageable.getMaximumAge()) return;
 
         Material placementMaterial = block.getBlockData().getPlacementMaterial();
 
