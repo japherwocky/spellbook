@@ -6,7 +6,7 @@ import me.japherwocky.spellbook.Spellbook;
 import me.japherwocky.spellbook.SpellbookConfig;
 import me.japherwocky.spellbook.enchants.SpellbookEnchant;
 import me.japherwocky.spellbook.enchants.ArmorEnchant;
-import net.kyori.adventure.key.Key;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Registry;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
@@ -24,17 +24,20 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.UUID;
+import java.util.List;
 
 @SuppressWarnings("UnstableApiUsage")
 public class ArmorListener implements Listener {
 
     private final Registry<@NotNull Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
     private final Enchantment armor = registry.get(ArmorEnchant.KEY);
-    
+
     // Unique modifier key for our armor enchantment
-    private static final Key ARMOR_MODIFIER_KEY = Key.key("spellbook:armor_enchant");
-    private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("550e8400-e29b-41d4-a716-446655440001");
+    private static final NamespacedKey ARMOR_MODIFIER_KEY = new NamespacedKey("spellbook", "armor_enchant");
+    // Modifiers created before the key-based fix used the deprecated (UUID, name) constructor with
+    // the name "spellbook.armor_enchant", which derives the key "minecraft:spellbook.armor_enchant".
+    // Both spellings are swept on every update so already-polluted playerdata gets cleaned up.
+    private static final NamespacedKey LEGACY_ARMOR_MODIFIER_KEY = NamespacedKey.minecraft("spellbook.armor_enchant");
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -46,7 +49,7 @@ public class ArmorListener implements Listener {
         if (event.getWhoClicked() instanceof LivingEntity entity) {
             // Delay the update to ensure inventory changes are processed
             entity.getServer().getScheduler().runTask(
-                entity.getServer().getPluginManager().getPlugin("Spellbook"),
+                Spellbook.getPlugin(Spellbook.class),
                 () -> updateArmorAttribute(entity)
             );
         }
@@ -91,19 +94,23 @@ public class ArmorListener implements Listener {
         AttributeInstance armorAttribute = entity.getAttribute(Attribute.ARMOR);
         if (armorAttribute == null) return;
 
-        // Remove existing modifier if present
-        AttributeModifier existingModifier = armorAttribute.getModifier(ARMOR_MODIFIER_KEY);
-        if (existingModifier != null) {
-            armorAttribute.removeModifier(existingModifier);
+        // Remove our previous modifier (if any) and any legacy-spelling modifier from older
+        // versions. Key-based removal is required: modifiers are identified by key, and the
+        // deprecated (UUID, name) constructor derives a different key ("minecraft:...") than
+        // the lookup key ("spellbook:..."), which previously made this removal a no-op and
+        // stacked a new modifier on every recalculation.
+        for (AttributeModifier modifier : List.copyOf(armorAttribute.getModifiers())) {
+            NamespacedKey modifierKey = modifier.getKey();
+            if (ARMOR_MODIFIER_KEY.equals(modifierKey) || LEGACY_ARMOR_MODIFIER_KEY.equals(modifierKey)) {
+                armorAttribute.removeModifier(modifier);
+            }
         }
 
         // Add new modifier if there's any armor enchantment level
         if (totalArmorLevel > 0) {
             double armorBonus = totalArmorLevel * armorEnchant.getArmorPerLevel();
-            @SuppressWarnings("deprecation")
             AttributeModifier modifier = new AttributeModifier(
-                ARMOR_MODIFIER_UUID,
-                "spellbook.armor_enchant",
+                ARMOR_MODIFIER_KEY,
                 armorBonus,
                 AttributeModifier.Operation.ADD_NUMBER
             );
