@@ -53,21 +53,23 @@ public class SmeltingListener implements Listener {
     }
 
     /**
-     * Gets the smelted item from the given item stack. If item stack is not smeltable, returns the item stack itself.
+     * Gets the smelted result for the given item stack, or null if it is not smeltable.
+     * Both positive and negative lookups are cached to avoid re-iterating recipes.
      */
     private ItemStack getSmeltedItem(@NotNull ItemStack itemStack) {
         ItemStack singleItem = itemStack.asOne();
         if (smeltingCache.containsKey(singleItem)) return smeltingCache.get(singleItem);
 
+        ItemStack result = null;
         for (@NotNull Iterator<Recipe> it = Bukkit.recipeIterator(); it.hasNext(); ) {
             Recipe recipe = it.next();
             if (!(recipe instanceof FurnaceRecipe furnaceRecipe)) continue;
             if (!furnaceRecipe.getInputChoice().test(singleItem)) continue;
-            ItemStack result = furnaceRecipe.getResult();
-            smeltingCache.put(singleItem, result);
-            return result;
+            result = furnaceRecipe.getResult();
+            break;
         }
-        return null;
+        smeltingCache.put(singleItem, result);
+        return result;
     }
 
 }
