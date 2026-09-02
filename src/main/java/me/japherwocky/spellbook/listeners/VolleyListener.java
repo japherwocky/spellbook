@@ -14,7 +14,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.util.Vector;
 import org.jetbrains.annotations.NotNull;
 
@@ -51,7 +50,6 @@ public class VolleyListener implements Listener {
                 Vector newVelocity = velocity.clone().add(new Vector(spreadX, spreadY, spreadZ));
                 shooter.getWorld().spawn(arrow.getLocation(), Arrow.class, spawnedArrow -> {
                     spawnedArrow.setVelocity(newVelocity);
-                    spawnedArrow.getPersistentDataContainer().set(volley.getKey(), PersistentDataType.BOOLEAN, true);
                     spawnedArrow.setCritical(arrow.isCritical());
                     spawnedArrow.setShooter(arrow.getShooter());
                     spawnedArrow.setHasLeftShooter(arrow.hasLeftShooter());
@@ -63,8 +61,7 @@ public class VolleyListener implements Listener {
             return;
         }
         if (projectileEntity instanceof SpectralArrow arrow) {
-            arrow.setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);
-            for (int i = 0; i < level; i++) {
+            for (int i = 0; i < level * volleyEnchant.getAdditionalArrowsPerLevel(); i++) {
                 Vector velocity = arrow.getVelocity();
                 double spreadX = (random.nextDouble() - 0.5) * spread;
                 double spreadY = (random.nextDouble() - 0.5) * spread;
@@ -72,7 +69,6 @@ public class VolleyListener implements Listener {
                 Vector newVelocity = velocity.clone().add(new Vector(spreadX, spreadY, spreadZ));
                 shooter.getWorld().spawn(arrow.getLocation(), SpectralArrow.class, spawnedArrow -> {
                     spawnedArrow.setVelocity(newVelocity);
-                    spawnedArrow.getPersistentDataContainer().set(volley.getKey(), PersistentDataType.BOOLEAN, true);
                     spawnedArrow.setCritical(arrow.isCritical());
                     spawnedArrow.setShooter(arrow.getShooter());
                     spawnedArrow.setHasLeftShooter(arrow.hasLeftShooter());
