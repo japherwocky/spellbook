@@ -86,7 +86,7 @@ public final class Spellbook extends JavaPlugin {
         
         // Register unbreakable netherite feature if enabled
         if (SpellbookConfig.UNBREAKABLE_NETHERITE_ENABLED) {
-            getServer().getPluginManager().registerEvents(new UnbreakableNetheriteListener(this), this);
+            getServer().getPluginManager().registerEvents(new UnbreakableNetheriteListener(), this);
         }
     }
 
