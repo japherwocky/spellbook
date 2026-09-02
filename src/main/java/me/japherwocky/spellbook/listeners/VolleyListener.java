@@ -3,7 +3,6 @@ package me.japherwocky.spellbook.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import me.japherwocky.spellbook.SpellbookConfig;
-import me.japherwocky.spellbook.enchants.ExecutionerEnchant;
 import me.japherwocky.spellbook.enchants.VolleyEnchant;
 import org.bukkit.Registry;
 import org.bukkit.enchantments.Enchantment;
@@ -41,7 +40,7 @@ public class VolleyListener implements Listener {
         ItemStack bow = equipment.getItemInMainHand();
         int level = bow.getEnchantmentLevel(volley);
         if (level <= 0) return;
-        if (!(SpellbookConfig.ENCHANTS.get(ExecutionerEnchant.KEY) instanceof VolleyEnchant volleyEnchant)) return;
+        if (!(SpellbookConfig.ENCHANTS.get(VolleyEnchant.KEY) instanceof VolleyEnchant volleyEnchant)) return;
         double spread = volleyEnchant.getSpread();
         if (projectileEntity instanceof Arrow arrow) {
             for (int i = 0; i < level * volleyEnchant.getAdditionalArrowsPerLevel(); i++) {
