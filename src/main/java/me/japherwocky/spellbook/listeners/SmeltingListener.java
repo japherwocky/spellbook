@@ -3,6 +3,7 @@ package me.japherwocky.spellbook.listeners;
 import io.papermc.paper.registry.RegistryAccess;
 import io.papermc.paper.registry.RegistryKey;
 import me.japherwocky.spellbook.enchants.SmeltingEnchant;
+import net.kyori.adventure.key.Key;
 import org.bukkit.Bukkit;
 import org.bukkit.Registry;
 import org.bukkit.block.BlockState;
@@ -26,6 +27,7 @@ public class SmeltingListener implements Listener {
 
     private final Registry<Enchantment> registry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
     private final Enchantment smelting = registry.get(SmeltingEnchant.KEY);
+    private final Enchantment silkTouch = registry.get(Key.key("minecraft:silk_touch"));
     private final Map<ItemStack, ItemStack> smeltingCache = new HashMap<>();
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
@@ -33,6 +35,11 @@ public class SmeltingListener implements Listener {
         if (smelting == null) return;
         ItemStack tool = event.getPlayer().getInventory().getItemInMainHand();
         if (!tool.containsEnchantment(smelting)) return;
+        // Silk Touch wins: converting silk-touched ore drops to ingots would destroy
+        // the silk touch reward. Vanilla's exclusive-set system cannot fully enforce
+        // this (a plugin cannot modify vanilla Silk Touch's exclusive set symmetrically),
+        // so it is enforced here at runtime instead.
+        if (silkTouch != null && tool.containsEnchantment(silkTouch)) return;
 
         BlockState block = event.getBlockState();
         if (block instanceof BlockInventoryHolder) return;
