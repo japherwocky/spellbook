@@ -6,6 +6,8 @@
 - **Replanting** — now only replants **fully-grown** crops. Breaking an immature crop no longer wastes a seed.
 - **Cloaking** — taking damage now **breaks the cloak**: the invisibility ends immediately and the stillness timer resets. *(Behavior change — a cloaked player is no longer unbreakable while being attacked.)*
 - **Smelting** — **Silk Touch now suppresses Smelting**: a tool with both enchantments drops ore blocks unsmelted, preserving the Silk Touch reward. *(Behavior change.)* Smelting still applies to any smeltable block drop (logs → charcoal, sand → glass, ores → ingots).
+- **Armor** — fixed a bug where the armor-bonus attribute modifier could stack repeatedly. Armor values are now recalculated cleanly, and any already-stacked modifiers are removed automatically on the next login or equipment change.
+- **Vein Miner** — durability now follows vanilla rules: Unbreaking applies, netherite tools respect the `unbreakableNetherite` setting while vein mining, and no durability/hunger is drained in creative mode.
 
 ## Improvements
 

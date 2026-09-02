@@ -160,6 +160,7 @@ Output: `target/Spellbook-{version}.jar`
 - **`maven-shade-plugin` needs to be new enough to shade that bytecode too.** Its bundled ASM library independently needs to support the target class file version (3.6.2+ for Java 25/class file 69) or `mvn package` fails at the shade step even after the compile step succeeds.
 - **CI workflow JDK versions must be kept in sync with `pom.xml`.** [.github/workflows/build.yml](.github/workflows/build.yml) and [.github/workflows/release.yml](.github/workflows/release.yml) each pin a `java-version` in the `setup-java` step independently of `pom.xml`'s `<java.version>`. These silently drift out of sync — this repo had every CI build red for four months (April-August 2026) after a Paper bump before anyone noticed, since nothing was gating merges on it.
 - When bumping the Paper API version, always do a real local `mvn clean package` (not just skim the diff) before pushing — a clean local build catches this class of failure immediately if your local JDK happens to already be new enough.
+- **Incremental `mvn compile` can hide cross-file breakage.** The compiler plugin's staleness check only recompiles changed files, so removing or changing a constructor while the *calling* file is untouched still compiles green locally — and fails in CI's clean build (this bit us in September 2026: a removed listener constructor wasn't caught until CI). Verify with `mvn -q clean compile` (or `clean package`) before pushing anything that touches method signatures.
 
 ## Release Process
 
