@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,16 +29,13 @@ public class FlightListener implements Listener {
     
     public FlightListener(Spellbook plugin) {
         this.plugin = plugin;
-        
+
         // Start a repeating task to check for the flight enchantment
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (Player player : plugin.getServer().getOnlinePlayers()) {
-                    updateFlightAbility(player);
-                }
+        plugin.getServer().getScheduler().runTaskTimer(plugin, () -> {
+            for (Player player : plugin.getServer().getOnlinePlayers()) {
+                updateFlightAbility(player);
             }
-        }.runTaskTimer(plugin, 20L, 20L); // Check every second
+        }, 20L, 20L); // Check every second
     }
     
     @EventHandler(priority = EventPriority.NORMAL)
