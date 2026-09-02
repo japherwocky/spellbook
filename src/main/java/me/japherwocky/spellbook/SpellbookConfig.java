@@ -135,30 +135,27 @@ public class SpellbookConfig {
     }
 
     public static int getInt(ConfigurationSection section, String key, int defaultValue) {
-        int value = section.contains(key) ? section.getInt(key) : -1;
-        if (value == -1) {
+        if (!section.contains(key)) {
             section.set(key, defaultValue);
             return defaultValue;
         }
-        return value;
+        return section.getInt(key);
     }
 
     public static double getDouble(ConfigurationSection section, String key, double defaultValue) {
-        double value = section.contains(key) ? section.getDouble(key) : -1;
-        if (value == -1) {
+        if (!section.contains(key)) {
             section.set(key, defaultValue);
             return defaultValue;
         }
-        return value;
+        return section.getDouble(key);
     }
 
     public static float getFloat(ConfigurationSection section, String key, float defaultValue) {
-        double value = section.contains(key) ? section.getDouble(key) : -1;
-        if (value == -1) {
+        if (!section.contains(key)) {
             section.set(key, defaultValue);
             return defaultValue;
         }
-        return (float) value;
+        return (float) section.getDouble(key);
     }
 
     public static boolean getBoolean(ConfigurationSection section, String key, boolean defaultValue) {
@@ -173,9 +170,9 @@ public class SpellbookConfig {
         for (String sectionKey : section.getKeys(false)) {
             ConfigurationSection enchantSection = section.getConfigurationSection(sectionKey);
             if (enchantSection == null) continue;
-            if (!enchantSection.isSet("canGetFromEnchantingTable") || enchantSection.isSet("enchantmentTags")) return;
-            boolean canGetFromEnchantingTable = section.getBoolean("canGetFromEnchantingTable", true);
-            section.set("enchantmentTags", canGetFromEnchantingTable ? List.of("#in_enchanting_table") : List.of());
+            if (!enchantSection.isSet("canGetFromEnchantingTable") || enchantSection.isSet("enchantmentTags")) continue;
+            boolean canGetFromEnchantingTable = enchantSection.getBoolean("canGetFromEnchantingTable", true);
+            enchantSection.set("enchantmentTags", canGetFromEnchantingTable ? List.of("#in_enchanting_table") : List.of());
         }
     }
 
@@ -220,23 +217,11 @@ public class SpellbookConfig {
     public static Set<TagKey<Enchantment>> getEnchantmentTagKeysFromList(@NotNull List<String> tags) {
         Set<TagKey<Enchantment>> enchantTagKeys = new HashSet<>();
         for (String enchantmentTag : tags) {
-            if (enchantmentTag == null) continue;
-            if (enchantmentTag.startsWith("#")) {
-                enchantmentTag = enchantmentTag.substring(1);
-                try {
-                    Key key = Key.key(enchantmentTag);
-                    TagKey<Enchantment> tagKey = EnchantmentTagKeys.create(key);
-                    enchantTagKeys.add(tagKey);
-                } catch (IllegalArgumentException ignored) {
-                }
-                continue;
-            }
+            if (enchantmentTag == null || !enchantmentTag.startsWith("#")) continue;
             try {
-                Key key = Key.key(enchantmentTag);
-                TypedKey<Enchantment> typedKey = TypedKey.create(RegistryKey.ENCHANTMENT, key);
-                TagKey<Enchantment> tagKey = EnchantmentTagKeys.create(key);
-                enchantTagKeys.add(tagKey);
-            } catch (IllegalArgumentException | NullPointerException ignored) {
+                Key key = Key.key(enchantmentTag.substring(1));
+                enchantTagKeys.add(EnchantmentTagKeys.create(key));
+            } catch (IllegalArgumentException ignored) {
             }
         }
         return enchantTagKeys;

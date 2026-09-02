@@ -104,7 +104,7 @@ public class MagicMissileListener implements Listener {
                 
                 // Auto-fire at max charge (like bow)
                 if (ticks >= MAX_CHARGE_TICKS) {
-                    fireMissile(player, item);
+                    fireMissile(player);
                     this.cancel();
                 }
             }
@@ -179,13 +179,14 @@ public class MagicMissileListener implements Listener {
     public void onPlayerLeftClick(PlayerInteractEvent event) {
         // Fire missile on left-click if charging
         if (event.getAction() != Action.LEFT_CLICK_AIR && event.getAction() != Action.LEFT_CLICK_BLOCK) return;
-        
+
         Player player = event.getPlayer();
         UUID playerId = player.getUniqueId();
-        
+
         if (isCharging.contains(playerId)) {
-            ItemStack item = player.getInventory().getItemInMainHand();
-            fireMissile(player, item);
+            // Consume the click: don't also break a block while firing
+            event.setCancelled(true);
+            fireMissile(player);
         }
     }
     
@@ -213,24 +214,33 @@ public class MagicMissileListener implements Listener {
     /**
      * Fires the magic missile when the player releases their charge.
      */
-    private void fireMissile(Player player, ItemStack item) {
+    private void fireMissile(Player player) {
         UUID playerId = player.getUniqueId();
-        
+
         // Remove from charging state first
         isCharging.remove(playerId);
         BukkitRunnable task = chargeTasks.remove(playerId);
         if (task != null) {
             task.cancel();
         }
-        
+
         // Get charge time
         long chargeStart = chargeStartTimes.getOrDefault(playerId, 0L);
         long currentTime = plugin.getServer().getCurrentTick();
         long chargeTime = currentTime - chargeStart;
-        
+
         // Clean up tracking
         chargeStartTimes.remove(playerId);
-        
+
+        // Re-check the enchant on the *current* main-hand item: the player may have
+        // swapped items mid-charge via the offhand-swap key, which does not fire
+        // PlayerItemHeldEvent.
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (!item.containsEnchantment(magicMissile)) {
+            player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, 0.5f, 1.5f);
+            return;
+        }
+
         // Check minimum charge
         if (chargeTime < MIN_CHARGE_TICKS) {
             // Not charged enough - play failure sound
@@ -308,9 +318,8 @@ public class MagicMissileListener implements Listener {
             
             @Override
             public void run() {
-                // Stop if arrow is no longer valid
+                // Stop the trail but leave the arrow alone (vanilla cleans it up)
                 if (arrow.isDead() || !arrow.isValid() || arrow.isInBlock() || ticks >= MAX_TICKS) {
-                    arrow.remove();
                     this.cancel();
                     return;
                 }
@@ -348,7 +357,9 @@ public class MagicMissileListener implements Listener {
     
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
-        cancelCharge(event.getPlayer().getUniqueId());
+        UUID playerId = event.getPlayer().getUniqueId();
+        cancelCharge(playerId);
+        cooldowns.remove(playerId);
     }
     
     @EventHandler
