@@ -10,7 +10,7 @@ Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 ## Building from Source
 
 ### Prerequisites
-- Java Development Kit (JDK) 21 or higher
+- Java Development Kit (JDK) 25 or higher
 - Maven
 
 ### Build Instructions
@@ -33,7 +33,7 @@ Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 ### Development Setup
 
-1. This plugin is designed for Paper servers (Minecraft 1.21.8+)
+1. This plugin is designed for Paper servers (Minecraft 26.2+)
 2. Place the compiled JAR in your Paper server's `plugins` folder
 3. Restart your server to load the plugin
 
