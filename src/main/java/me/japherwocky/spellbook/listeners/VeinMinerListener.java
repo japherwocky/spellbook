@@ -58,28 +58,35 @@ public class VeinMinerListener implements Listener {
 
         // Process each additional block
         int blocksBroken = 0;
+        boolean survivalPlayer = player.getGameMode() != GameMode.CREATIVE;
         for (Block block : blocksToBreak) {
             // Break the block and handle drops
             breakBlock(player, block, tool);
 
-            // Drain durability
-            if (VeinMinerEnchant.RESPECT_DURABILITY && tool.getItemMeta() instanceof Damageable damageable) {
-                int currentDamage = damageable.getDamage();
-                int maxDurability = tool.getType().getMaxDurability();
-                if (currentDamage + 1 >= maxDurability) {
+            // Drain durability (survival only — vanilla does not damage tools in creative)
+            if (survivalPlayer && VeinMinerEnchant.RESPECT_DURABILITY) {
+                if (tool.getItemMeta() instanceof Damageable damageable
+                        && damageable.getDamage() + 1 >= tool.getType().getMaxDurability()) {
                     // Tool is about to break, stop vein mining
                     break;
                 }
-                damageable.setDamage(currentDamage + 1);
-                tool.setItemMeta(damageable);
+                // Damage through the vanilla path (Item#damage with an entity) so Unbreaking
+                // applies and PlayerItemDamageEvent fires — which also keeps the
+                // unbreakableNetherite feature effective for vein-mined blocks.
+                tool.damage(1, player);
             }
 
-            // Drain hunger
-            if (VeinMinerEnchant.RESPECT_HUNGER) {
+            // Drain hunger (survival only)
+            if (survivalPlayer && VeinMinerEnchant.RESPECT_HUNGER) {
                 player.setFoodLevel(Math.max(0, player.getFoodLevel() - VeinMinerEnchant.HUNGER_COST_PER_BLOCK));
             }
 
             blocksBroken++;
+        }
+
+        // Write the mutated tool stack back to the inventory (no-op if the stack is a mirror)
+        if (survivalPlayer && VeinMinerEnchant.RESPECT_DURABILITY && blocksBroken > 0) {
+            player.getInventory().setItemInMainHand(tool);
         }
 
         // Play sound and particles for feedback
