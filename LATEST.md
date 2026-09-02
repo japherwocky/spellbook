@@ -1,52 +1,26 @@
-# Spellbook v1.5.0 Release Notes
+# Spellbook v1.5.1 Release Notes
 
-## Platform Update
+## Catch-up Release for Modrinth
 
-### Paper 26.2 Support
-This release updates Spellbook to support **Minecraft 26.2** running on **Paper build 112 (stable)**.
+Modrinth previously had **1.2.0**, so this version skips ahead and includes everything from 1.3.0–1.5.0 (Vein Miner enchantment, Paper 26.2 support, Java 25).
 
-- **Updated Paper API**: `26.1.2.build.13-alpha` → `26.2.build.112-stable`
-- **API Version**: `1.26.1.2` → `26.2`
-- **Java Version**: `21` → `25` (Paper 26.2 ships class files built for Java 25; both the build JDK and the server JVM must be Java 25+)
+## Changes since 1.5.0
+
+- **Automated Modrinth publishing**: releases are now published to Modrinth by CI via [mc-publish](https://github.com/Kira-NT/mc-publish) (gated to release creation only)
+- **Documentation**: Vein Miner added to the enchantment list; README refreshed for Java 25 / Paper 26.2
+- **No plugin code changes** — this is a release-engineering and documentation release
 
 ## Compatibility
 
-All existing enchantments and features remain fully functional:
-- Soulbound - Keep items on death
-- Telekinesis - Auto-collect drops
-- Replanting - Auto-replant crops
-- Executioner - Bonus damage to low-health targets
-- Beheading - Chance to drop mob heads
-- Smelting - Auto-smelt mined blocks
-- Airbag - Elytra crash damage reduction
-- Homecoming - Totem teleports to spawn
-- Cloaking - Invisibility while sneaking
-- Volley - Multiple arrows per shot
-- Ward - Auto-block with cooldown
-- Flight - Creative flight on boots (drains hunger)
-- Fireball - Shoot fireballs with swords
-- Magic Missile - Homing missiles on right-click
-- Bless - Flat damage bonus (+1 per level)
-- Armor - Bonus armor points (+1 per level)
-- Vein Miner - Mine connected ore veins
-- Panic (Curse) - Triggers on low health
-
-### Unbreakable Netherite Feature
-Netherite armor and tools continue to take **zero durability damage**.
-- Configurable via `unbreakableNetherite.enabled` in config.yml
-
-## Technical Changes
-
-- Updated Maven dependency to `26.2.build.112-stable` (Paper's now-stable 26.2 release channel)
-- No breaking API changes required in plugin code — compiled and packaged cleanly against the new API
-- All enchantment registry and event handling APIs remain compatible
+- **Paper 26.2 (build 112)** or compatible
+- **Java 25+** (both build JDK and server JVM)
+- All enchantments and features from 1.5.0 remain fully functional
 
 ## Installation
 
-1. Download `Spellbook-1.5.0.jar`
+1. Download `Spellbook-1.5.1.jar`
 2. Place in your server's `plugins/` folder
-3. Ensure you're running **Paper 26.2 (build 112)** or compatible version
-4. Restart your server
+3. Restart your server
 
 ---
 
