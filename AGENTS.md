@@ -207,7 +207,7 @@ The `game-versions` list in [release.yml](../.github/workflows/release.yml) is h
 
 ## Paper API Notes
 
-This plugin uses Paper's modern **Registry API** for enchantments (1.21+):
+This plugin uses Paper's modern **Registry API** for enchantments (1.26.2+):
 - `RegistryKey.ENCHANTMENT` for enchantment registry
 - `TypedKey` for typed registry keys
 - `TagKey` and `TagEntry` for tags
