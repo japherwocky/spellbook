@@ -52,6 +52,17 @@ The following enchantments are enabled by default and ready to use.
 ### Armor
 **Description**: Increases armor points for better damage reduction. Each level adds +1 armor point to the player's total armor rating when wearing enchanted armor pieces.
 
+### Vein Miner
+**Description**: Breaks every connected block of the same type in one go. Mines up to 8 blocks at level 1, plus 8 more per level after that.
+
+**Details:**
+- Connected blocks are found by searching one block out in each direction (`searchRadius`), so diagonals count
+- Drops respect Fortune and Silk Touch, since each block is broken with the tool in hand
+- Drains hunger per block mined (`hungerCostPerBlock`), and stops early when the player runs out (`respectHunger`)
+- Stops before the tool would break rather than snapping it (`respectDurability`)
+- Only mines what the held tool can actually mine (`requireCorrectTool`)
+- An optional whitelist restricts it to specific blocks (`useWhitelist`, off by default)
+
 ## Disabled Enchantments
 
 The following enchantments are disabled by default pending testing. They can be enabled in `plugins/Spellbook/config.yml` by setting `enchants.<enchantment>.enabled: true`.
