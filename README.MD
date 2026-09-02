@@ -5,7 +5,7 @@
 Modern vanilla-style Minecraft enchantment plugin for Paper servers.
 
 - [Enchantment list](docs/ENCHANTMENTS.md)
-- <a href="https://modrinth.com/plugin/spellbook" target="_blank">Download</a>
+- <a href="https://modrinth.com/plugin/spellbook-plugin" target="_blank">Download</a>
 
 ## Building from Source
 

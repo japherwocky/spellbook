@@ -170,11 +170,25 @@ gh release create 1.5.0 --title "Spellbook v1.5.0" --notes "..."
 ```
 
 - Tag name is the bare version (no `v` prefix, per current convention — some older tags do have one).
-- Creating the release triggers [release.yml](../.github/workflows/release.yml) (`on: release: [created, edited]`), which builds with `-Drevision=<tag>` and uploads the shaded jar as a release asset.
+- Creating the release triggers [release.yml](../.github/workflows/release.yml) (`on: release: [created, edited]`), which builds with `-Drevision=<tag>`, uploads the shaded jar as a release asset, and publishes the version to Modrinth (see below).
 - Editing a release's notes *should* also re-trigger the build, but this has been unreliable in practice — if a build needs to be retried, deleting and recreating the release (`gh release delete <tag> --yes --cleanup-tag`, then `gh release create` again) is the reliable path.
 - Don't move an already-pushed tag to a new commit (`git tag -f` + force-push) to retry a broken release — delete and recreate instead; force-pushing a shared ref is a bigger footgun than a clean redo.
 - Always confirm the resulting release actually has a jar attached (`gh release view <tag> --json assets`) — a failed build still leaves the release published, just asset-less.
 - Remember to mark the newest version `--latest` after cutting it, especially if releases were created out of chronological order (e.g. backfilling older versions after the newest one already exists).
+
+### Publishing to Modrinth (and CurseForge)
+
+The release workflow publishes each new release to Modrinth via [mc-publish](https://github.com/Kira-NT/mc-publish) (`Kira-NT/mc-publish@v3`), a build-system-agnostic GitHub Action (TypeScript, runs on the runner's Node — fully decoupled from this Maven build). The Modrinth project is **`spellbook-plugin`** (not `spellbook` — that's the README link's guess). The plugin's metadata is supplied **explicitly** in the workflow: mc-publish's auto-detection only understands Fabric/Forge/Quilt metadata files, not `paper-plugin.yml`, so `loaders`, `game-versions`, `version`, and the changelog are set by hand. No extra metadata files live in this repo, and the plugin stays a pure Paper plugin.
+
+- **One-time setup**: create a Modrinth personal access token (Modrinth → Settings → Authorization tokens, with the *Create versions* scope) and add it as the repository secret `MODRINTH_TOKEN`. Without the secret the publish step fails.
+- **Gating**: the publish step runs only on `created` release events, never `edited`, so editing release notes can never re-upload and collide with the published version.
+- **Redo caveat**: Modrinth rejects a second upload with the same version number. If you delete and recreate a release (the reliable retry path above) that already published, delete the version on Modrinth (project page → Versions) before re-cutting.
+- **Verification**: a successful run writes the published Modrinth URL into the job summary. Also glance at the Modrinth project's Versions page — a "successful" publish with wrong metadata still appears, just discoverable incorrectly.
+- **Enabling CurseForge**: an older version of the plugin was published there historically. To enable: add a `CURSEFORGE_TOKEN` secret (CF API token with upload rights to the project), then uncomment `curseforge-id` / `curseforge-token` in the publish step and fill in the numeric project ID from the CF project page ("About" section). Note CurseForge has a moderation/review queue for new files.
+
+#### Release-publishing gotcha: `game-versions` drift
+
+The `game-versions` list in [release.yml](../.github/workflows/release.yml) is hardcoded and must be updated on every Minecraft/Paper bump, alongside `api-version` in `paper-plugin.yml` and `<java.version>` in `pom.xml`. Nothing fails when it drifts — releases just don't appear for newer Minecraft versions. This is the same silent-drift failure class as the CI JDK version gotcha above; fold it into the same Paper-bump checklist.
 
 ## Testing
 

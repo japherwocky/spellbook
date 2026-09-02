@@ -59,3 +59,36 @@ jobs:
         name: spellbook-release-${{ steps.version.outputs.version }}
         path: ${{ steps.jar.outputs.jar_path }}
         if-no-files-found: error
+
+    - name: Publish to Modrinth
+      # Publish only on the initial release creation. 'edited' events also trigger
+      # this workflow, and re-uploading would collide with the existing Modrinth version.
+      if: github.event.action == 'created'
+      id: publish
+      uses: Kira-NT/mc-publish@v3
+      with:
+        modrinth-id: spellbook-plugin
+        modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+        files: ${{ steps.jar.outputs.jar_path }}
+        name: Spellbook ${{ steps.version.outputs.version }}
+        version: ${{ steps.version.outputs.version }}
+        version-type: release
+        changelog: ${{ github.event.release.body }}
+        loaders: paper
+        # Keep in sync with the Minecraft/Paper version the plugin targets.
+        # Nothing fails loudly when this drifts — releases just won't show for newer MC versions.
+        game-versions: |
+          26.2
+        # CurseForge stub — an older version of the plugin was published there historically.
+        # To enable: add a CURSEFORGE_TOKEN secret, then uncomment both lines.
+        # curseforge-id: 000000 # numeric ID from the CF project page ("About" section)
+        # curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
+
+    - name: Write publish summary
+      # Skipped automatically if the publish step failed.
+      if: github.event.action == 'created'
+      run: |
+        {
+          echo "### Published to platforms"
+          echo "- Modrinth: ${{ steps.publish.outputs.modrinth-url }}"
+        } >> "$GITHUB_STEP_SUMMARY"
