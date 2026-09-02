@@ -1,8 +1,0 @@
-name: Spellbook
-version: '1.2.0'
-main: me.japherwocky.spellbook.Spellbook
-bootstrapper: me.japherwocky.spellbook.SpellbookBootstrap
-api-version: '1.21'
-authors: [japherwocky]
-description: Custom enchants for paper servers
-website: https://japherwocky.me
