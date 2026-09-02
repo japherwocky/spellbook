@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -76,6 +77,18 @@ public class CloakingListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onPlayerInteract(PlayerInteractEvent event) {
         ticksSinceLastMovement.put(event.getPlayer().getUniqueId(), 0L);
+    }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    public void onPlayerDamaged(EntityDamageEvent event) {
+        if (cloaking == null) return;
+        if (!(event.getEntity() instanceof Player player)) return;
+        if (player.getPotionEffect(PotionEffectType.INVISIBILITY) == null) return;
+        // Only break the cloak if it is actually the cloak providing the invisibility
+        // (a standalone invisibility potion on an unenchanted player is left alone).
+        if (Spellbook.getSumOfEnchantLevels(player.getEquipment(), cloaking) == 0) return;
+        player.removePotionEffect(PotionEffectType.INVISIBILITY);
+        ticksSinceLastMovement.put(player.getUniqueId(), 0L);
     }
 
 
