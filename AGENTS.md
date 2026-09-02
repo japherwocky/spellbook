@@ -4,7 +4,7 @@ This document provides context for AI agents working on the Spellbook Minecraft 
 
 ## Project Overview
 
-**Spellbook** is a modern vanilla-style enchantment plugin for Paper Minecraft servers (1.21+). It adds custom enchantments that feel native to the game using Paper's modern registry API.
+**Spellbook** is a modern vanilla-style enchantment plugin for Paper Minecraft servers (26.2+). It adds custom enchantments that feel native to the game using Paper's modern registry API.
 
 - **Language**: Java 25
 - **Build Tool**: Maven
