@@ -5,6 +5,8 @@ import io.papermc.paper.registry.RegistryKey;
 import me.japherwocky.spellbook.enchants.VeinMinerEnchant;
 import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -12,6 +14,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 
@@ -23,11 +26,24 @@ public class VeinMinerListener implements Listener {
     private final Registry<Enchantment> enchantmentRegistry = RegistryAccess.registryAccess().getRegistry(RegistryKey.ENCHANTMENT);
     private final Enchantment veinMiner = enchantmentRegistry.get(VeinMinerEnchant.KEY);
 
+    // Re-entrancy guard: our own vein breaks fire BlockBreakEvents that would otherwise
+    // trigger vein mining again and cascade through the whole vein network.
+    private final Set<UUID> veinMiningPlayers = new HashSet<>();
+
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
         if (veinMiner == null) return;
 
         Player player = event.getPlayer();
+        if (!veinMiningPlayers.add(player.getUniqueId())) return;
+        try {
+            handleVeinMining(event, player);
+        } finally {
+            veinMiningPlayers.remove(player.getUniqueId());
+        }
+    }
+
+    private void handleVeinMining(BlockBreakEvent event, Player player) {
         ItemStack tool = player.getInventory().getItemInMainHand();
         int enchantLevel = tool.getEnchantmentLevel(veinMiner);
 
@@ -60,8 +76,16 @@ public class VeinMinerListener implements Listener {
         int blocksBroken = 0;
         boolean survivalPlayer = player.getGameMode() != GameMode.CREATIVE;
         for (Block block : blocksToBreak) {
-            // Break the block and handle drops
-            breakBlock(player, block, tool);
+            // Break the block — with real events when enabled, so protection plugins and
+            // other enchants (Telekinesis, Smelting, Replanting) see vein-broken blocks
+            boolean broke;
+            if (VeinMinerEnchant.FIRE_BLOCK_EVENTS) {
+                broke = breakVeinBlock(player, block, tool);
+            } else {
+                breakBlock(player, block, tool);
+                broke = true;
+            }
+            if (!broke) continue; // a plugin cancelled this block; skip drains too
 
             // Drain durability (survival only — vanilla does not damage tools in creative)
             if (survivalPlayer && VeinMinerEnchant.RESPECT_DURABILITY) {
@@ -160,5 +184,51 @@ public class VeinMinerListener implements Listener {
 
         // Set block to air
         block.setType(Material.AIR);
+    }
+
+    /**
+     * Breaks a vein block through the real event pipeline: fires {@link BlockBreakEvent}
+     * (so protection plugins can react or cancel) and {@link BlockDropItemEvent} (so
+     * Telekinesis, Smelting and Replanting apply to vein drops), respecting Fortune and
+     * Silk Touch.
+     *
+     * @return true if the block was broken, false if a plugin cancelled the break
+     */
+    private boolean breakVeinBlock(Player player, Block block, ItemStack tool) {
+        BlockBreakEvent breakEvent = new BlockBreakEvent(block, player);
+        if (player.getGameMode() == GameMode.CREATIVE) breakEvent.setDropItems(false);
+        Bukkit.getPluginManager().callEvent(breakEvent);
+        if (breakEvent.isCancelled()) return false;
+
+        BlockState oldState = block.getState();
+        BlockData oldData = block.getBlockData();
+        Location dropLocation = block.getLocation().add(0.5, 0.5, 0.5);
+
+        // Compute drops before removing the block (respects Fortune, Silk Touch)
+        Collection<ItemStack> drops = breakEvent.isDropItems()
+                ? block.getDrops(tool, player)
+                : Collections.emptyList();
+
+        block.setType(Material.AIR);
+
+        List<Item> itemEntities = new ArrayList<>();
+        for (ItemStack drop : drops) {
+            Item item = block.getWorld().dropItem(dropLocation, drop);
+            item.setVelocity(item.getVelocity().multiply(0.1)); // Reduce velocity for cleaner drops
+            itemEntities.add(item);
+        }
+
+        if (!itemEntities.isEmpty()) {
+            BlockDropItemEvent dropEvent = new BlockDropItemEvent(block, oldState, player, itemEntities);
+            Bukkit.getPluginManager().callEvent(dropEvent);
+            if (dropEvent.isCancelled()) {
+                for (Item item : itemEntities) item.remove();
+            }
+        }
+
+        // Play break effect
+        block.getWorld().playSound(block.getLocation(), oldData.getSoundGroup().getBreakSound(), SoundCategory.BLOCKS, 0.5f, 1.0f);
+        block.getWorld().spawnParticle(Particle.BLOCK, dropLocation, 10, oldData);
+        return true;
     }
 }

@@ -8,11 +8,13 @@
 - **Smelting** — **Silk Touch now suppresses Smelting**: a tool with both enchantments drops ore blocks unsmelted, preserving the Silk Touch reward. *(Behavior change.)* Smelting still applies to any smeltable block drop (logs → charcoal, sand → glass, ores → ingots).
 - **Armor** — fixed a bug where the armor-bonus attribute modifier could stack repeatedly. Armor values are now recalculated cleanly, and any already-stacked modifiers are removed automatically on the next login or equipment change.
 - **Vein Miner** — durability now follows vanilla rules: Unbreaking applies, netherite tools respect the `unbreakableNetherite` setting while vein mining, and no durability/hunger is drained in creative mode.
+- **Vein Miner** — vein-broken blocks now fire real block-break and drop events, so protection plugins see them and Telekinesis/Smelting apply to the whole vein. Configurable via `enchants.veinminer.fireBlockEvents` (default: on).
 
 ## Improvements
 
 - Smelting: recipe lookups are cached for non-smeltable items too (less work per block broken)
 - Volley: normal and spectral arrows now behave symmetrically (same arrow-count scaling, consistent pickup rules)
+- Vein Miner: durability and hunger are no longer drained when a protection plugin cancels one of the vein's blocks
 
 ## Internal
 

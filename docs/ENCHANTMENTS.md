@@ -62,6 +62,7 @@ The following enchantments are enabled by default and ready to use.
 - Stops before the tool would break rather than snapping it (`respectDurability`)
 - Only mines what the held tool can actually mine (`requireCorrectTool`)
 - An optional whitelist restricts it to specific blocks (`useWhitelist`, off by default)
+- Vein-broken blocks fire real block-break and drop events (`fireBlockEvents`, on by default), so protection plugins see them and Telekinesis/Smelting apply to the whole vein. Set it to `false` to trade compatibility for lower event overhead.
 
 ## Disabled Enchantments
 
