@@ -33,6 +33,8 @@ public class VeinMinerEnchant implements SpellbookEnchant {
     public static boolean REQUIRE_CORRECT_TOOL = true;
     public static Set<Material> WHITELISTED_BLOCKS = new HashSet<>();
     public static boolean USE_WHITELIST = false;
+    /** Whether vein-broken blocks fire real BlockBreakEvent/BlockDropItemEvent (plugin compatibility) at some event cost. */
+    public static boolean FIRE_BLOCK_EVENTS = true;
 
     private final int anvilCost, weight, maxLevel;
     private final EnchantmentRegistryEntry.EnchantmentCost minimumCost;
@@ -118,6 +120,7 @@ public class VeinMinerEnchant implements SpellbookEnchant {
         RESPECT_HUNGER = SpellbookConfig.getBoolean(config, "respectHunger", true);
         REQUIRE_CORRECT_TOOL = SpellbookConfig.getBoolean(config, "requireCorrectTool", true);
         USE_WHITELIST = SpellbookConfig.getBoolean(config, "useWhitelist", false);
+        FIRE_BLOCK_EVENTS = SpellbookConfig.getBoolean(config, "fireBlockEvents", true);
 
         // Load whitelisted blocks
         WHITELISTED_BLOCKS.clear();
